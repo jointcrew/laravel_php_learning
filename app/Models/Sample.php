@@ -18,8 +18,8 @@ class Sample extends Model
 
     //種別の配列
     static $type = [
-        1 => '文房具',
-        2 => '食べ物',
+        1 => '備品',
+        2 => '私物',
     ];
 
     static $aaa_id = 4;

@@ -5,20 +5,34 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">サンプルデータ登録</div>
+                <div class="card-header">PHP study</div>
 
                 <div class="card-body">
                     {!! Form::open(['url' => 'sample']) !!}
                         <div class="form-group row">
-                            {{Form::label('sample_name', __('sample.name'), ['class' => 'col-md-3 col-form-label'])}}
-                            {{Form::text('sample_name', old('sample_name'), ['class' => 'col-md-9 form-control'])}}
-                            @if($errors->has('sample_name'))
-                                @foreach($errors->get('sample_name') as $message)
+                            {{Form::label('sample_id', __('sample.name'), ['class' => 'col-md-3 col-form-label'])}}
+                            {{Form::text('sample_id', old('sample_id'), ['class' => 'col-md-9 form-control'])}}
+                            @if($errors->has('sample_id'))
+                                @foreach($errors->get('sample_id') as $message)
                                   <p class="offset-3 col-md-9 alert alert-danger">{{ $message }}</p>
                                 @endforeach
                             @endif
                         </div>
+                        <div class="form-group row">
+                            {{Form::label('type', __('申請先'), ['class' => 'col-md-3 col-form-label'])}}
+                            <div class="col-md-9 form-inline">
 
+                                  <div class="form-inline">
+                                    {{Form::select('age', ['jointcrew', 'google', 'Apple'])}}
+                                  </div>
+
+                            </div>
+                            @if($errors->has('type'))
+                                @foreach($errors->get('type') as $message)
+                                    <p class="offset-3 col-md-9 alert alert-danger">{{ $message }}</p>
+                                @endforeach
+                            @endif
+                        </div>
                         <div class="form-group row">
                             {{Form::label('type', __('sample.type'), ['class' => 'col-md-3 col-form-label'])}}
                             <div class="col-md-9 form-inline">

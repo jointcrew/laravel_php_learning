@@ -1,9 +1,10 @@
 <?php
 return [
  'title'       => 'サンプルデータ表示',
- 'name'        => '名前',
+ 'name'        => '商品名',
  'type'        => '種別',
- 'price'       => '値段',
+ 
+ 'price'       => '価格',
  'create_user' => '登録者',
  'edit'        => '編集',
  'update_btn'  => '保存',
