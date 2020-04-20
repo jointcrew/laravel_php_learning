@@ -23,6 +23,7 @@ class CreateSamplesTable extends Migration
           $table->timestamp('updated_at')->nullable();
         });
     }
+
     /**
      * Reverse the migrations.
      *

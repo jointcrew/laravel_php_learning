@@ -18,11 +18,9 @@ class Sample extends Model
 
     //種別の配列
     static $type = [
-        1 => '備品',
-        2 => '私物',
+        1 => '文房具',
+        2 => '食べ物',
     ];
-
-    static $aaa_id = 4;
 
     /**
      * データを保存する
@@ -39,8 +37,6 @@ class Sample extends Model
             'created_at' => now(),
         ];
         self::create($input_date);
-
-        return;
     }
 
     /**

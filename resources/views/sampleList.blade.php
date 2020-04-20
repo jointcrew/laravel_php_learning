@@ -24,7 +24,7 @@
                         @foreach($list as $sample)
                             <tr>
                                 <td>{{$sample->sample_name}}</td>
-                                <td>@lang("sample.text.$sample->type")</td>
+                                <td>{{$sample->type}}</td>
                                 <td>{{$sample->price}}</td>
                                 <td>{{$sample->create_user}}</td>
                                 <td>
