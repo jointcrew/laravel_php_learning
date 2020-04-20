@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Sample;
+use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
@@ -31,7 +31,7 @@ class ItemController extends Controller
         $id = Auth::id();
         $me = 'まだ登録してない';
         //Sampleモデルに記載している、種別を取得
-        $type_array = Sample::$type;
+        $type_array = Item::$type;
 
         //保存ボタンを押したときに処理をする
         if ($request->isMethod('post') == true) {
@@ -40,7 +40,7 @@ class ItemController extends Controller
             //配列にcreate_userを追加
             $data['create_user'] = $id;
             //Sampleモデル\のinsertメソッドにアクセスし、データを保存
-            $aaa = Sample::insert($data);
+            $aaa = Item::insert($data);
             if ($aaa == true) {
               $me = '登録したよ';
             } else {
@@ -61,7 +61,7 @@ class ItemController extends Controller
     {
         $id = Auth::id();
         //Sampleモデルから全件データを取得する。
-        $list = Sample::findCreateUser($id);
+        $list = Item::findCreateUser($id);
 
         return view('sampleList', compact('list'));
     }
