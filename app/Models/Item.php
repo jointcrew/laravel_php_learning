@@ -11,7 +11,7 @@ class Item extends Model
      *
      * @var int
      */
-    protected $primaryKey = 'sample_id';
+    protected $primaryKey = 'item_id';
 
     //DB項目
     protected $fillable = ['item_id', 'item_name', 'apply', 'selector', 'price', 'create_user','update_user'];
@@ -32,13 +32,12 @@ class Item extends Model
      */
     public static function insert($data) {
         $input_date = [
-            'item_id' => $data['item_id'],
-            'item_name'        => $data['item_name'],
-            'apply'       => $data['apply'],
-            'selector' => $data['selector'],
-            'price' => $data['price'],
-            'created_user' => now(),
-            'update_user' => now(),
+            'item_name'    => $data['item_name'],
+            'apply'        => $data['apply'],
+            'selector'     => $data['selector'],
+            'price'        => $data['price'],
+            'created_user' => $data['create_user'],
+            'create_user'  => now(),
         ];
         self::create($input_date);
 

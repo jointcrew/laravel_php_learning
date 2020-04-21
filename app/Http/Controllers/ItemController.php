@@ -63,6 +63,6 @@ class ItemController extends Controller
         //Sampleモデルから全件データを取得する。
         $list = Item::findCreateUser($id);
 
-        return view('sampleList', compact('list'));
+        return view('itemList', compact('list'));
     }
 }
