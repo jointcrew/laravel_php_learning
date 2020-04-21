@@ -36,5 +36,10 @@ Route::post('/sample', 'SampleController@index')->name('sample');
 Route::get('/sampleList', 'SampleController@sampleList')->name('sampleList');
 Route::post('/sampleList', 'SampleController@sampleList')->name('sampleList');
 
+//itemページ 追加
 Route::get('/items', 'ItemController@index')->name('items');
 Route::post('/items', 'ItemController@index')->name('items');
+
+//itemページ　一覧
+Route::get('/itemList', 'ItemController@itemList')->name('itemList');
+Route::post('/itemList', 'ItemController@itemList')->name('itemList');

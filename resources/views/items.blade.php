@@ -33,7 +33,7 @@
                 </form>
 
                 <div class="mx-auto">
-                    <a href="/sampleList">サンプル表示リンク</a>
+                    <a href="/itemList">サンプル表示リンク</a>
                 </div>
             </div>
         </div>

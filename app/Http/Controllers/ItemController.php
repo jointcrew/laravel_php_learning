@@ -57,11 +57,9 @@ class ItemController extends Controller
      * @param Request $request
      * @return view
      */
-    public function sampleList(Request $request)
+    public function itemList(Request $request)
     {
-        $id = Auth::id();
-        //Sampleモデルから全件データを取得する。
-        $list = Item::findCreateUser($id);
+        $list = Item::all();
 
         return view('itemList', compact('list'));
     }

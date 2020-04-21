@@ -1,7 +1,7 @@
 <?php
 return [
  'title'       => 'PHP study',
- 'name'        => '名前',
+ 'name'        => '商品名',
  'type'        => '種別',
  'type1'        => '備品',
  'type2'        => '私物',
