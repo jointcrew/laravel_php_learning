@@ -59,8 +59,39 @@ class ItemController extends Controller
      */
     public function itemList(Request $request)
     {
+      //itemモデルから全件データを取得する。
         $list = Item::all();
 
         return view('itemList', compact('list'));
     }
-}
+
+
+
+    /**
+     * サンプル検索画面
+     * @param Request $request
+     * @return view
+     */
+
+    public function itemsearch(Request $request)
+    {
+      // 現在認証されているユーザーの取得
+          $user = Auth::user();
+      // 現在認証されているユーザーのID取得
+          $id = Auth::id();
+          //フォームの内容をすべて取得(一部取りたいときは$request->sample_name()のようにフィールド名を指定)
+          $data = $request->all();
+          //配列にcreate_userを追加
+          $data['create_user'] = $id;
+          $data['item_name'] = $request->input('item_name');
+          $data['apply'] = $request->input('apply');
+          $data['selector'] = $request->input('selector');
+          $data['price'] = $request->input('price');
+          $data['create_start'] = $request->input('data_start');
+          $data['create_end'] = $request->input('data_end');
+          //itemモデル\のsearchメソッドにアクセスし、データを取得
+          $searchlist = Item::search($data);
+
+        return view('itemsearch', compact('searchlist'));
+    }
+  }

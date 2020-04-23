@@ -43,3 +43,6 @@ Route::post('/items', 'ItemController@index')->name('items');
 //itemページ　一覧
 Route::get('/itemList', 'ItemController@itemList')->name('itemList');
 Route::post('/itemList', 'ItemController@itemList')->name('itemList');
+//検索ページ
+Route::get('/itemsearch', 'ItemController@itemsearch')->name('itemsearch');
+Route::post('/itemsearch', 'ItemController@itemsearch')->name('itemsearch');

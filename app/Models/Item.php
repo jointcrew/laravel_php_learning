@@ -36,8 +36,8 @@ class Item extends Model
             'apply'        => $data['apply'],
             'selector'     => $data['selector'],
             'price'        => $data['price'],
-            'created_user' => $data['create_user'],
-            'create_user'  => now(),
+            'create_user' => $data['create_user'],
+            'created_at'  => now(),
         ];
         self::create($input_date);
 
@@ -55,4 +55,42 @@ class Item extends Model
                  ->get();
         return $request;
     }
-}
+    /**
+     * item_name,apply,selector,create_userを指定してデータを取得する
+     *
+     *  @param int  $create_uder
+     * @return array|null
+     */
+    public static function search ($data)
+    {
+        $search_data = self::query();
+        //var_dump($data);
+        //exit;
+        if ($data['create_user']) {
+            $search_data -> where('create_user',$data['create_user']);
+        }
+
+        if ($data['item_name']) {
+            $search_data -> where('item_name',$data['item_name']);
+        }
+
+        if ($data['apply']) {
+            $search_data -> where('apply',$data['apply']);
+        }
+
+        if ($data['selector'] && $data['selector'] != 99) {
+            $search_data -> where('selector',$data['selector']);
+        }
+
+        if ($data['price']) {
+            $search_data -> where('price',$data['price']);
+        }
+
+        if ($data['create_start'] or $data['create_end']) {
+           $search_data['create_at'] -> where('create_at',$data['data_start']>=$data['data_end']);
+       }
+       //var_dump($data);
+       //exit;
+        return $search_data ->get();
+     }
+   }

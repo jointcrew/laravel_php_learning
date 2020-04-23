@@ -1,18 +1,16 @@
 <?php
 return [
- 'title'       => 'PHP study',
+ 'title'       => 'サンプルデータ表示',
  'name'        => '商品名',
  'type'        => '種別',
- 'type1'        => '備品',
- 'type2'        => '私物',
- 'price'       => '値段',
+
+ 'price'       => '価格',
  'create_user' => '登録者',
  'edit'        => '編集',
  'update_btn'  => '保存',
  'edit_link'   => '編集',
  'delete_link' => '削除',
- 'apply'  =>'申請先',
- 'apply1'  =>'JC社内',
- 'apply2'  =>'人事',
- 'apply3'  =>'技術者'
+ 'text'        => [1 => '文房具',
+                   2 => '食べ物',
+ ]
 ];
