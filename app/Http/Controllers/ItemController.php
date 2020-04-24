@@ -68,7 +68,7 @@ class ItemController extends Controller
 
 
     /**
-     * サンプル検索画面
+     * アイテム検索画面
      * @param Request $request
      * @return view
      */
@@ -81,7 +81,7 @@ class ItemController extends Controller
           $id = Auth::id();
           //フォームの内容をすべて取得(一部取りたいときは$request->sample_name()のようにフィールド名を指定)
           $data = $request->all();
-          //配列にcreate_userを追加
+          //配列に入力値を追加
           $data['create_user'] = $id;
           $data['item_name'] = $request->input('item_name');
           $data['apply'] = $request->input('apply');
@@ -89,9 +89,30 @@ class ItemController extends Controller
           $data['price'] = $request->input('price');
           $data['date_start'] = $request->input('date_start');
           $data['date_end'] = $request->input('date_end');
-          //itemモデル\のsearchメソッドにアクセスし、データを取得
+          //itemモデルのsearchメソッドにアクセスし、データを取得
           $searchlist = Item::search($data);
 
         return view('itemsearch', compact('searchlist','request'));
+    }
+
+    /**
+     * 商品消去
+     * @param Request $request
+     * @return view
+     */
+     public function itemDelete(Request $request)
+     {
+      //フォームの内容をすべて取得
+          $data = $request->all();
+     //itemモデルのdeleteメソッドにアクセスし、データを削除
+          $delete = Item::itemDelete($data);
+
+         if ($delete === 0) {
+           $msg= '登録失敗したよ';
+          } else {
+           $msg = '登録したよ';
+          }
+
+     return view('itemsearch', compact('msg'));
     }
   }

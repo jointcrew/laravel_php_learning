@@ -41,3 +41,5 @@ Route::post('/itemList', 'ItemController@itemList')->name('itemList');
 //検索ページ
 Route::get('/itemsearch', 'ItemController@itemsearch')->name('itemsearch');
 Route::post('/itemsearch', 'ItemController@itemsearch')->name('itemsearch');
+
+Route::get('/itemDelete', 'ItemController@itemDelete')->name('itemDelete');

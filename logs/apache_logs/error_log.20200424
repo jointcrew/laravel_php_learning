@@ -1,0 +1,1 @@
+[Fri Apr 24 08:56:40.693553 2020] [php7:error] [pid 2787] [client 10.0.2.2:53384] PHP Fatal error:  Cannot make non static method Illuminate\\Database\\Eloquent\\Model::delete() static in class App\\Models\\Item in /var/www/html/phptest/app/Models/Item.php on line 111

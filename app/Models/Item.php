@@ -57,9 +57,9 @@ class Item extends Model
     }
     /**
      * item_name,apply,selector,create_userを指定してデータを取得する
+     *@param int  $create_uder
+     *@return array|null
      *
-     *  @param int  $create_uder
-     * @return array|null
      */
     public static function search ($data)
     {
@@ -94,11 +94,16 @@ class Item extends Model
             $search_data -> where('created_at','<=', $data['date_end'].' 23:59:59');
         }
 
-      //  if($data['date_start'] and $data['date_end']){
-        //    $search_data -> where('created_at', 'between', $data['date_start'], 'and', $data['date_end']);
-          //}
-       //var_dump($data);
-       //exit;
         return $search_data ->get();
      }
+
+
+     public static function itemDelete ($data) {
+
+       $data = self::where('item_id',$data)->delete();
+
+         return $data;
+     }
+
+
    }
