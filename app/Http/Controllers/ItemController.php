@@ -87,11 +87,11 @@ class ItemController extends Controller
           $data['apply'] = $request->input('apply');
           $data['selector'] = $request->input('selector');
           $data['price'] = $request->input('price');
-          $data['create_start'] = $request->input('data_start');
-          $data['create_end'] = $request->input('data_end');
+          $data['date_start'] = $request->input('date_start');
+          $data['date_end'] = $request->input('date_end');
           //itemモデル\のsearchメソッドにアクセスし、データを取得
           $searchlist = Item::search($data);
 
-        return view('itemsearch', compact('searchlist'));
+        return view('itemsearch', compact('searchlist','request'));
     }
   }

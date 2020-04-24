@@ -86,9 +86,17 @@ class Item extends Model
             $search_data -> where('price',$data['price']);
         }
 
-        if ($data['create_start'] or $data['create_end']) {
-           $search_data['create_at'] -> where('create_at',$data['data_start']>=$data['data_end']);
-       }
+        if ($data['date_start']){
+            $search_data -> where('created_at','>=', $data['date_start']);
+        }
+
+        if($data['date_end']){
+            $search_data -> where('created_at','<=', $data['date_end'].' 23:59:59');
+        }
+
+      //  if($data['date_start'] and $data['date_end']){
+        //    $search_data -> where('created_at', 'between', $data['date_start'], 'and', $data['date_end']);
+          //}
        //var_dump($data);
        //exit;
         return $search_data ->get();

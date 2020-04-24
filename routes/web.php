@@ -23,11 +23,6 @@ Route::get('/hello', 'HelloController@index')->name('hello');
 
 //Route::get('/itemAdd', 'ItemAddController@index')->name('itemAdd');
 
-
-Route::get('/itemAdd', function () {
-    return view('itemAdd');
-});
-
 //サンプルページ 追加
 Route::get('/sample', 'SampleController@index')->name('sample');
 Route::post('/sample', 'SampleController@index')->name('sample');

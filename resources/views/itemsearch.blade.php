@@ -16,25 +16,34 @@
                   <!-- CSRF保護 -->
                  @csrf
                   <p>
-                    @lang('item.name')：<input type="text" name="item_name" size="40">
+                    @lang('item.name')：<input type="text" name="item_name" size="40" value="<?php echo $request->input('item_name');?>">
                   </p>
                   <p>
-                    @lang('item.apply')：<select name="apply">
-                      <option value=1>@lang('item.apply1')</option>
-                      <option value=2>@lang('item.apply2')</option>
-                      <option value=3>@lang('item.apply3')</option>
+                    @lang('item.apply')：<select name='apply'>
+                      <option name="apply" value=1
+                          <?php if( !empty($_GET['apply']) && $_GET['apply']==="1"){ echo 'selected'; } ?>>@lang('item.apply1')</option>
+                      <option name="apply" value=2
+                          <?php if( !empty($_GET['apply']) && $_GET['apply']==="2"){ echo 'selected'; } ?>>@lang('item.apply2')</option>
+                      <option name="apply" value=3
+                          <?php if( !empty($_GET['apply']) && $_GET['apply']==="3"){ echo 'selected'; } ?>>@lang('item.apply3')</option>
                     </select>
+                    <?php
+                    //  var_dump($_GET);
+                    ?>
                   </p>
                   <p>
                     @lang('item.selector')：
-                    <input type="radio" name="selector" value=1>@lang('item.selector1')
-                    <input type="radio" name="selector" value=2>@lang('item.selector2')
-                    <input type="radio" name="selector" value=99>@lang('item.selector3')
+                    <input type="radio" name="selector" value=1
+                        <?php if( !empty($_GET['selector']) && $_GET['selector']==="1"){ echo 'checked'; } ?>>@lang('item.selector1')
+                    <input type="radio" name="selector" value=2
+                        <?php if( !empty($_GET['selector']) && $_GET['selector']==="2"){ echo 'checked'; } ?>>@lang('item.selector2')
+                    <input type="radio" name="selector" value=99
+                        <?php if( !empty($_GET['selector']) && $_GET['selector']==="99"){ echo 'checked'; } ?>>@lang('item.selector3')
                   </p>
                   <p>
-                    <input type="date" name="date_start">
+                    <input type="date" name="date_start" value="<?= $request->input('date_start');?>">
                     <a>～</a>
-                    <input type="date" name="date_end">
+                    <input type="date" name="date_end" value="<?= $request->input('date_end');?>">
                   </p>
                   <p>
                     <input type="submit" value= @lang('common.search')>
@@ -49,7 +58,7 @@
                               <p>@lang('common.search_list')</p>
                                 <th>@lang('item.name')</th>
                                 <th>@lang('item.apply')</th>
-                                <th>@lang('item.type')</th>
+                                <th>@lang('item.selector')</th>
                                 <th>@lang('item.price')</th>
                                 <th>@lang('item.create_user')</th>
                                 <th>@lang('item.create_at')</th>
@@ -63,7 +72,7 @@
                                 <td>@lang("item.selector_text.$list->selector")</td>
                                 <td>{{$list->price}}</td>
                                 <td>{{$list->create_user}}</td>
-                                <td>{{$list->create_at}}</td>
+                                <td>{{$list->created_at}}</td>
                                 <td>
                                     <a href="#" class="btn btn-primary btn-sm">@lang('item.edit_link')</a>
                                     <a href="#" class="btn btn-danger btn-sm">@lang('item.delete_link')</a>
