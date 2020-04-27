@@ -46,12 +46,11 @@
                     <input type="submit" value= @lang('common.search')>
                   </p>
                 </form>
-                <p>{{$msg}}</p>
                 <div class="card-body">
+                  <p style="color:red;"><?php if(isset($msg)){echo $msg;}?></p>
                     <table class="table table-striped table-hover">
 
                         <thead>
-
                             <tr>
                               <p>@lang('common.search_list')</p>
                                 <th>@lang('item.name')</th>
