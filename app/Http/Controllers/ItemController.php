@@ -59,8 +59,9 @@ class ItemController extends Controller
      */
     public function itemList(Request $request)
     {
+        $limit=5;
       //itemモデルから全件データを取得する。
-        $list = Item::all();
+        $list = Item::paginate($limit);
 
         return view('itemList', compact('list'));
     }
@@ -92,7 +93,7 @@ class ItemController extends Controller
           //itemモデルのsearchメソッドにアクセスし、データを取得
           $searchlist = Item::search($data);
 
-        return view('itemsearch', compact('searchlist','request'));
+        return view('itemsearch', compact('searchlist','request', 'data'));
     }
 
     /**

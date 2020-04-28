@@ -61,7 +61,7 @@ class Item extends Model
      *@return array|null
      *
      */
-    public static function search ($data)
+    public static function search ($data, $limit=2)
     {   //SQL文が使え、->が使えるようになる
         $search_data = self::query();
         //var_dump($data);
@@ -94,7 +94,7 @@ class Item extends Model
             $search_data -> where('created_at','<=', $data['date_end'].' 23:59:59');
         }
 
-        return $search_data ->get();
+        return $search_data ->paginate($limit);
      }
 
 

@@ -78,6 +78,7 @@
                             </tr>
                         @endforeach
                     </table>
+                    {{ $searchlist->appends($data)->links()}}
                 </div>
             </div>
         </div>
