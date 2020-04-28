@@ -71,7 +71,7 @@
                                 <td>{{$list->create_user}}</td>
                                 <td>{{$list->created_at}}</td>
                                 <td>
-                                    <a href="#" class="btn btn-primary btn-sm">@lang('item.edit_link')</a>
+                                    <a href="/itemEdit?itemId={{$list->item_id}}" class="btn btn-primary btn-sm">@lang('item.edit_link')</a>
                                     <!--GETで送る-->
                                     <a href="/itemDelete?itemId={{$list->item_id}}" class="btn btn-danger btn-sm">@lang('item.delete_link')</a>
                                 </td>

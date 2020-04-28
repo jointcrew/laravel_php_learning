@@ -62,7 +62,7 @@ class Item extends Model
      *
      */
     public static function search ($data)
-    {
+    {   //SQL文が使え、->が使えるようになる
         $search_data = self::query();
         //var_dump($data);
         //exit;
@@ -106,4 +106,20 @@ class Item extends Model
      }
 
 
-   }
+     public static function itemEdit ($data) {
+       //var_dump($data);
+       //exit;
+         //$edit_dataにDBから$data[item_id]と同じ値を取得する。
+         $edit_data = self::find($data['item_id']);
+         //$data[item_id]があるとき保存の処理が行われる。
+         if ($edit_data) {
+             $edit_data -> item_name = $data['item_name'];
+             $edit_data -> apply = $data['apply'];
+             $edit_data -> selector = $data['selector'];
+             $edit_data -> price = $data['price'];
+             $edit_data -> save();
+         } else {
+             return false;
+         }
+     }
+ }

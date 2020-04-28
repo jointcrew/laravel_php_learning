@@ -102,31 +102,69 @@ class ItemController extends Controller
      */
      public function itemDelete(Request $request)
      {
-       // 現在認証されているユーザーの取得
-           $user = Auth::user();
-       // 現在認証されているユーザーのID取得
-           $id = Auth::id();
-      //フォームの内容をすべて取得
-          $data = $request->all();
-          //itemモデルのdeleteメソッドにアクセスし、データを削除
-               $delete = Item::itemDelete($data);
+         // 現在認証されているユーザーの取得
+         $user = Auth::user();
+         // 現在認証されているユーザーのID取得
+         $id = Auth::id();
+         //フォームの内容をすべて取得
+         $data = $request->all();
+         //itemモデルのdeleteメソッドにアクセスし、データを削除
+         $delete = Item::itemDelete($data);
+         if ($delete === 0) {
+            $msg= '削除失敗';
+         } else {
+            $msg = '削除しました';
+         }
+         //配列挿入
+         $data['create_user'] = $id;
+         $data['item_name'] = $request->input('item_name');
+         $data['apply'] = $request->input('apply');
+         $data['selector'] = $request->input('selector');
+         $data['price'] = $request->input('price');
+         $data['date_start'] = $request->input('date_start');
+         $data['date_end'] = $request->input('date_end');
+         //itemモデルのsearchメソッドにアクセスし、データを取得
+         $searchlist = Item::search($data);
 
-              if ($delete === 0) {
-                $msg= '削除失敗';
-               } else {
-                $msg = '削除しました';
-               }
-          $data['create_user'] = $id;
-          $data['item_name'] = $request->input('item_name');
-          $data['apply'] = $request->input('apply');
-          $data['selector'] = $request->input('selector');
-          $data['price'] = $request->input('price');
-          $data['date_start'] = $request->input('date_start');
-          $data['date_end'] = $request->input('date_end');
-          //itemモデルのsearchメソッドにアクセスし、データを取得
-          $searchlist = Item::search($data);
-
-
-     return view('itemsearch', compact('msg','request','searchlist'));
+         return view('itemsearch', compact('msg','request','searchlist'));
     }
+
+
+    /**
+     * 商品編集画面
+     * @param Request $request
+     * @return view
+     */
+     public function itemEdit(Request $request)
+     {
+       // 現在認証されているユーザーの取得
+       $user = Auth::user();
+       // 現在認証されているユーザーのID取得
+       $id = Auth::id();
+       //フォームの内容をすべて取得
+       $item_id = $request->input('itemId');
+       //var_dump($data);
+       //exit;
+       $data = Item::find($item_id);
+       //var_dump($data);
+       //exit;
+       //保存ボタンを押したときに処理をする
+       if ($request->isMethod('post') == true) {
+           //フォームの内容をすべて取得
+           $data = $request->all();
+           //配列にcreate_userを追加
+           $data['item_id'] =$request->input('item_id');
+           $data['create_user'] = $id;
+           $data['item_name'] = $request->input('item_name');
+           $data['apply'] = $request->input('apply');
+           $data['selector'] = $request->input('selector');
+           $data['price'] = $request->input('price');
+           //Sampleモデル\のitemEditメソッドにアクセスし、データを編集
+           $searchlist = Item::itemEdit($data);
+           return redirect()->route('itemsearch');
+      }
+
+     return view('itemEdit',compact('request','data','item_id'));
+    }
+
   }

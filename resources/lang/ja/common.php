@@ -5,5 +5,6 @@ return [
  'search_list'        => '検索結果',
  'item_list'          => '＜ 全商品表示',
  'item_search'        => '＜ 商品検索',
- 'item_add'           => '＜ 商品追加'
+ 'item_add'           => '＜ 商品追加',
+ 'save'               =>'保存' 
 ];
