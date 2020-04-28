@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">@lang('item.title')</div>
+                <div class="card-header">@lang('common.search')</div>
                 <div>
                     <a href="/items">@lang('common.item_add')</a>
                     <br>
@@ -16,31 +16,40 @@
                   <!-- CSRF保護 -->
                  @csrf
                   <p><!--商品名-->
-                    @lang('item.name')：<input type="text" name="item_name" size="40" value="<?php echo $request->input('item_name');?>">
+                    @lang('item.name')：<input type="text" name="item_name" size="40" value="{{ old('item_name') }}<?php echo $request->input('item_name');?>">
+                    @if ($errors->has('item_name'))
+                        <br><span>{{ $errors->first('item_name')}}</span>
+                    @endif
                   </p>
                   <p><!--valueで入力値維持させる -->
                     @lang('item.apply')：<select name='apply'><!--申請先-->
                       <option name="apply" value=1
+                          @if(old('apply')=='1') selected  @endif
                           <?php if( !empty($_GET['apply']) && $_GET['apply']==="1"){ echo 'selected'; } ?>>@lang('item.apply1')</option>
                       <option name="apply" value=2
+                          @if(old('apply')=='2') selected  @endif
                           <?php if( !empty($_GET['apply']) && $_GET['apply']==="2"){ echo 'selected'; } ?>>@lang('item.apply2')</option>
                       <option name="apply" value=3
+                          @if(old('apply')=='3') selected  @endif
                           <?php if( !empty($_GET['apply']) && $_GET['apply']==="3"){ echo 'selected'; } ?>>@lang('item.apply3')</option>
                     </select>
                   </p>
                   <p><!--種別-->
                     @lang('item.selector')：
                     <input type="radio" name="selector" value=1
+                        @if(old('selector')=='1') checked  @endif
                         <?php if( !empty($_GET['selector']) && $_GET['selector']==="1"){ echo 'checked'; } ?>>@lang('item.selector1')
                     <input type="radio" name="selector" value=2
+                        @if(old('selector')=='2') checked  @endif
                         <?php if( !empty($_GET['selector']) && $_GET['selector']==="2"){ echo 'checked'; } ?>>@lang('item.selector2')
                     <input type="radio" name="selector" value=99
+                        @if(old('selector')=='99') checked  @endif
                         <?php if( !empty($_GET['selector']) && $_GET['selector']==="99"){ echo 'checked'; } ?>>@lang('item.selector3')
                   </p>
                   <p><!--日付指定-->
-                    <input type="date" name="date_start" value="<?= $request->input('date_start');?>">
+                    <input type="date" name="date_start" value="{{ old('date_start') }}<?= $request->input('date_start');?>">
                     <a>～</a>
-                    <input type="date" name="date_end" value="<?= $request->input('date_end');?>">
+                    <input type="date" name="date_end" value="{{ old('date_end') }}<?= $request->input('date_end');?>">
                   </p>
                   <p><!--検索-->
                     <input type="submit" value= @lang('common.search')>

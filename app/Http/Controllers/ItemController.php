@@ -36,7 +36,13 @@ class ItemController extends Controller
         //保存ボタンを押したときに処理をする
         if ($request->isMethod('post') == true) {
             //フォームの内容をすべて取得(一部取りたいときは$request->sample_name()のようにフィールド名を指定)
-            $data = $request->all();
+            $data = $request->validate([
+              //バリデーション追加
+              'item_name' =>'required|max:20',
+              'apply' =>'required',
+              'selector' =>'required',
+              'price' =>'required|integer',
+            ]);
             //配列にcreate_userを追加
             $data['create_user'] = $id;
             //Sampleモデル\のinsertメソッドにアクセスし、データを保存
@@ -49,8 +55,21 @@ class ItemController extends Controller
 
         }
 
-        return view('items', compact('type_array','me'));
+        return view('items', compact('type_array','me','request'));
     }
+
+    /**
+ * 定義済みバリデーションルールのエラーメッセージ取得
+ *
+ * @return array
+ */
+public function messages()
+{
+    return [
+        'item_name' => 'A title is required',
+        'price'  => 'A message is required',
+    ];
+}
 
     /**
      * サンプル一覧画面
@@ -81,7 +100,10 @@ class ItemController extends Controller
       // 現在認証されているユーザーのID取得
           $id = Auth::id();
           //フォームの内容をすべて取得(一部取りたいときは$request->sample_name()のようにフィールド名を指定)
-          $data = $request->all();
+          $data = $request->validate([
+            //バリデーション追加
+            'item_name' =>'max:20',
+          ]);
           //配列に入力値を追加
           $data['create_user'] = $id;
           $data['item_name'] = $request->input('item_name');
@@ -127,7 +149,7 @@ class ItemController extends Controller
          //itemモデルのsearchメソッドにアクセスし、データを取得
          $searchlist = Item::search($data);
 
-         return view('itemsearch', compact('msg','request','searchlist'));
+         return view('itemsearch', compact('msg','request','searchlist','data'));
     }
 
 

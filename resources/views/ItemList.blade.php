@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">@lang('item.title')</div>
+                <div class="card-header">@lang('common.list')</div>
                 <div>
                     <a href="/items">@lang('common.item_add')</a>
                     <br>
@@ -32,8 +32,8 @@
                               <td>{{$item->price}}</td>
                               <td>{{$item->create_user}}</td>
                               <td>
-                                  <a href="#" class="btn btn-primary btn-sm">@lang('item.edit_link')</a>
-                                  <a href="#" class="btn btn-danger btn-sm">@lang('item.delete_link')</a>
+                                  <a href="/itemEdit?itemId={{$item->item_id}}" class="btn btn-primary btn-sm">@lang('item.edit_link')</a>
+                                  <a href="/itemDelete?itemId={{$item->item_id}}" class="btn btn-danger btn-sm">@lang('item.delete_link')</a>
                               </td>
                           </tr>
                       @endforeach
