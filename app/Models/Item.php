@@ -32,12 +32,13 @@ class Item extends Model
      */
     public static function insert($data) {
         $input_date = [
-            'item_name'    => $data['item_name'],
-            'apply'        => $data['apply'],
-            'selector'     => $data['selector'],
-            'price'        => $data['price'],
-            'create_user' => $data['create_user'],
-            'created_at'  => now(),
+            'item_name'         => $data['item_name'],
+            'item_name_kana'    => $data['item_name_kana'],
+            'apply'             => $data['apply'],
+            'selector'          => $data['selector'],
+            'price'             => $data['price'],
+            'create_user'       => $data['create_user'],
+            'created_at'        => now(),
         ];
         self::create($input_date);
 

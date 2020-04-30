@@ -21,6 +21,7 @@
                         <br><span>{{ $errors->first('item_name')}}</span>
                     @endif
                   </p>
+                  
                   <p><!--valueで入力値維持させる -->
                     @lang('item.apply')：<select name='apply'><!--申請先-->
                       <option name="apply" value=1

@@ -10,13 +10,19 @@
                 <form action="items" method="post">
                 <!-- CSRF保護 -->
                @csrf
-                <p>
+                <p><!--商品名-->
                   @lang('item.name')：<input type="text" name="item_name" size="40" value="{{ old('item_name') }}">
                       @if ($errors->has('item_name'))
                           <br><span>{{ $errors->first('item_name')}}</span>
                       @endif
                 </p>
-                <p>
+                <p><!--かな名-->
+                  @lang('item.name_kana')：<input type="text" name="item_name_kana" size="40" value="{{ old('item_name_kana') }}">
+                      @if ($errors->has('item_name_kana'))
+                          <br><span>{{ $errors->first('item_name_kana')}}</span>
+                      @endif
+                </p>
+                <p><!--申請先-->
                   @lang('item.apply')：<select name="apply">
                     <option value=1 @if(old('apply')=='1') selected  @endif>@lang('item.apply1')</option>
                     <option value=2 @if(old('apply')=='2') selected  @endif>@lang('item.apply2')</option>
@@ -26,7 +32,7 @@
                     @endif
                   </select>
                 </p>
-                <p>
+                <p><!--種別-->
                   @lang('item.selector')：
                   <input type="radio" name="selector" value=1 @if(old('selector')=='1') checked  @endif>@lang('item.selector1')
                   <input type="radio" name="selector" value=2 @if(old('selector')=='2') checked  @endif>@lang('item.selector2')
@@ -34,13 +40,13 @@
                       <br><span class="validation">{{ $errors->first('selector') }}</span>
                   @endif
                 </p>
-                <p>
+                <p><!--値段-->
                     @lang('item.price')：<input type="text" name="price" size="40" value="{{ old('price') }}">
                     @if ($errors->has('price'))
                         <br><span>{{ $errors->first('price') }}</span>
                     @endif
                   </p>
-                <p>
+                <p><!--保存ボタン-->
                   <input type="submit" value="保存">
                 </p>
                 </form>

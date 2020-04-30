@@ -131,8 +131,8 @@ return [
     */
 
     'custom' => [
-        '属性名' => [
-            'ルール名' => 'カスタムメッセージ',
+        'item_name_kana' => [
+            'regex' => 'カタカナを入力してください',
         ],
     ],
 
@@ -148,10 +148,11 @@ return [
     */
 
     'attributes' => [
-        'price'       => '値段',
-        'item_name'   =>'商品名',
-        'apply'       =>'申請先',
-        'selector'    =>'種別',
+        'price'             => '値段',
+        'item_name'         =>'商品名',
+        'item_name_kana'    =>'カタカナ',
+        'apply'             =>'申請先',
+        'selector'          =>'種別',
     ],
 
 ];

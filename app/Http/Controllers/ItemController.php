@@ -38,10 +38,11 @@ class ItemController extends Controller
             //フォームの内容をすべて取得(一部取りたいときは$request->sample_name()のようにフィールド名を指定)
             $data = $request->validate([
               //バリデーション追加
-              'item_name' =>'required|max:20',
-              'apply' =>'required',
-              'selector' =>'required',
-              'price' =>'required|integer',
+              'item_name'      =>'required|max:20',
+              'apply'          =>'required',
+              'selector'       =>'required',
+              'price'          =>'required|integer|max:20',
+              'item_name_kana' =>'required|max:20|regex:/^[ァ-ヶ]+$/u',
             ]);
             //配列にcreate_userを追加
             $data['create_user'] = $id;
@@ -57,19 +58,6 @@ class ItemController extends Controller
 
         return view('items', compact('type_array','me','request'));
     }
-
-    /**
- * 定義済みバリデーションルールのエラーメッセージ取得
- *
- * @return array
- */
-public function messages()
-{
-    return [
-        'item_name' => 'A title is required',
-        'price'  => 'A message is required',
-    ];
-}
 
     /**
      * サンプル一覧画面
@@ -103,6 +91,7 @@ public function messages()
           $data = $request->validate([
             //バリデーション追加
             'item_name' =>'max:20',
+            
           ]);
           //配列に入力値を追加
           $data['create_user'] = $id;

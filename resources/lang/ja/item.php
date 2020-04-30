@@ -2,6 +2,7 @@
 return [
   'title'                  => 'PHP study',
   'name'                   => '商品名',
+  'name_kana'              => 'カタカナ',
   'selector'               => '種別',
   'selector1'              => '備品',
   'selector2'              => '私物',
