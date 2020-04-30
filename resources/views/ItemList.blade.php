@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-9">
             <div class="card">
                 <div class="card-header">@lang('common.list')</div>
                 <div>
@@ -17,8 +17,9 @@
                       <thead>
                           <tr>
                               <th>@lang('item.name')</th>
+                              <th>@lang('item.name_kana')</th>
                               <th>@lang('item.apply')</th>
-                              <th>@lang('item.type')</th>
+                              <th>@lang('item.selector')</th>
                               <th>@lang('item.price')</th>
                               <th>@lang('item.create_user')</th>
                               <th>@lang('item.edit')</th>
@@ -27,6 +28,7 @@
                       @foreach($list as $item)
                           <tr>
                               <td>{{$item->item_name}}</td>
+                              <td>{{$item->item_name_kana}}</td>
                               <td>@lang("item.apply_text.$item->apply")</td>
                               <td>@lang("item.selector_text.$item->selector")</td>
                               <td>{{$item->price}}</td>

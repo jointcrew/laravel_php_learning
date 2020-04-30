@@ -15,6 +15,9 @@
                   @lang('item.name')：<input type="text" name="item_name" size="40" value="{{$data->item_name}}" >
                 </p>
                 <p>
+                  @lang('item.name_kana')：<input type="text" name="item_name_kana" size="40" value="{{$data->item_name_kana}}" >
+                </p>
+                <p>
                   @lang('item.apply')：<select name="apply">
                     <option value=1
                         <?php if( !empty($data['apply']) && $data['apply']=="1"){ echo 'selected'; } ?>>@lang('item.apply1')</option>

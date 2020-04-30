@@ -132,7 +132,7 @@ return [
 
     'custom' => [
         'item_name_kana' => [
-            'regex' => 'カタカナを入力してください',
+            'regex' => '',
         ],
     ],
 

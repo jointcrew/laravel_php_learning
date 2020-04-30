@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\katakana;
 
 class ItemController extends Controller
 {
@@ -39,13 +40,15 @@ class ItemController extends Controller
             $data = $request->validate([
               //バリデーション追加
               'item_name'      =>'required|max:20',
+              'item_name_kana' =>['required','max:20', new katakana],
               'apply'          =>'required',
               'selector'       =>'required',
               'price'          =>'required|integer|max:20',
-              'item_name_kana' =>'required|max:20|regex:/^[ァ-ヶ]+$/u',
             ]);
             //配列にcreate_userを追加
             $data['create_user'] = $id;
+            //var_dump($data);
+            //exit;
             //Sampleモデル\のinsertメソッドにアクセスし、データを保存
             $aaa = Item::insert($data);
             if ($aaa == true) {
@@ -91,11 +94,12 @@ class ItemController extends Controller
           $data = $request->validate([
             //バリデーション追加
             'item_name' =>'max:20',
-            
+            'item_name_kana' =>['max:20', new katakana]
           ]);
           //配列に入力値を追加
           $data['create_user'] = $id;
           $data['item_name'] = $request->input('item_name');
+          $data['item_name_kana'] = $request->input('item_name_kana');
           $data['apply'] = $request->input('apply');
           $data['selector'] = $request->input('selector');
           $data['price'] = $request->input('price');
@@ -168,6 +172,7 @@ class ItemController extends Controller
            $data['item_id'] =$request->input('item_id');
            $data['create_user'] = $id;
            $data['item_name'] = $request->input('item_name');
+           $data['item_name_kana'] = $request->input('item_name_kana');
            $data['apply'] = $request->input('apply');
            $data['selector'] = $request->input('selector');
            $data['price'] = $request->input('price');

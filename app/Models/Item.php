@@ -14,7 +14,7 @@ class Item extends Model
     protected $primaryKey = 'item_id';
 
     //DB項目
-    protected $fillable = ['item_id', 'item_name', 'apply', 'selector', 'price', 'create_user','update_user'];
+    protected $fillable = ['item_id', 'item_name', 'item_name_kana','apply', 'selector', 'price', 'create_user','update_user'];
 
     //種別の配列
     static $type = [
@@ -75,6 +75,10 @@ class Item extends Model
             $search_data -> where('item_name',$data['item_name']);
         }
 
+        if ($data['item_name_kana']) {
+            $search_data -> where('item_name_kana',$data['item_name_kana']);
+        }
+
         if ($data['apply']) {
             $search_data -> where('apply',$data['apply']);
         }
@@ -115,6 +119,7 @@ class Item extends Model
          //$data[item_id]があるとき保存の処理が行われる。
          if ($edit_data) {
              $edit_data -> item_name = $data['item_name'];
+             $edit_data -> item_name_kana = $data['item_name_kana'];
              $edit_data -> apply = $data['apply'];
              $edit_data -> selector = $data['selector'];
              $edit_data -> price = $data['price'];
