@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\katakana;
+use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
@@ -43,7 +45,7 @@ class ItemController extends Controller
               'item_name_kana' =>['required','max:20', new katakana],
               'apply'          =>'required',
               'selector'       =>'required',
-              'price'          =>'required|integer|max:20',
+              'price'          =>'required|digits_between:1,20',
             ]);
             //配列にcreate_userを追加
             $data['create_user'] = $id;
@@ -63,7 +65,7 @@ class ItemController extends Controller
     }
 
     /**
-     * サンプル一覧画面
+     * 商品一覧画面
      * @param Request $request
      * @return view
      */
@@ -134,6 +136,7 @@ class ItemController extends Controller
          //配列挿入
          $data['create_user'] = $id;
          $data['item_name'] = $request->input('item_name');
+         $data['item_name_kana'] = $request->input('item_name_kana');
          $data['apply'] = $request->input('apply');
          $data['selector'] = $request->input('selector');
          $data['price'] = $request->input('price');
@@ -182,6 +185,21 @@ class ItemController extends Controller
       }
 
      return view('itemEdit',compact('request','data','item_id'));
+    }
+
+    /**
+     * ユーザー一覧画面
+     * @param Request $request
+     * @return view
+     */
+    public function userList(Request $request)
+    {
+      //Sampleモデルから全件データを取得する。
+      $list = User::all();
+      //var_dump($list);
+      //exit;
+
+        return view('userList',compact('list'));
     }
 
   }

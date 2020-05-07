@@ -14,7 +14,9 @@ class Item extends Model
     protected $primaryKey = 'item_id';
 
     //DB項目
-    protected $fillable = ['item_id', 'item_name', 'item_name_kana','apply', 'selector', 'price', 'create_user','update_user'];
+    protected $fillable = ['item_id', 'item_name', 'item_name_kana',
+                           'apply', 'selector', 'price', 'create_user',
+                           'update_user','id'];
 
     //種別の配列
     static $type = [
@@ -127,5 +129,11 @@ class Item extends Model
          } else {
              return false;
          }
+     }
+
+     public static function userList() {
+         $users = self::table('items')->get();
+
+         return $users;
      }
  }

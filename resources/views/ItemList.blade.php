@@ -4,14 +4,9 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-9">
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-header">@lang('common.list')</div>
-                <div>
-                    <a href="/items">@lang('common.item_add')</a>
-                    <br>
-                    <a href="/itemsearch">@lang('common.item_search')</a>
-                </div>
                 <div class="card-body">
                   <table class="table table-striped table-hover">
                       <thead>

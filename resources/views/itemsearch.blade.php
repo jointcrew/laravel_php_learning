@@ -4,15 +4,10 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-9">
+        <div class="col-md-10">
             <div class="card" >
                 <div class="card-header">@lang('common.search')</div>
                 <div class="col-md-12 justify-content-center">
-                <div>
-                    <a href="/items">@lang('common.item_add')</a>
-                    <br>
-                    <a href="/itemList">@lang('common.item_list')</a>
-                </div>
                 <p>@lang('item.search_item')</p>
                 <form action="/itemsearch" method="get">
                   <!-- CSRF保護 -->
@@ -22,7 +17,7 @@
                     @lang('item.name')：
                     <input type="text" class="form-control" id="item_name" name="item_name" size="40" value="{{ old('item_name') }}<?php echo $request->input('item_name');?>">
                     @if ($errors->has('item_name'))
-                        <br><span>{{ $errors->first('item_name')}}</span>
+                        <br><span style="color:red;">{{ $errors->first('item_name')}}</span>
                     @endif
                   </div>
                   <div class="form-group">
@@ -30,7 +25,7 @@
                     @lang('item.name_kana')：
                     <input type="text" class="form-control" id="item_name_kana" name="item_name_kana" size="40" value="{{ old('item_name_kana') }}<?php echo $request->input('item_name_kana');?>">
                     @if ($errors->has('item_name_kana'))
-                        <br><span>{{ $errors->first('item_name_kana')}}</span>
+                        <br><span style="color:red;">{{ $errors->first('item_name_kana')}}</span>
                     @endif
                   </div>
                   <div class="form-group">

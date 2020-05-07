@@ -9,6 +9,8 @@ return [
  'search'             => ' 商品検索',
  'item_add'           => '＜ 商品追加',
  'add'                => ' 商品追加',
+ 'user_list'          => '＜ 登録者一覧',
+ 'user'               => '登録者一覧',
  'save'               => '保存',
  'add_btm'            => '追加'
 ];

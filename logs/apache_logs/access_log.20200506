@@ -1,0 +1,6 @@
+10.0.2.2 - - [06/May/2020:10:50:49 +0000] "GET /itemEdit?itemId=53 HTTP/1.1" 403 1571 "http://phptest.local:8080/itemsearch" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"
+"
+
+
+ws NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"
+la/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"

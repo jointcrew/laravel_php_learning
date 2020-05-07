@@ -15,7 +15,7 @@
                  @lang('item.name')：
                   <input type="text" class="form-control" id="item_name" name="item_name" size="40" value="{{ old('item_name') }}">
                       @if ($errors->has('item_name'))
-                          <br><span>{{ $errors->first('item_name')}}</span>
+                          <br><span style="color:red;">{{ $errors->first('item_name')}}</span>
                       @endif
                </div>
                <div class="form-group">
@@ -23,7 +23,7 @@
                   @lang('item.name_kana')：
                   <input type="text" class="form-control" id="item_name_kana" name="item_name_kana" size="40" value="{{ old('item_name_kana') }}">
                       @if ($errors->has('item_name_kana'))
-                          <br><span>{{ $errors->first('item_name_kana')}}</span>
+                          <br><span style="color:red;">{{ $errors->first('item_name_kana')}}</span>
                       @endif
                  </p>
                </div>
@@ -35,7 +35,7 @@
                     <option value=2 @if(old('apply')=='2') selected  @endif>@lang('item.apply2')</option>
                     <option value=3 @if(old('apply')=='3') selected  @endif>@lang('item.apply3')</option>
                     @if ($errors->has('apply'))
-                        <br><span>{{ $errors->first('apply') }}</span>
+                        <br><span style="color:red;">{{ $errors->first('apply') }}</span>
                     @endif
                   </select>
               </div>
@@ -45,7 +45,7 @@
                   <input type="radio" name="selector" value=1 @if(old('selector')=='1') checked  @endif>@lang('item.selector1')
                   <input type="radio" name="selector" value=2 @if(old('selector')=='2') checked  @endif>@lang('item.selector2')
                   @if ($errors->has('selector'))
-                      <br><span class="validation">{{ $errors->first('selector') }}</span>
+                      <br><span style="color:red;" class="validation">{{ $errors->first('selector') }}</span>
                   @endif
               </div>
               <div class="form-group">
@@ -53,7 +53,7 @@
                     @lang('item.price')：
                     <input type="text" class="form-control" id="price" name="price" size="40" value="{{ old('price') }}">
                     @if ($errors->has('price'))
-                        <br><span>{{ $errors->first('price') }}</span>
+                        <br><span style="color:red;">{{ $errors->first('price') }}</span>
                     @endif
                 </p>
               </div>
@@ -63,13 +63,6 @@
                 </p>
               </div>
                 </form>
-
-                <div class="mx-auto">
-                    <a href="/itemList">@lang('common.item_list')</a>
-                </div>
-                <div class="mx-auto">
-                    <a href="/itemsearch">@lang('common.item_search')</a>
-                </div>
             </div>
           </div>
         </div>

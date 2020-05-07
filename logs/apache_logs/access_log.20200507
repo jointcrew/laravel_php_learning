@@ -1,0 +1,5 @@
+10.0.2.2 - - [07/May/2020:04:37:08 +0000] "-" 408 - "-" "-"
+HTTP/1.1" 200 - "http://phptest.local:8080/userList" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"
+ari/537.36"
+"
+10.0.2.2 - - [07/May/2020:04:42:12 +0000] "GET /favicon.ico HTTP/1.1" 200 - "http://phptest.local:8080/userList" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"
