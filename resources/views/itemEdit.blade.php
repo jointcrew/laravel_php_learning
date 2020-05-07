@@ -7,18 +7,20 @@
             <div class="card">
                 <div class="card-header">@lang('item.Edit')</div>
 
-                <form action="/itemEdit" method="post">
+                <form class="col-md-12" action="/itemEdit" method="post">
                 <!-- CSRF保護 -->
                @csrf
                <input type="hidden" name="item_id" value="{{$item_id}}">
-                <p>
-                  @lang('item.name')：<input type="text" name="item_name" size="40" value="{{$data->item_name}}" >
-                </p>
-                <p>
-                  @lang('item.name_kana')：<input type="text" name="item_name_kana" size="40" value="{{$data->item_name_kana}}" >
-                </p>
-                <p>
-                  @lang('item.apply')：<select name="apply">
+                <div class="form-group">
+                  @lang('item.name')：
+                  <input class="form-control" type="text" name="item_name" size="40" value="{{$data->item_name}}" >
+                </div>
+                <div class="form-group">
+                  @lang('item.name_kana')：
+                  <input class="form-control" type="text" name="item_name_kana" size="40" value="{{$data->item_name_kana}}" >
+                </div>
+                <div  class="form-group">
+                  @lang('item.apply')：<select name="apply" class="form-control">
                     <option value=1
                         <?php if( !empty($data['apply']) && $data['apply']=="1"){ echo 'selected'; } ?>>@lang('item.apply1')</option>
                     <option value=2
@@ -26,7 +28,7 @@
                     <option value=3
                         <?php if( !empty($data['apply']) && $data['apply']=="3"){ echo 'selected'; } ?>>@lang('item.apply3')</option>
                   </select>
-                </p>
+                </div>
                 <p>
                   @lang('item.selector')：
                   <input type="radio" name="selector" value=1
@@ -34,10 +36,11 @@
                   <input type="radio" name="selector" value=2
                       <?php if( !empty($data['selector']) && $data['selector']=="2"){ echo 'checked'; } ?>>@lang('item.selector2')
                 </p>
-                <p>
-                    @lang('item.price')：<input type="text" name="price" size="40" value="{{$data->price}}">
+                <div class="form-group">
+                    @lang('item.price')：
+                    <input class="form-control" type="text" name="price" size="40" value="{{$data->price}}">
                   </p>
-                <p>
+                </div>
                   <input type="submit" value=@lang('common.save')>
                 </p>
                 </form>

@@ -4,5 +4,6 @@ return [
   'name'                   => '名前',
   'email'                  => 'Email',
   'role'                   => '権限',
-  'create_at'              => '作成日時'
+  'created_at'             => '作成日時',
+  'edit'                   => '登録者編集'
 ];

@@ -57,4 +57,9 @@ Route::group(['middleware' => ['auth', 'can:admin']], function () {
   //User一覧
   Route::get('/userList', 'ItemController@userList')->name('userList');
   Route::post('/userList', 'ItemController@userList')->name('userList');
+  //登録者削除
+  Route::get('/userDelete', 'ItemController@userDelete')->name('userDelete');
+  //登録者編集
+  Route::get('/userEdit', 'ItemController@userEdit')->name('userEdit');
+  Route::post('/userEdit', 'ItemController@userEdit')->name('userEdit');
 });

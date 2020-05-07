@@ -15,7 +15,7 @@
                               <th>@lang('user.name')</th>
                               <th>@lang('user.email')</th>
                               <th>@lang('user.role')</th>
-                              <th>@lang('user.create_at')</th>
+                              <th>@lang('user.created_at')</th>
                               <th>@lang('item.edit_link')</th>
                           </tr>
                       </thead>
@@ -27,8 +27,7 @@
                               <td>{{$user->role}}</td>
                               <td>{{$user->created_at}}</td>
                               <td>
-                                  <a href="#" class="btn btn-primary btn-sm">@lang('sample.edit_link')</a>
-                                  <a href="#" class="btn btn-danger btn-sm">@lang('sample.delete_link')</a>
+                                  <a href="/userEdit?userId={{$user->id}}" class="btn btn-primary btn-sm">@lang('sample.edit_link')</a>
                               </td>
                           </tr>
                       @endforeach

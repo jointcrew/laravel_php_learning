@@ -31,9 +31,9 @@ class AuthServiceProvider extends ServiceProvider
             return ($user->role == 1);
         });
         // 一般ユーザ（つまり全権限）に許可
-        // user-higherゲートを定義。ロール値が「1～10」を一般ユーザ以上(全ユーザー)とする。
+        // user-higherゲートを定義。ロール値が「1~5」を一般ユーザ以上(全ユーザー)とする。
         Gate::define('user', function ($user) {
-            return ($user->role > 0 && $user->role <= 10);
+            return ($user->role > 0 && $user->role <= 5);
         });
     }
 }

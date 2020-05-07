@@ -30,6 +30,8 @@ class ItemController extends Controller
     {
         // 現在認証されているユーザーの取得
         $user = Auth::user();
+        //var_dump($user);
+        //exit;
         // 現在認証されているユーザーのID取得
         $id = Auth::id();
         $me = 'まだ登録してない';
@@ -181,6 +183,7 @@ class ItemController extends Controller
            $data['price'] = $request->input('price');
            //Sampleモデル\のitemEditメソッドにアクセスし、データを編集
            $searchlist = Item::itemEdit($data);
+           //商品検索へリダイレクト
            return redirect()->route('itemsearch');
       }
 
@@ -194,12 +197,54 @@ class ItemController extends Controller
      */
     public function userList(Request $request)
     {
-      //Sampleモデルから全件データを取得する。
+      //Userモデルから全件データを取得する。
       $list = User::all();
       //var_dump($list);
       //exit;
 
         return view('userList',compact('list'));
     }
+
+    /**
+     * 商品編集画面
+     * @param Request $request
+     * @return view
+     */
+     public function userEdit(Request $request)
+     {
+       // 現在認証されているユーザーの取得
+       $user = Auth::user();
+       // 現在認証されているユーザーのID取得
+       $id = Auth::id();
+       //フォームの内容をすべて取得
+       $user_id = $request->input('userId');
+       //var_dump($user_id);
+       //exit;
+       $data = User::find($user_id);
+       //var_dump($data);
+       //exit;
+       //保存ボタンを押したときに処理をする
+       if ($request->isMethod('post') == true) {
+           //フォームの内容をすべて取得
+           $data = $request->all();
+           //配列にcreate_userを追加
+           $data['user_id'] =$request->input('user_id');
+           $data['name'] = $request->input('name');
+           $data['email'] = $request->input('email');
+           $data['role'] = $request->input('role');
+           //Sampleモデル\のitemEditメソッドにアクセスし、データを編集
+           $searchlist = User::userEdit($data);
+           //var_dump($user);
+           //exit;
+           if($user['role'] !== 1){
+            Auth::logout();
+           };
+           //登録者一覧にリダイレクト
+           return redirect()->route('userList');
+      }
+
+     return view('userEdit',compact('request','data','user_id'));
+    }
+
 
   }
