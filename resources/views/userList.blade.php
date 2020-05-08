@@ -4,11 +4,12 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-11">
             <div class="card">
                 <div class="card-header">@lang('common.user')</div>
                 <div class="card-body">
                   <table class="table table-striped table-hover">
+                      <p style="color:red;"><?php if(isset($msg)){echo $msg;}?></p>
                       <thead>
                           <tr>
                               <th>@lang('user.id')</th>
@@ -24,10 +25,15 @@
                               <td>{{$user->id}}</td>
                               <td>{{$user->name}}</td>
                               <td>{{$user->email}}</td>
-                              <td>{{$user->role}}</td>
+                              <td>@lang("user.role_name.$user->role")</td>
                               <td>{{$user->created_at}}</td>
                               <td>
-                                  <a href="/userEdit?userId={{$user->id}}" class="btn btn-primary btn-sm">@lang('sample.edit_link')</a>
+                                  <a href="/userEdit?userId={{$user->id}}" class="btn btn-primary btn-sm">@lang('item.edit_link')</a>
+                                  <?php
+                                  if($id != $user['id']){
+                                  echo  "<a href=\"/userDelete?userId={{$user->id}}\" class=\"btn btn-danger btn-sm\">削除</a>";
+                                  }
+                                  ?>
                               </td>
                           </tr>
                       @endforeach

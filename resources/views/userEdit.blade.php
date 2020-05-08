@@ -14,33 +14,42 @@
                  <p >
                    @lang('user.id')：{{$data->id}}
                  </p>
+                 <div>
+                 <p>
+                     @lang('user.created_at')：{{$data->created_at}}"
+                 </p>
+                 </div>
                <div class="form-group">
-                <p>
                   @lang('user.name')：
                   <input class="form-control" type="text" name="name" size="40" value="{{$data->name}}" >
-                </p>
                 </div>
                 <div class="form-group">
-                <p>
                     @lang('user.email')：
                     <input class="form-control" type="text" name="email" size="40" value="{{$data->email}}" >
-                </p>
                 </div>
                 <div class="form-group">
-                <p>
-                  @lang('user.role')：
-                  <input class="form-control" type="text" name="role" size="40" value="{{$data->role}}" >
-                </p>
+                    @lang('user.password')：
+                    <input class="form-control" id='password' type="password" name="password" size="40" >
+                    @if ($errors->has('password'))
+                        <br><span style="color:red;">{{ $errors->first('password')}}</span>
+                    @endif
                 </div>
                 <div class="form-group">
-                <p>
-                    @lang('user.created_at')：{{$data->created_at}}"
-                </p>
+                    @lang('user.password_confirmation')：
+                    <input class="form-control" id='password_confirmation' type="password" name="password_confirmation" size="40" >
+                    @if ($errors->has('password_confirmation'))
+                        <br><span style="color:red;">{{ $errors->first('password_confirmation')}}</span>
+                    @endif
+                </div>
+                <div  class="form-group">
+                  @lang('user.role')：<select name="role" class="form-control">
+                    <option value=1
+                        <?php if( !empty($data['role']) && $data['role']=="1"){ echo 'selected'; } ?>>@lang('user.admin')</option>
+                    <option value=5
+                        <?php if( !empty($data['role']) && $data['role']=="5"){ echo 'selected'; } ?>>@lang('user.user')</option>
                 </div>
                 <div class="form-group">
-                  <p>
                     <input type="submit"  class="btn btn-primary" value=@lang('common.save')>
-                  </p>
                 </div>
                 </form>
             </div>

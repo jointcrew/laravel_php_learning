@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-11">
             <div class="card" >
                 <div class="card-header">@lang('common.search')</div>
                 <div class="col-md-12 justify-content-center">
