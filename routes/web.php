@@ -50,6 +50,9 @@ Route::group(['middleware' => ['auth', 'can:user']], function () {
   //商品編集
   Route::get('/itemEdit', 'ItemController@itemEdit')->name('itemEdit');
   Route::post('/itemEdit', 'ItemController@itemEdit')->name('itemEdit');
+
+  //API一覧画面
+  Route::get('/apiList', 'ApiListController@index')->name('apiList');
 });
 
 // ログイン状態の管理者がアクセス可能
@@ -62,4 +65,7 @@ Route::group(['middleware' => ['auth', 'can:admin']], function () {
   //登録者編集
   Route::get('/userEdit', 'ItemController@userEdit')->name('userEdit');
   Route::post('/userEdit', 'ItemController@userEdit')->name('userEdit');
+
+  //API一覧画面
+  Route::get('/apiList', 'ApiListController@index')->name('apiList');
 });

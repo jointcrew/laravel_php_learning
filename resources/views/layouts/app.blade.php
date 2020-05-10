@@ -31,12 +31,52 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div>
-                    <a href="/items">@lang('common.item_add')</a>
-                    <a href="/itemList">@lang('common.item_list')</a>
-                    <a href="/itemsearch">@lang('common.item_search')</a>
-                    <a href="/userList">@lang('common.user_list')</a>
-                </div>
+
+                <!-- ヘッダーメニュー -->
+                <ul class="nav navbar-nav">
+                    <!-- サンプル -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle mr-4" data-toggle="dropdown">
+                            @lang('common.menu.sample')<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu bg-light">
+                            <li><a href="/sample">・@lang('common.menu.sample_add')</a></li>
+                            <li><a href="/sampleList">・@lang('common.menu.sample_list')</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- 商品 -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle mr-4" data-toggle="dropdown">
+                            @lang('common.menu.item')<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu bg-light">
+                            <li><a href="/items">・@lang('common.menu.item_add')</a></li>
+                            <li><a href="/itemList">・@lang('common.menu.item_list')</a></li>
+                            <li><a href="/itemsearch">・@lang('common.menu.item_search')</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- 登録ユーザー -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle mr-4" data-toggle="dropdown">
+                            @lang('common.menu.user')<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu bg-light">
+                            <li><a href="/userList">・@lang('common.menu.user_list')</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- API -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle mr-4" data-toggle="dropdown">
+                            @lang('common.menu.api')<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu bg-light">
+                            <li><a href="/apiList">・@lang('common.menu.api_list')</a></li>
+                        </ul>
+                    </li>
+                </ul>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
