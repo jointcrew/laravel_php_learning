@@ -116,8 +116,6 @@ class ItemController extends Controller
           $data['date_end'] = $request->input('date_end');
           //itemモデルのsearchメソッドにアクセスし、データを取得
           $searchlist = Item::search($data);
-          //var_dump($searchlist);
-          //exit;
 
         return view('itemsearch', compact('searchlist','request', 'data'));
     }
