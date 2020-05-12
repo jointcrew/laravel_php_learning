@@ -9,7 +9,7 @@ return [
   'selector3'              => '全て',
   'price'                  => '値段',
   'create_user'            => '登録者',
-  'create_at'              => '登録日時',
+  'create_at'              => '登録日',
   'edit'                   => '編集',
   'update_btn'             => '保存',
   'edit_link'              => '編集',

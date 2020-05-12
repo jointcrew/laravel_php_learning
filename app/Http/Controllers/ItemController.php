@@ -63,18 +63,27 @@ class ItemController extends Controller
     }
 
     /**
-     * 商品一覧画面
-     * @param Request $request
-     * @return view
-     */
-    public function itemList(Request $request)
-    {
-        $limit=5;
-      //itemモデルから全件データを取得する。
-        $list = Item::paginate($limit);
-
-        return view('itemList', compact('list'));
-    }
+  * 商品一覧画面
+  * @param Request $request
+  * @return view
+  */
+  public function itemList(Request $request)
+  {
+  // 現在認証されているユーザーのID取得
+  $id = Auth::id();
+  //配列に入力値を追加
+  $data['create_user'] = $id;
+  $data['item_name'] = $request->input('item_name');
+  $data['item_name_kana'] = $request->input('item_name_kana');
+  $data['apply'] = $request->input('apply');
+  $data['selector'] = $request->input('selector');
+  $data['price'] = $request->input('price');
+  $data['date_start'] = $request->input('date_start');
+  $data['date_end'] = $request->input('date_end');
+  //現在認証されているユーザーの全商品を取得
+  $list = Item::itemList($data);
+  return view('itemList', compact('list'));
+  }
 
 
 
@@ -107,6 +116,8 @@ class ItemController extends Controller
           $data['date_end'] = $request->input('date_end');
           //itemモデルのsearchメソッドにアクセスし、データを取得
           $searchlist = Item::search($data);
+          //var_dump($searchlist);
+          //exit;
 
         return view('itemsearch', compact('searchlist','request', 'data'));
     }
