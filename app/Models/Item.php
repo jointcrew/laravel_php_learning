@@ -54,11 +54,11 @@ class Item extends Model
      * @return string|null
      */
     public static function itemList($data) {
+        $data = self::where('create_user', $data['create_user'])
+              //usersテーブルと内部結合しデータを取得
+              ->join('users','id','=','create_user')
+              ->paginate(5);
 
-      $data = self::where('create_user', $data['create_user'])
-               //usersテーブルと内部結合しデータを取得
-               ->join('users','id','=','create_user')
-               ->paginate(5);
         return $data;
     }
 
@@ -79,9 +79,8 @@ class Item extends Model
      *@return array|null
      *
      */
-    public static function search ($data, $limit=5)
-    {
-      //SQL文が使え、->が使えるようになる
+    public static function search ($data, $limit=5){
+        //SQL文が使え、->が使えるようになる
         $search_data = self::query();
         //usersテーブルと内部結合
         if ($data['create_user']) {
@@ -116,12 +115,12 @@ class Item extends Model
             $search_data -> where('created_at','>=', $data['date_start']);
         }
 
-        if($data['date_end']){
+        if ($data['date_end']){
             $search_data -> where('created_at','<=', $data['date_end'].' 23:59:59');
         }
 
         $data = self::join('users','id','=','create_user')
-                ->select('name');
+              ->select('name');
 
         return $search_data ->paginate($limit);
      }
@@ -129,7 +128,7 @@ class Item extends Model
 
      public static function itemDelete ($data) {
 
-       $data = self::where('item_id',$data)->delete();
+         $data = self::where('item_id',$data)->delete();
 
          return $data;
      }
@@ -147,7 +146,7 @@ class Item extends Model
              $edit_data -> price = $data['price'];
              $edit_data -> save();
          } else {
-             return false;
+              return false;
          }
      }
  }
