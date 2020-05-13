@@ -105,7 +105,7 @@
                                 <td>@lang("item.apply_text.$list->apply")</td>
                                 <td>@lang("item.selector_text.$list->selector")</td>
                                 <td>{{$list->price}}</td>
-                                <td>{{$list->create_user}}</td>
+                                <td>{{$list->name}}</td>
                                 <td>{{$list->created_at}}</td>
                                 <td>
                                     <a href="/itemEdit?itemId={{$list->item_id}}" class="btn btn-primary btn-sm">@lang('item.edit_link')</a>

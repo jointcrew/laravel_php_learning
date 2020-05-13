@@ -27,7 +27,7 @@
                               <td>@lang("item.apply_text.$item->apply")</td>
                               <td>@lang("item.selector_text.$item->selector")</td>
                               <td>{{$item->price}}</td>
-                              <td>{{$item->create_user}}</td>
+                              <td>{{$item->name}}</td>
                               <td>
                                   <a href="/itemEdit?itemId={{$item->item_id}}" class="btn btn-primary btn-sm">@lang('item.edit_link')</a>
                                   <a href="/itemDelete?itemId={{$item->item_id}}" class="btn btn-danger btn-sm">@lang('item.delete_link')</a>
