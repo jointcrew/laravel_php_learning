@@ -155,6 +155,8 @@ return [
         'selector'              => '種別',
         'password'              => 'パスワード',
         'password_confirmation' => '確認用パスワード',
+        'age'                   => '年齢',
+        'user_name'             => '名前',
     ],
 
 ];

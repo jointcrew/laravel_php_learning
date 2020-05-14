@@ -29,7 +29,21 @@ class ApiResponseServiceProvider extends ServiceProvider
             JSON_UNESCAPED_UNICODE);
         });
 
+        // delete_success
+        Response::macro('delete_success', function ($status = null) {
+            if (empty($status)) {
+                $status = http_response_code();
+            }
+            return response()->json([
+                'status'   => $status,
+            ],
+            $status,
+            [],
+            JSON_UNESCAPED_UNICODE);
+        });
+
         // error（画面側でエラー処理させる）
+        //($errMsg = '', array $errors = [], $status = null)はデフォルト値、値があったら代入される
         Response::macro('error', function ($errMsg = '', array $errors = [], $status = null) {
             if (empty($status)) {
                 $status = http_response_code();
