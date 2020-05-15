@@ -42,36 +42,37 @@ class ApiUser extends Model
      * @param array  $data
      * @return string|null
      */
-     public static function apiUserEdit ($data) {
-         //$edit_dataにDBから$data[id]と同じ値を取得する。
-         $edit_data = self::find($data['id']);
-         //$data[put_id]があるとき保存の処理が行われる。
-         if ($edit_data) {
-         if ($data['user_name']){
-            $edit_data -> user_name = $data['user_name'];
+    public static function apiUserEdit ($data) {
+        //トランザクション処理
+        DB::transaction(function () use ($data) {
+            //$edit_dataにDBから$data[id]と同じ値を取得する。
+            $edit_data = self::find($data['id']);
+            //$data[put_id]があるとき保存の処理が行われる。
+            if ($edit_data) {
+                if ($data['user_name']) {
+                    $edit_data -> user_name = $data['user_name'];
+                }
+                if ($data['age']) {
+                    $edit_data -> age = $data['age'];
+                }
+                $edit_data -> save();
+            } else {
+                return false;
             }
-            if($data['age']){
-              $edit_data -> age = $data['age'];
-            }
-              $edit_data -> save();
-         } else {
-              return false;
-         }
-         return $data;
-     }
-    /**
-    * データを削除する
-    *
-    * @param array  $data
-    * @return string|null
-    */
+        });
+    }
+     /**
+     * データを削除する
+     *
+     * @param array  $data
+     * @return string|null
+     */
     public static function apiUserDelete ($data) {
         //トランザクション処理
         DB::transaction(function () use ($data) {
-        //同じIDのレコードを削除
-        $data = self::where('user_id',$data['id'])->delete();
-
-        return $data;
+            //同じIDのレコードを削除
+            $data = self::where('user_id',$data['id'])->delete();
+            return $data;
         });
     }
 }

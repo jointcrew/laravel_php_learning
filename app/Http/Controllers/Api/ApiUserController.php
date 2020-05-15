@@ -55,10 +55,12 @@ class ApiUserController extends Controller
     public function store(PostRequest $request)
     {
         //配列に入力値を追加
-        $data['user_name'] = $request->input('user_name');
-        $data['age'] = $request->input('age');
-        $data['create_user_id'] = $request->input('create_user_id');
-        $data['create_user_name'] = $request->input('create_user_name');
+        $data = [
+            'user_name'        => $request->input('user_name'),
+            'age'              => $request->input('age'),
+            'create_user_id'   => $request->input('create_user_id'),
+            'create_user_name' => $request->input('create_user_name'),
+        ];
         //ApiUserモデルのinsertメソッドにアクセスし、データを保存
         $insert_data = ApiUser::insert($data);
 
@@ -75,9 +77,11 @@ class ApiUserController extends Controller
     public function update(PutRequest $request, $id)
     {
         //配列に入力値を追加
-        $data['id'] = $id;
-        $data['user_name'] = $request->input('user_name');
-        $data['age'] = $request->input('age');
+        $data = [
+            'id'        => $id,
+            'user_name' => $request->input('user_name'),
+            'age'       => $request->input('age'),
+        ];
         $user = ApiUser::find($id);
         //ユーザーが見つからないとき
         if ($user == null) {

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ApiResponseServiceProvider extends ServiceProvider
 {
@@ -48,7 +49,7 @@ class ApiResponseServiceProvider extends ServiceProvider
             if (empty($status)) {
                 $status = http_response_code();
             }
-            return response()->json([
+            $res = response()->json([
                 'success' => 'error',
                 'status'  => $status,
                 'errMsg'  => $errMsg,
@@ -57,6 +58,8 @@ class ApiResponseServiceProvider extends ServiceProvider
             $status,
             [],
             JSON_UNESCAPED_UNICODE);
+            //return と同じように返す役割を持つ
+            throw new HttpResponseException($res);
         });
 
         // error
