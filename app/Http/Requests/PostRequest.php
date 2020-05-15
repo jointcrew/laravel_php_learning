@@ -29,10 +29,10 @@ class PostRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_name'         =>  'required|string|max:10',
-            'age'               =>  'required|integer',
+            'user_name'         =>  'required|string|max:30',
+            'age'               =>  'required|integer|max:150',
             'create_user_id'    =>  'required|integer|max:10',
-            'create_user_name'  =>  'required|string',
+            'create_user_name'  =>  'required|string|max:30',
         ];
     }
 

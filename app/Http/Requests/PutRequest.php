@@ -27,8 +27,8 @@ class PutRequest extends FormRequest
     public function rules()
     {
         return [
-          'user_name' => 'string|nullable',
-          'age'       => 'integer|nullable',
+          'user_name' => 'string|nullable|max:30',
+          'age'       => 'integer|nullable|max:150',
         ];
     }
 

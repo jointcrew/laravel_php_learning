@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ApiUser extends Model
 {
@@ -65,9 +66,12 @@ class ApiUser extends Model
     * @return string|null
     */
     public static function apiUserDelete ($data) {
+        //トランザクション処理
+        DB::transaction(function () use ($data) {
         //同じIDのレコードを削除
         $data = self::where('user_id',$data['id'])->delete();
 
         return $data;
+        });
     }
 }

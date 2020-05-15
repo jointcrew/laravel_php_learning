@@ -17,7 +17,7 @@ class ApiUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $user = ApiUser::all()->toArray();
         //正常を返す
@@ -35,11 +35,8 @@ class ApiUserController extends Controller
         $user = ApiUser::find($id);
         //$idがstringなので一度intに変換
         $int_id = (int)$id;
-        if ($user == null) {
-            //IDがないときエラーを返す
-            return response()->error(\Lang::get('api.api_e_title.t0003'), array(\Lang::get('api.api_mes.m0003')), self::RESPONSE_CODE_400);
         //intにしたときに値が同じなら検索、違ったらエラー
-        } elseif ("$int_id" == $id) {
+        if ("$int_id" == $id) {
             $user = ApiUser::find($id);
         }else{
             //エラーを返す
@@ -63,9 +60,9 @@ class ApiUserController extends Controller
         $data['create_user_id'] = $request->input('create_user_id');
         $data['create_user_name'] = $request->input('create_user_name');
         //ApiUserモデルのinsertメソッドにアクセスし、データを保存
-        $aaa = ApiUser::insert($data);
+        $insert_data = ApiUser::insert($data);
 
-        return response()->success($aaa, self::RESPONSE_CODE_200);
+        return response()->success($insert_data, self::RESPONSE_CODE_200);
     }
 
     /**
@@ -82,14 +79,16 @@ class ApiUserController extends Controller
         $data['user_name'] = $request->input('user_name');
         $data['age'] = $request->input('age');
         $user = ApiUser::find($id);
-        //IDがないときエラーを返す
+        //ユーザーが見つからないとき
         if ($user == null) {
             return response()->error(\Lang::get('api.api_e_title.t0003'), array(\Lang::get('api.api_mes.m0003')), self::RESPONSE_CODE_400);
         }
         //ApiUserモデルのApiUserメソッドにアクセスし、データを編集
         $searchlist = ApiUser::apiUserEdit($data);
+        //更新したデータを取得しなおして返す
+        $update_data = ApiUser::find($data['id']);
 
-        return response()->success($searchlist, self::RESPONSE_CODE_200);
+        return response()->success($update_data, self::RESPONSE_CODE_200);
     }
 
     /**
@@ -98,12 +97,12 @@ class ApiUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DeleteRequest $request,$id)
+    public function destroy($id)
     {
         //配列に入力値を追加
         $data['id'] = $id;
-        $user = ApiUser::find($id);
-        //IDがないときエラーを返す
+        $user = ApiUser::find($data['id']);
+        //ユーザーが見つからないとき
         if ($user == null) {
             return response()->error(\Lang::get('api.api_e_title.t0003'), array(\Lang::get('api.api_mes.m0003')), self::RESPONSE_CODE_400);
         }
