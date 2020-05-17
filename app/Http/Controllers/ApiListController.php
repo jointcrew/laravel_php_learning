@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApiListController extends Controller
 {
@@ -23,7 +24,9 @@ class ApiListController extends Controller
      */
     public function index()
     {
-        return view('apiList');
+        $user = Auth::user();
+
+        return view('apiList', compact('user'));
     }
 
 }

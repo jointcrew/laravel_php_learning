@@ -22,7 +22,7 @@
                                 </div>
                             </div>
                             <!-- 一覧 -->
-                            {{ Form::open(['url' => '/api/apiuser/', 'method' => 'get', 'name' => 'getForm']) }}
+                            {{ Form::open(['url' => '/api/apiuser', 'method' => 'get', 'name' => 'getForm']) }}
                                 <div class="row border-bottom m-4">
                                     <div class="col-md-1">
                                         @lang('api.list.get')
@@ -35,6 +35,8 @@
                                             </div>
                                             <div class='col-md-3'>
                                                 {{Form::number('get_id', old('get_id'), ['class' => 'form-control', 'id' => 'get_id', 'size' => '4', 'onchange' => 'changeGetUrl();' ])}}
+                                                {{Form::hidden('id', "$user->id")}}
+                                                {{Form::hidden('name', "$user->name")}}
                                             </div>
                                         </div>
                                     </div>
@@ -56,14 +58,17 @@
                                                 @lang('api.list.user_name')
                                             </div>
                                             <div class='col-md-3'>
-
+                                                {{Form::text('user_name', old('user_name'), ['class' => 'form-control'])}}
                                             </div>
                                             <!-- age -->
                                             <div class='col-md-1'>
                                                 @lang('api.list.age')
                                             </div>
                                             <div class='col-md-3'>
-
+                                                {{Form::text('age', old('age'), ['class' => 'form-control'])}}
+                                                <!-- hiddenでリクエストパラメーターを返す -->
+                                                {{Form::hidden('create_user_id', "$user->id")}}
+                                                {{Form::hidden('create_user_name', "$user->name")}}
                                             </div>
                                         </div>
                                     </div>
@@ -92,14 +97,14 @@
                                                 @lang('api.list.user_name')
                                             </div>
                                             <div class='col-md-3'>
-
+                                                {{Form::text('user_name', old('user_name'), ['class' => 'form-control'])}}
                                             </div>
                                             <!-- age -->
                                             <div class='col-md-1'>
                                                 @lang('api.list.age')
                                             </div>
                                             <div class='col-md-3'>
-
+                                                {{Form::text('age', old('age'), ['class' => 'form-control'])}}
                                             </div>
                                         </div>
                                     </div>
