@@ -36,7 +36,7 @@ return [
     'date_format'          => ':attributeは:format形式で指定してください。',
     'different'            => ':attributeと:otherには、異なった内容を指定してください。',
     'digits'               => ':attributeは:digits桁で指定してください。',
-    'digits_between'       => ':attributeは:min桁から:max桁の間で指定してください。',
+    'digits_between'       => ':attributeは数字で:min桁から:max桁の間で指定してください。',
     'dimensions'           => ':attributeの図形サイズが正しくありません。',
     'distinct'             => ':attributeには異なった値を指定してください。',
     'email'                => ':attributeには、有効なメールアドレスを指定してください。',
@@ -155,6 +155,8 @@ return [
         'selector'              => '種別',
         'password'              => 'パスワード',
         'password_confirmation' => '確認用パスワード',
+        'age'                   => '年齢',
+        'user_name'             => '名前',
     ],
 
 ];

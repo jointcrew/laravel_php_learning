@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ApiResponseServiceProvider extends ServiceProvider
 {
@@ -29,12 +30,26 @@ class ApiResponseServiceProvider extends ServiceProvider
             JSON_UNESCAPED_UNICODE);
         });
 
-        // error（画面側でエラー処理させる）
-        Response::macro('error', function ($errMsg = '', array $errors = [], $status = null) {
+        // delete_success
+        Response::macro('delete_success', function ($status = null) {
             if (empty($status)) {
                 $status = http_response_code();
             }
             return response()->json([
+                'status'   => $status,
+            ],
+            $status,
+            [],
+            JSON_UNESCAPED_UNICODE);
+        });
+
+        // error（画面側でエラー処理させる）
+        //($errMsg = '', array $errors = [], $status = null)はデフォルト値、値があったら代入される
+        Response::macro('error', function ($errMsg = '', array $errors = [], $status = null) {
+            if (empty($status)) {
+                $status = http_response_code();
+            }
+            $res = response()->json([
                 'success' => 'error',
                 'status'  => $status,
                 'errMsg'  => $errMsg,
@@ -43,6 +58,8 @@ class ApiResponseServiceProvider extends ServiceProvider
             $status,
             [],
             JSON_UNESCAPED_UNICODE);
+            //return と同じように返す役割を持つ
+            throw new HttpResponseException($res);
         });
 
         // error
