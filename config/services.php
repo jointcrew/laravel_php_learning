@@ -30,4 +30,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'api_url' => [
+        'restapi' => env('API_URL', 'http://localhost:80')."/api/apiuser/",
+    ]
 ];

@@ -18,6 +18,7 @@ return [
      'sample'      => 'サンプル',
      'sample_add'  => 'サンプル登録',
      'sample_list' => 'サンプル一覧',
+     'sample_api'  => 'サンプルAPI',
      'item'        => '商品',
      'item_add'    => '商品追加',
      'item_list'   => '商品一覧',
