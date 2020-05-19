@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Sample;
 use Illuminate\Support\Facades\Auth;
+use GuzzleHttp\Client;
 
 class SampleController extends Controller
 {
@@ -57,5 +58,25 @@ class SampleController extends Controller
         $list = Sample::all();
 
         return view('sampleList', compact('list'));
+    }
+
+    /**
+     * サンプルAPI(rest apiを実行)
+     * @return json
+     */
+    public function sampleApi(){
+        //他からRESTAPIを呼び出すときは、use GuzzleHttp\Client;を宣言する。
+
+        try {
+            //http通信を行う
+            $client = new Client();
+            $response = $client->request("GET", \Config::get('services.api_url.restapi'));
+            //getBody()でAPIの結果を取得
+            return $response->getBody();
+
+        } catch (\GuzzleHttp\Exception\ConnectException $e) {
+            //アクセス失敗したらエラーを返す
+            return $e->getHandlerContext()['error'];
+        }
     }
 }

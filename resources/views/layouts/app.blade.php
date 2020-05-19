@@ -42,6 +42,7 @@
                         <ul class="dropdown-menu bg-light">
                             <li><a href="/sample">・@lang('common.menu.sample_add')</a></li>
                             <li><a href="/sampleList">・@lang('common.menu.sample_list')</a></li>
+                            <li><a href="/sampleApi">・@lang('common.menu.sample_api')</a></li>
                         </ul>
                     </li>
 

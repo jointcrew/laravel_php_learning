@@ -33,6 +33,9 @@ Route::group(['middleware' => ['auth', 'can:user']], function () {
   Route::get('/sampleList', 'SampleController@sampleList')->name('sampleList');
   Route::post('/sampleList', 'SampleController@sampleList')->name('sampleList');
 
+  //サンプルAPIアクセス
+  Route::get('/sampleApi', 'SampleController@sampleApi')->name('sampleApi');
+
   //itemページ 追加
   Route::get('/items', 'ItemController@index')->name('items');
   Route::post('/items', 'ItemController@index')->name('items');
