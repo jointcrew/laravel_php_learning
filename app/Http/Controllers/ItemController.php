@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\katakana;
 use Illuminate\Support\Facades\DB;
+use GuzzleHttp\Client;
 
 class ItemController extends Controller
 {
@@ -201,11 +202,51 @@ class ItemController extends Controller
         // 現在認証されているユーザーの取得
         $user = Auth::user();
         // 現在認証されているユーザーのID取得
-        $id = Auth::id();
+        $create_user_id = Auth::id();
         //Userモデルから全件データを取得する。
         $list = User::all();
 
-        return view('userList',compact('list','id'));
+        return view('userList',compact('list','create_user_id'));
+    }
+
+    /**
+     * ユーザー検索(rest apiを実行)
+     * @param Request $request
+     * @return view 
+     */
+    public function userApiSearch(Request $request)
+    {
+        // 現在認証されているユーザーのID取得
+        $create_user_id = Auth::id();
+        //APIをつかって取得
+        try {
+            //http通信を行う
+            $client = new Client();
+            $url = \Config::get('services.user_api_url.restapi');
+            //idを取得
+            $get_id = $request->input('get_id');
+            $data = User::find($get_id);
+            if ($get_id) {
+                $url = $url.$get_id;
+            }
+            if (is_null($data)) {
+              //ユーザー検索へリダイレクト
+              return redirect()->route('userList');
+            }
+            $response = $client->request("GET", $url );
+            //getBody()でAPIの結果を取得
+            $list = $response->getBody();
+            //json_decodeで配列型に変換
+            $list = json_decode($list, true);
+            //$list["response"]だけ取り出す
+            $list = $list["response"];
+
+        } catch (\GuzzleHttp\Exception\ConnectException $e) {
+            //アクセス失敗したらエラーを返す
+            return $e->getHandlerContext()['error'];
+        }
+
+        return view('userList',compact('list','create_user_id'));
     }
 
     /**

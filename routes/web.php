@@ -71,4 +71,6 @@ Route::group(['middleware' => ['auth', 'can:admin']], function () {
 
   //API一覧画面
   Route::get('/apiList', 'ApiListController@index')->name('apiList');
+  //APIユーザー検索
+  Route::get('/userApiSearch', 'ItemController@userApiSearch')->name('userApiSearch');
 });
