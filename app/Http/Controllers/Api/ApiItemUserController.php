@@ -17,7 +17,7 @@ class ApiItemUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $user = User::all()->toArray();
         //正常を返す
@@ -27,10 +27,10 @@ class ApiItemUserController extends Controller
     /**
      * GET：指定したデータを表示
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
         //$idがstringなので一度intに変換
         $int_id = (int)$id;
@@ -53,9 +53,19 @@ class ApiItemUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostRequest $request)
+    public static function  store(Request $request)
     {
-        //
+      //配列に入力値を追加
+      $data = [
+          'name'               => $request->input('name'),
+          'email'              => $request->input('email'),
+          'password'           => $request->input('password'),
+          'role'               => $request->input('role'),
+          'created_at'         => now(),
+      ];
+      //Userモデルのinsertメソッドにアクセスし、データを保存
+      $insert_data = User::insert($data);
+      return response()->success($insert_data, self::RESPONSE_CODE_200);
     }
 
     /**
