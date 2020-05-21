@@ -53,7 +53,7 @@ class ApiItemUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public static function  store(Request $request)
+    public function store(Request $request)
     {
       //配列に入力値を追加
       $data = [
