@@ -36,7 +36,7 @@ class ApiItemUserController extends Controller
         $int_id = (int)$id;
         //intにしたときに値が同じなら検索、違ったらエラー
         if ("$int_id" == $id) {
-            $user = User::find($id)->toArray();
+            $user = User::find($id);
             $user_array = array();
             $user_array[0] = $user;
         } else {

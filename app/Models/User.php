@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class User extends Model
 {
@@ -21,22 +22,27 @@ class User extends Model
     * データを登録する
     *
     * @param array  $data
-    * @return string|null
+    * @return array|null
     */
    public static function insert($data) {
-
-       //pwハッシュ化
-       $data['password'] = Hash::make($data['password']);
-       $input_date = [
-           'name'                => $data['name'],
-           'email'               => $data['email'],
-           'password'            => $data['password'],
-           'role'                => $data['role'],
-           'created_at'          => now(),
-       ];
-       self::create($input_date);
-
-       return $data;
+       //トランザクション処理
+       $insert = DB::transaction(function () use ($data) {
+           //pwハッシュ化
+           $data['password'] = Hash::make($data['password']);
+           $input_data = [
+               'name'                => $data['name'],
+               'email'               => $data['email'],
+               'password'            => $data['password'],
+               'role'                => $data['role'],
+               'created_at'          => now(),
+           ];
+           $id = self::insertGetId($input_data);
+           if ($id) {
+               return self::find($id);
+           }
+           return $id;
+       });
+       return $insert;
    }
 
     public static function userEdit ($data) {

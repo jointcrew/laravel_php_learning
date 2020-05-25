@@ -13,7 +13,9 @@ return [
  'user'               => 'ユーザー一覧',
  'save'               => '保存',
  'add_btm'            => '追加',
-
+ 'add_btm'            => '追加',
+ 'delete'             => '削除',
+  'required'             => '※必須',
  'menu' => [
      'sample'      => 'サンプル',
      'sample_add'  => 'サンプル登録',
@@ -26,6 +28,13 @@ return [
      'user'        => 'ユーザー',
      'user_list'   => 'ユーザー一覧',
      'api'         => 'API',
-     'api_list'    => 'API一覧'
+     'api_list'    => 'API一覧',
+     'goods'       => '自力で',
+     'goods_search'=> '商品検索',
+     'goods_detail'=> '商品詳細',
+     'goods_settle'=> '決済画面',
+     'goods_edit'  => '商品登録・編集',
+     'goods_user'  => 'ユーザー一覧',
+     'goods_user_edit'  => 'ユーザー登録・編集',
   ]
 ];

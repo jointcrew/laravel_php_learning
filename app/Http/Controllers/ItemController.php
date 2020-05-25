@@ -225,14 +225,8 @@ class ItemController extends Controller
             $url = \Config::get('services.user_api_url.restapi');
             //idを取得
             $get_id = $request->input('get_id');
-            $data = User::find($get_id);
-            if ($get_id) {
-                $url = $url.'/'.$get_id;
-            }
-            if (is_null($data)) {
-                //ユーザー検索へリダイレクト
-                return redirect()->route('userList');
-            }
+            //$urlに/,$get_idを付け加える
+            $url = $url.'/'.$get_id;
             $response = $client->request("GET", $url );
             //getBody()でAPIの結果を取得
             $list = $response->getBody();
@@ -240,7 +234,6 @@ class ItemController extends Controller
             $list = json_decode($list, true);
             //$list["response"]だけ取り出す
             $list = $list["response"];
-
         } catch (\GuzzleHttp\Exception\ConnectException $e) {
             //アクセス失敗したらエラーを返す
             return $e->getHandlerContext()['error'];
@@ -256,41 +249,58 @@ class ItemController extends Controller
      */
     public function userApiRegister(Request $request)
     {
-        // 現在認証されているユーザーのID取得
-        $create_user_id = Auth::id();
-        $data['password'] = $request->input('password');
-        //passwordハッシュ化
-        $data['password'] = Hash::make($data['password']);
-        //APIをつかって取得
-        try {
-            //http通信を行う
-            $client = new Client();
-            $url = \Config::get('services.user_api_url.restapi');
-            $option = [
-                'form_params' =>
-                [
-                    'name'               => $request->input('name'),
-                    'email'              => $request->input('email'),
-                    'password'           => $data['password'],
-                    'role'               => $request->input('role'),
-                    'created_at'         => now(),
-                ]
-            ];
-            $response = $client->request("POST", $url, $option );
-            $response = $client->request("GET", $url );
-            //getBody()でAPIの結果を取得
-            $list = $response->getBody();
-            //json_decodeで配列型に変換
-            $list = json_decode($list, true);
-            //$list["response"]だけ取り出す
-            $list = $list["response"];
+        //保存ボタンを押したときに処理をする
+        if ($request->isMethod('post') == true) {
+            // 現在認証されているユーザーのID取得
+            $create_user_id = Auth::id();
+            $data = $request->validate([
+                //バリデーション追加
+                'name'                   =>  'required|string|max:30',
+                'email'                  =>  'required|email|unique:App\User,email|max:150',
+                'role'                   =>  'required|integer|max:10',
+                'password'               =>  'confirmed|min:8',
+                'password_confirmation'  =>  'nullable|min:8',
+            ]);
+            //passwordハッシュ化
+            $data['password'] = Hash::make($data['password']);
+            //APIをつかって取得
+            try {
+                //http通信を行う
+                $client = new Client();
+                $url = \Config::get('services.user_api_url.restapi');
+                $option = [
+                    'form_params' =>
+                    [
+                        'name'               => $data['name'],
+                        'email'              => $data['email'],
+                        'password'           => $data['password'],
+                        'role'               => $data['role'],
+                        'created_at'         => now(),
+                    ]
+                ];
+                $response = $client->request("POST", $url, $option );
+                //getBody()でAPIの結果を取得
+                $insert_list = $response->getBody();
+                //json_decodeで配列型に変換
+                $insert_list = json_decode($insert_list, true);
+                //$insert_listに["response"]だけ取り出す
+                $insert_list = $insert_list["response"];
+                $list = array();
+                $list[0] = $insert_list;
+                //文言を$msgに代入
+                if ($list[0] == null) {
+                   $msg= '登録失敗';
+                } else {
+                   $msg = '登録しました';
+                }
 
-        } catch (\GuzzleHttp\Exception\ConnectException $e) {
-            //アクセス失敗したらエラーを返す
-            return $e->getHandlerContext()['error'];
+            } catch (\GuzzleHttp\Exception\ConnectException $e) {
+                //アクセス失敗したらエラーを返す
+                return $e->getHandlerContext()['error'];
+            }
+            return view('userList',compact('list','msg','create_user_id'));
         }
-
-        return view('userList',compact('list','create_user_id'));
+        return view('userList');
     }
 
      /**
