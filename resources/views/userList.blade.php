@@ -105,10 +105,6 @@
                                 <th>@lang('item.edit_link')</th>
                             </tr>
                         </thead>
-                        <?php
-                        //var_dump($list);
-                        //exit;
-                        ?>
                         @if (isset($list[0]))
                             @foreach($list as $user)
                                 <tr>
