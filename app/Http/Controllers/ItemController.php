@@ -23,13 +23,8 @@ class ItemController extends Controller
     {
         $this->middleware('auth');
         //roleを定義
-        $roles = [
-            'roles' =>
-            [
-                'admin'               => \Lang::get('user.admin'),
-                'user'                => \Lang::get('user.user'),
-            ]
-        ];
+        $roles = \Lang::get('user.role_name');
+
         View::share('roles', $roles);
     }
 

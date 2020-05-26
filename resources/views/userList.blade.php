@@ -72,9 +72,8 @@
                         <div  class="form-group">
                             @lang('user.role')：<span class="red">@lang('common.required')</span>
                             <select name="role" class="form-control">
-                                @foreach($roles as $role)
-                                    <option value=1>{{$role["admin"]}}</option>
-                                    <option value=5>{{$role["user"]}}</option>
+                                @foreach($roles as $key => $value)
+                                    <option value={{$key}}>{{$value}}</option>
                                 @endforeach
                                 @if ($errors->has('role'))
                                     <br><span class="red">{{ $errors->first('role')}}</span>
@@ -106,6 +105,10 @@
                                 <th>@lang('item.edit_link')</th>
                             </tr>
                         </thead>
+                        <?php
+                        //var_dump($list);
+                        //exit;
+                        ?>
                         @if (isset($list[0]))
                             @foreach($list as $user)
                                 <tr>
