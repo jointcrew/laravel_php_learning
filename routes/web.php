@@ -71,4 +71,22 @@ Route::group(['middleware' => ['auth', 'can:admin']], function () {
 
   //API一覧画面
   Route::get('/apiList', 'ApiListController@index')->name('apiList');
+  //APIユーザー検索
+  Route::get('/userApiSearch', 'ItemController@userApiSearch')->name('userApiSearch');
+  //APIユーザー登録
+  Route::get('/userApiRegister', 'ItemController@userApiRegister')->name('userApiRegister');
+  Route::post('/userApiRegister', 'ItemController@userApiRegister')->name('userApiRegister');
 });
+//自力で作ろう
+//検索画面
+Route::get('/goodsSearch', 'GoodsController@index')->name('index');
+//商品詳細
+Route::get('/goodsDetail', 'GoodsController@goodsDetail')->name('goodsDetail');
+//決済画面
+Route::get('/goodsSettle', 'GoodsController@goodsSettle')->name('goodsSettle');
+//商品登録・編集
+Route::get('/goodsEdit', 'GoodsController@goodsEdit')->name('goodsEdit');
+//ユーザー管理
+Route::get('/goodsUser', 'GoodsController@goodsUser')->name('goodsUser');
+//ユーザー登録・編集
+Route::get('/goodsUserEdit', 'GoodsController@goodsUserEdit')->name('goodsUserEdit');

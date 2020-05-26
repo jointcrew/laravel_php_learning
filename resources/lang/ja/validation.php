@@ -157,6 +157,8 @@ return [
         'password_confirmation' => '確認用パスワード',
         'age'                   => '年齢',
         'user_name'             => '名前',
+        'name'                  => '名前' ,
+        'email'                 => 'Email'
     ],
 
 ];

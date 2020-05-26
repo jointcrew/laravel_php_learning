@@ -32,5 +32,9 @@ return [
 
     'api_url' => [
         'restapi' => env('API_URL', 'http://localhost:80')."/api/apiuser/",
+    ],
+
+    'user_api_url' => [
+        'restapi' => env('API_URL', 'http://localhost:80')."/api/api_itemuser",
     ]
 ];

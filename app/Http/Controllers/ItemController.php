@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\katakana;
 use Illuminate\Support\Facades\DB;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\View;
+
 
 class ItemController extends Controller
 {
@@ -19,7 +22,12 @@ class ItemController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        //roleを定義
+        $roles = \Lang::get('user.role_name');
+
+        View::share('roles', $roles);
     }
+
 
     /**
      * 商品追加画面
@@ -32,7 +40,6 @@ class ItemController extends Controller
         $user = Auth::user();
         // 現在認証されているユーザーのID取得
         $id = Auth::id();
-        $me = 'まだ登録してない';
         //Itemモデルに記載している、種別を取得
         $type_array = Item::$type;
 
@@ -51,11 +58,6 @@ class ItemController extends Controller
             $data['create_user'] = $id;
             //Itemモデルのinsertメソッドにアクセスし、データを保存
             $aaa = Item::insert($data);
-            if ($aaa == true) {
-               $me = '登録したよ';
-            } else {
-               $me = '登録失敗したよ';
-            }
         }
         return view('items', compact('type_array','me','request'));
     }
@@ -91,7 +93,6 @@ class ItemController extends Controller
      * @param Request $request
      * @return view
      */
-
     public function itemsearch(Request $request)
     {
         // 現在認証されているユーザーの取得
@@ -119,11 +120,11 @@ class ItemController extends Controller
         return view('itemsearch', compact('searchlist','request', 'data'));
     }
 
-    /**
-     * 商品削除
-     * @param Request $request
-     * @return view
-     */
+     /**
+      * 商品削除
+      * @param Request $request
+      * @return view
+      */
      public function itemDelete(Request $request)
      {
          // 現在認証されているユーザーの取得
@@ -135,9 +136,9 @@ class ItemController extends Controller
          //itemモデルのdeleteメソッドにアクセスし、データを削除
          $delete = Item::itemDelete($data);
          if ($delete === 0) {
-            $msg= '削除失敗';
+            $msg= \Lang::get('item.delete_fail');
          } else {
-            $msg = '削除しました';
+            $msg = \Lang::get('item.delete_success');
          }
          //配列挿入
          $data['create_user'] = $id;
@@ -155,11 +156,11 @@ class ItemController extends Controller
     }
 
 
-    /**
-     * 商品編集画面
-     * @param Request $request
-     * @return view
-     */
+     /**
+      * 商品編集画面
+      * @param Request $request
+      * @return view
+      */
      public function itemEdit(Request $request)
      {
          // 現在認証されているユーザーの取得
@@ -201,18 +202,110 @@ class ItemController extends Controller
         // 現在認証されているユーザーの取得
         $user = Auth::user();
         // 現在認証されているユーザーのID取得
-        $id = Auth::id();
+        $create_user_id = Auth::id();
         //Userモデルから全件データを取得する。
         $list = User::all();
 
-        return view('userList',compact('list','id'));
+        return view('userList',compact('list','create_user_id'));
     }
 
     /**
-     * ユーザー編集画面
+     * ユーザー検索(rest apiを実行)
      * @param Request $request
      * @return view
      */
+    public function userApiSearch(Request $request)
+    {
+        // 現在認証されているユーザーのID取得
+        $create_user_id = Auth::id();
+        //APIをつかって取得
+        try {
+            //http通信を行う
+            $client = new Client();
+            $url = \Config::get('services.user_api_url.restapi');
+            //idを取得
+            $get_id = $request->input('get_id');
+            //$urlに/,$get_idを付け加える
+            $url = $url.'/'.$get_id;
+            $response = $client->request("GET", $url );
+            //getBody()でAPIの結果を取得
+            $list = $response->getBody();
+            //json_decodeで配列型に変換
+            $list = json_decode($list, true);
+            //$list["response"]だけ取り出す
+            $list = $list["response"];
+        } catch (\GuzzleHttp\Exception\ConnectException $e) {
+            //アクセス失敗したらエラーを返す
+            return $e->getHandlerContext()['error'];
+        }
+
+        return view('userList',compact('list','create_user_id'));
+    }
+
+    /**
+     * ユーザー登録(rest apiを実行)
+     * @param Request $request
+     * @return view
+     */
+    public function userApiRegister(Request $request)
+    {
+        //保存ボタンを押したときに処理をする
+        if ($request->isMethod('post') == true) {
+            // 現在認証されているユーザーのID取得
+            $create_user_id = Auth::id();
+            $data = $request->validate([
+                //バリデーション追加
+                'name'                   =>  'required|string|max:30',
+                'email'                  =>  'required|email|unique:App\User,email|max:150',
+                'role'                   =>  'required|integer|max:10',
+                'password'               =>  'confirmed|min:8',
+                'password_confirmation'  =>  'nullable|min:8',
+            ]);
+            //APIをつかって取得
+            try {
+                //http通信を行う
+                $client = new Client();
+                $url = \Config::get('services.user_api_url.restapi');
+                $option = [
+                    'form_params' =>
+                    [
+                        'name'               => $data['name'],
+                        'email'              => $data['email'],
+                        'password'           => $data['password'],
+                        'role'               => $data['role'],
+                        'created_at'         => now(),
+                    ]
+                ];
+                $response = $client->request("POST", $url, $option );
+                //getBody()でAPIの結果を取得
+                $insert_list = $response->getBody();
+                //json_decodeで配列型に変換
+                $insert_list = json_decode($insert_list, true);
+                //$insert_listに["response"]だけ取り出す
+                $insert_list = $insert_list["response"];
+                $list = array();
+                $list[0] = $insert_list;
+                //文言を$msgに代入
+                if ($list[0] == null) {
+                   $msg= \Lang::get('user.user_register_fail');
+                } else {
+                   $msg =\Lang::get('user.user_register_success');
+                }
+
+            } catch (\GuzzleHttp\Exception\ConnectException $e) {
+                //アクセス失敗したらエラーを返す
+                return $e->getHandlerContext()['error'];
+            }
+            return view('userList',compact('list','msg','create_user_id'));
+        }
+        return view('userList');
+    }
+
+     /**
+      * ユーザー編集画面
+      * @param Request $request
+      * @return view
+      */
      public function userEdit(Request $request)
      {
          // 現在認証されているユーザーの取得
@@ -227,9 +320,9 @@ class ItemController extends Controller
          if ($request->isMethod('post') == true) {
              //フォームの内容をすべて取得
              $data = $request->validate([
-               //バリデーション追加
-               'password'                   =>'nullable|confirmed|min:8',
-               'password_confirmation'      =>'nullable|min:8',
+                 //バリデーション追加
+                 'password'                   =>'nullable|confirmed|min:8',
+                 'password_confirmation'      =>'nullable|min:8',
              ]);
              //配列にuser_id,name,email,role,passwordを追加
              $data['user_id'] =$request->input('user_id');
@@ -240,8 +333,8 @@ class ItemController extends Controller
              //UserモデルのitemEditメソッドにアクセスし、データを編集
              $searchlist = User::userEdit($data);
              //現在認証されているユーザーの権限が1以外だったらログアウト
-             if(($id ==  $data['user_id']) && ($data['role'] != 1)){
-               Auth::logout();
+             if (($id ==  $data['user_id']) && ($data['role'] != 1)) {
+                Auth::logout();
              };
              //登録者一覧にリダイレクト
              return redirect()->route('userList');
@@ -250,36 +343,36 @@ class ItemController extends Controller
        return view('userEdit',compact('request','data','user_id'));
     }
 
-    /**
-     * ユーザー削除
-     * @param Request $request
-     * @return view
-     */
+     /**
+      * ユーザー削除
+      * @param Request $request
+      * @return view
+      */
      public function userDelete(Request $request)
      {
          // 現在認証されているユーザーの取得
          $user = Auth::user();
          // 現在認証されているユーザーのID取得
-         $id = Auth::id();
+         $create_user_id = Auth::id();
          // userlistのuserIdの取得
          $user_id = $request->input('userId');
          // 現在認証されているユーザー以外のデータを
          //Userモデルのdeleteメソッドにアクセスし、データを削除
-         if($id != $user_id){
-           $delete = User::userDelete($user_id);
-         }else{
-           //商品検索へリダイレクト
+         if ($create_user_id != $user_id) {
+             $delete = User::userDelete($user_id);
+         } else {
+           //ユーザーリストへリダイレクト
            return redirect()->route('userList');
          }
          //削除メッセージを$msgに代入
          if ($delete === 0) {
-            $msg= '削除失敗';
+             $msg = \Lang::get('item.delete_fail');
          } else {
-            $msg = '削除しました';
+             $msg = \Lang::get('item.delete_success');
          }
          //Userモデルのsearchメソッドにアクセスし、データを取得
          $list = User::all();
 
-         return view('userList', compact('msg','list'));
+         return view('userList', compact('msg','list','create_user_id'));
     }
 }
