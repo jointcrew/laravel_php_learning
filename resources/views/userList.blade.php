@@ -1,5 +1,4 @@
 @extends('layouts.app')
-<script src="{{ asset('js/api_itemuser.js') }}" defer></script>
 
 @section('content')
 <div class="container">
@@ -43,40 +42,42 @@
                         <!-- CSRF保護 -->
                         @csrf
                         <div class="form-group">
-                            @lang('user.name')：<span style="color:red;">@lang('common.required')</span>
+                            @lang('user.name')：<span  class="red">@lang('common.required')</span>
                             <input class="form-control" type="text" name="name" size="40"  >
                             @if ($errors->has('name'))
-                                <br><span style="color:red;">{{ $errors->first('name')}}</span>
+                                <br><span class="red">{{ $errors->first('name')}}</span>
                             @endif
                         </div>
                         <div class="form-group">
-                            @lang('user.email')：<span style="color:red;">@lang('common.required')</span>
+                            @lang('user.email')：<span class="red">@lang('common.required')</span>
                             <input class="form-control" type="text" name="email" size="40"  >
                             @if ($errors->has('email'))
-                                <br><span style="color:red;">{{ $errors->first('email')}}</span>
+                                <br><span class="red">{{ $errors->first('email')}}</span>
                             @endif
                         </div>
                         <div class="form-group">
-                            @lang('user.only_password')：<span style="color:red;">@lang('common.required')</span>
+                            @lang('user.only_password')：<span class="red">@lang('common.required')</span>
                             <input class="form-control" id='password' type="password" name="password" size="40" >
                             @if ($errors->has('password'))
-                                <br><span style="color:red;">{{ $errors->first('password')}}</span>
+                                <br><span class="red">{{ $errors->first('password')}}</span>
                             @endif
                         </div>
                         <div class="form-group">
-                            @lang('user.password_confirmation')：<span style="color:red;">@lang('common.required')</span>
+                            @lang('user.password_confirmation')：<span class="red">@lang('common.required')</span>
                             <input class="form-control" id='password_confirmation' type="password" name="password_confirmation" size="40" >
                             @if ($errors->has('password_confirmation'))
-                                <br><span style="color:red;">{{ $errors->first('password_confirmation')}}</span>
+                                <br><span class="red">{{ $errors->first('password_confirmation')}}</span>
                             @endif
                         </div>
                         <div  class="form-group">
-                            @lang('user.role')：<span style="color:red;">@lang('common.required')</span>
+                            @lang('user.role')：<span class="red">@lang('common.required')</span>
                             <select name="role" class="form-control">
-                                <option value=1>@lang('user.admin')</option>
-                                <option value=5>@lang('user.user')</option>
+                                @foreach($roles as $role)
+                                    <option value=1>{{$role["admin"]}}</option>
+                                    <option value=5>{{$role["user"]}}</option>
+                                @endforeach
                                 @if ($errors->has('role'))
-                                    <br><span style="color:red;">{{ $errors->first('role')}}</span>
+                                    <br><span class="red">{{ $errors->first('role')}}</span>
                                 @endif
                         </div>
                         <div class="form-group">
@@ -90,7 +91,7 @@
                 <div class="card-header">@lang('user.user_list')</div>
                 <div class="card-body">
                     <table class="table table-striped table-hover">
-                        <p style="color:red;">
+                        <p class="red">
                             @if (isset($msg))
                                 {{$msg}}
                             @endif
@@ -119,10 +120,10 @@
                                     <td>{{$user["created_at"]}}</td>
                                     <td>
                                         @if (isset($list[0]))
-                                            <a href=\"/userEdit?userId={$user["id"]}\" class="btn btn-primary btn-sm">@lang('item.edit_link')</a>
+                                            <a href="/userEdit?userId={{$user["id"]}}" class="btn btn-primary btn-sm">@lang('item.edit_link')</a>
                                         @endif
                                         @if ($create_user_id != $user['id'])
-                                            <a href=\"/userDelete?userId={$user["id"]}\" class="btn btn-danger btn-sm">@lang('item.delete_link')</a>
+                                            <a href="/userDelete?userId={{$user["id"]}}" class="btn btn-danger btn-sm">@lang('item.delete_link')</a>
                                         @endif
                                     </td>
                                 </tr>

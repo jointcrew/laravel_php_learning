@@ -18,11 +18,13 @@ return [
   'apply1'                 =>'JC社内',
   'apply2'                 =>'人事',
   'apply3'                 =>'技術者',
+  'delete_success'         =>'削除しました',
+  'delete_fail'            =>'削除失敗',
   'apply_text'             => [1 => 'JC社内',
                                2 => '人事',
                                3 => '技術者',
                              ],
   'selector_text'          => [1 => '備品', 2 => '私物', 3 =>'すべて'],
   'Edit'                   => '商品編集',
-  'search_item'                   => '検索内容'
+  'search_item'            => '検索内容'
 ];

@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Rules\katakana;
 use Illuminate\Support\Facades\DB;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\View;
+
 
 class ItemController extends Controller
 {
@@ -21,7 +22,17 @@ class ItemController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        //roleを定義
+        $roles = [
+            'roles' =>
+            [
+                'admin'               => \Lang::get('user.admin'),
+                'user'                => \Lang::get('user.user'),
+            ]
+        ];
+        View::share('roles', $roles);
     }
+
 
     /**
      * 商品追加画面
@@ -34,7 +45,6 @@ class ItemController extends Controller
         $user = Auth::user();
         // 現在認証されているユーザーのID取得
         $id = Auth::id();
-        $me = 'まだ登録してない';
         //Itemモデルに記載している、種別を取得
         $type_array = Item::$type;
 
@@ -53,11 +63,6 @@ class ItemController extends Controller
             $data['create_user'] = $id;
             //Itemモデルのinsertメソッドにアクセスし、データを保存
             $aaa = Item::insert($data);
-            if ($aaa == true) {
-                $me = '登録したよ';
-            } else {
-                $me = '登録失敗したよ';
-            }
         }
         return view('items', compact('type_array','me','request'));
     }
@@ -136,9 +141,9 @@ class ItemController extends Controller
          //itemモデルのdeleteメソッドにアクセスし、データを削除
          $delete = Item::itemDelete($data);
          if ($delete === 0) {
-            $msg= '削除失敗';
+            $msg= \Lang::get('item.delete_fail');
          } else {
-            $msg = '削除しました';
+            $msg = \Lang::get('item.delete_success');
          }
          //配列挿入
          $data['create_user'] = $id;
@@ -261,8 +266,6 @@ class ItemController extends Controller
                 'password'               =>  'confirmed|min:8',
                 'password_confirmation'  =>  'nullable|min:8',
             ]);
-            //passwordハッシュ化
-            $data['password'] = Hash::make($data['password']);
             //APIをつかって取得
             try {
                 //http通信を行う
@@ -289,9 +292,9 @@ class ItemController extends Controller
                 $list[0] = $insert_list;
                 //文言を$msgに代入
                 if ($list[0] == null) {
-                   $msg= '登録失敗';
+                   $msg= \Lang::get('user.user_register_fail');
                 } else {
-                   $msg = '登録しました';
+                   $msg =\Lang::get('user.user_register_success');
                 }
 
             } catch (\GuzzleHttp\Exception\ConnectException $e) {
@@ -368,9 +371,9 @@ class ItemController extends Controller
          }
          //削除メッセージを$msgに代入
          if ($delete === 0) {
-             $msg = '削除失敗';
+             $msg = \Lang::get('item.delete_fail');
          } else {
-             $msg = '削除しました';
+             $msg = \Lang::get('item.delete_success');
          }
          //Userモデルのsearchメソッドにアクセスし、データを取得
          $list = User::all();
