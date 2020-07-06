@@ -77,6 +77,20 @@
                             <li><a href="/apiList">・@lang('common.menu.api_list')</a></li>
                         </ul>
                     </li>
+
+                    <!-- 自力で -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle mr-4" data-toggle="dropdown">
+                            @lang('common.menu.goods')<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu bg-light">
+                            <li><a href="/goodsSearch">・@lang('common.menu.goods_search')</a></li>
+                            <li><a href="/goodsSettle">・@lang('common.menu.goods_settle')</a></li>
+                            <li><a href="/goodsEdit">・@lang('common.menu.goods_edit')</a></li>
+                            <li><a href="/goodsUser">・@lang('common.menu.goods_user')</a></li>
+                            <li><a href="/goodsUserEdit">・@lang('common.menu.goods_user_edit')</a></li>
+                        </ul>
+                    </li>
                 </ul>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">

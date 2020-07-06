@@ -1,6 +1,6 @@
 <?php
 return [
- 'back'               => '＜ 戻る',
+ 'back'               => '＜戻る',
  'search'             => '検索',
  'search_list'        => '検索結果',
  'item_list'          => '＜ 全商品表示',
@@ -16,6 +16,10 @@ return [
  'add_btm'            => '追加',
  'delete'             => '削除',
  'required'           => '※必須',
+ 'new_registrat'      => '新規登録',
+ 'purchase'           => '購入',
+ 'settlement'         => '決済',
+ 'none'               => 'なし',
  'menu' => [
      'sample'         => 'サンプル',
      'sample_add'     => 'サンプル登録',
@@ -31,7 +35,7 @@ return [
      'api_list'       => 'API一覧',
      'goods'          => '自力で',
      'goods_search'   => '商品検索',
-     'goods_detail   '=> '商品詳細',
+     'goods_detail'   => '商品詳細',
      'goods_settle'   => '決済画面',
      'goods_edit'     => '商品登録・編集',
      'goods_user'     => 'ユーザー一覧',
