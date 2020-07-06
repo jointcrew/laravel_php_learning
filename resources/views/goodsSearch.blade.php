@@ -25,7 +25,10 @@
                                 @lang('goods.category_tittle')：
                                 <select name='category' class="form-control">
                                     @foreach($category as $key => $value)
-                                        <option name="category" value={{$key}} @if($request->input('category')==$key) selected @endif>
+                                        <option name="category" value={{$key}}
+                                        @if ($request->input('category')==$key)
+                                            selected
+                                        @endif>
                                             {{$value}}
                                         </option>
                                     @endforeach
@@ -49,7 +52,9 @@
                                 @foreach($stock as $key => $value)
                                     <div class="custom-control custom-radio">
                                         <input type="radio" name="stock" class="custom-control-input" id="custom-radio-{{$key}}" value={{$key}}
-                                        @if($request->input("stock")==$key) checked  @endif>
+                                        @if ($request->input("stock")==$key)
+                                            checked
+                                        @endif>
                                         <label class="custom-control-label" for="custom-radio-{{$key}}">{{$value}}</label>
                                     </div>
                                 @endforeach
@@ -63,7 +68,9 @@
                                 @foreach($item_info as $key => $value)
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" name="item_info_{{$key}}" class="custom-control-input" id="custom-check-{{$key}}"  value={{$key}}
-                                        @if($request->input("item_info_$key")==$key) checked @endif>
+                                        @if ($request->input("item_info_$key")==$key)
+                                            checked
+                                        @endif>
                                         <label class="custom-control-label" for="custom-check-{{$key}}">{{$value}}</label>
                                     </div>
                                 @endforeach
