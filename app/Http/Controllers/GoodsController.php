@@ -123,8 +123,7 @@ class GoodsController extends Controller
         $data = Goods::find($data['goods_id']);
         //総購入数を取得(検索画面からの遷移時)
         $data['total_purchase_number'] = $request->input('total_purchase_number');
-        //var_dump($data);
-        //exit;
+        
         //item_infoのカンマを外し配列に、空は排除
         if (isset($data['item_info'])) {
             $data['item_info'] = explode(",", $data['item_info']);

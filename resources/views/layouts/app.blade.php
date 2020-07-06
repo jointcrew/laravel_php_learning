@@ -85,10 +85,11 @@
                         </a>
                         <ul class="dropdown-menu bg-light">
                             <li><a href="/goodsSearch">・@lang('common.menu.goods_search')</a></li>
-                            <li><a href="/goodsSettle">・@lang('common.menu.goods_settle')</a></li>
+                            @if ($role==1)
                             <li><a href="/goodsEdit">・@lang('common.menu.goods_edit')</a></li>
                             <li><a href="/goodsUser">・@lang('common.menu.goods_user')</a></li>
                             <li><a href="/goodsUserEdit">・@lang('common.menu.goods_user_edit')</a></li>
+                            @endif
                         </ul>
                     </li>
                 </ul>
