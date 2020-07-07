@@ -123,7 +123,7 @@ class GoodsController extends Controller
         $data = Goods::find($data['goods_id']);
         //総購入数を取得(検索画面からの遷移時)
         $data['total_purchase_number'] = $request->input('total_purchase_number');
-        
+
         //item_infoのカンマを外し配列に、空は排除
         if (isset($data['item_info'])) {
             $data['item_info'] = explode(",", $data['item_info']);
@@ -212,30 +212,53 @@ class GoodsController extends Controller
                         $data['discount_price'] = ($data['unit_price']*$data['purchase_number']) * $rate;
                     }
                     //合計金額を計算
-                    $data['total_price'] = $data['unit_price']*$data['purchase_number'];
+                    $data['total_price'] = $data['unit_price'] * $data['purchase_number'];
                     //請求金額を計算
-                    $data['purchase_price'] = ($data['unit_price']*$data['purchase_number']) - $data['discount_price'];
+                    $data['purchase_price'] = ($data['unit_price'] * $data['purchase_number']) - $data['discount_price'];
                     //決済画面へ
                     return view('goodsSettle',compact('data','role'));
                 //検索画面からだったら
                 } elseif (!is_null($all_once_flag)) {
-                    $purchase_button = $request->input('purchase_button');
-                    //var_dump($purchase_button);
-                    //exit;
-                    foreach ($purchase_button as $purchase_butto) {
-                        //foreach () {
-                            var_dump($purchase_butto);
-                            exit;
-                        }
-                        //for($i=1;$i<count($data['item_info']);$i++)
-                        //$good_idと同じ値があるレコードを取得
-                        //$data= Goods::find($key);
-                        //$data= Goods::find_goods($purchase_button);
-                        //$length = count($data);
-                        //$data= $data1.$data;
 
-                    //}
-                    //var_dump($data);
+                    $purchase_numbers = $request->input('purchase_number');
+
+                    //購入数を入力していない商品idを外す
+                    $purchase_numbers = array_filter($purchase_numbers);
+                    //find_goodsメソッドでデータを取得をす得するため、渡す変数をgoods_idの配列に直す。
+                    //key(goods_id)を取り出す。
+                    $goods_IDs = array_keys($purchase_numbers);
+
+                    //Goodsモデルのfind_goodsメソッドにアクセスし、同goods_idデータを取得
+                    $datalist = Goods::find_goods($goods_IDs);
+
+                    //$discount_price = '';
+                    $discount_price = array();
+                    foreach ($datalist as $data){
+
+                    //割引額を計算
+                    $data['discount_price'] = 0;
+                    if ($data['discount_rate'] > 0 && $purchase_numbers[$data['goods_id']] >= $data['discount_number']) {
+                        $rate =  $data['discount_rate'] * 0.01;
+                        $data['discount_price'] = ($data['unit_price'] * $purchase_numbers[$data['goods_id']]) * $rate;
+                        //var_dump($purchase_number);
+                        //exit;
+                    }
+
+                    //合計金額を計算
+                    $data['total_price'] = $data['unit_price'] * $purchase_numbers[$data['goods_id']];
+                    //請求金額を計算
+                    $data['purchase_price'] = ($data['unit_price'] * $purchase_numbers[$data['goods_id']]) - $data['discount_price'];
+
+                    //$discount_price .= $data['discount_price'].',';
+
+                    array_push($discount_price,$data['discount_price']);
+
+
+
+
+                    }
+                    //決済画面へ
+                    return view('goodsSettle',compact('datalist','role'));
 
                 }
 

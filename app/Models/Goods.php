@@ -118,8 +118,9 @@ class Goods extends Model
             $search_data -> where('stock','=',$data['stock']);
         }
 
-        $search_data -> leftJoin('purchase','goods.goods_id','=','purchase.goods_id')
-                     ->select('goods.*','purchase.purchase_number');
+        $search_data ->select(\DB::raw('goods.*, SUM(purchase.purchase_number) as purchase_number'))
+                     ->leftJoin('purchase','goods.goods_id','=','purchase.goods_id')
+                     ->groupBy('goods.goods_id');
 
         return $search_data ->paginate($limit);
     }
@@ -130,24 +131,13 @@ class Goods extends Model
      *@return array|null
      *
      */
-    public static function find_goods ($purchase_button) {
+    public static function find_goods ($goods_IDs) {
+        //SQL文が使え、->が使えるようになる
+        $search_data = self::query();
+        $search_data ->whereIn('goods_id', $goods_IDs)
+                     ->select('*');
 
-        foreach ($purchase_button as $key => $value) {
-        $search_data = self::where('goods_id', $key)
-                ->chunk(10, function ($purchase_button) {
-                    $purchase_button->touch();
-                }
-            );
-                 //->get();
-                 //echo $search_data;
-                 //var_dump($search_data);
-                 //exit;
-        }
-             //$search_data ->get();
-        var_dump($search_data);
-        exit;
-
-        //return $search_data;
+        return $search_data->get();
     }
 
 }
