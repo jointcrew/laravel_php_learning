@@ -27,58 +27,84 @@
                              <a href="/goodsSearch">@lang('common.back')</a>
                          </div>
                          <div class="form-group col-md-10">
-                             <div class="col-md-2">
-                                 <!--商品名-->
-                                 @lang('goods.goods_name_tittle')：
+                             <div class="row">
+                                 <div class="col-md-2">
+                                     <!--商品名-->
+                                     @lang('goods.goods_name_tittle')：
+                                 </div>
+                                 <div class="col-md-10">
+                                     @if (isset($data["goods_name"]))
+                                         <p>{{$data["goods_name"]}}</p>
+                                     @endif
+                                     @if (isset($datalist))
+                                         @foreach ($datalist as $_data)
+                                            {{$_data["goods_name"]}},
+                                         @endforeach
+                                     @endif
+                                 </div>
+                            </div>
+                         </div>
+                         <div class="form-group col-md-10">
+                             <div class="row">
+                                 <div class="col-md-2">
+                                     <!--単価-->
+                                     @lang('goods.unit_price_tittle')：
+                                </div>
+                                <div class="col-md-10">
+                                     @if (isset($data["unit_price"]))
+                                         <p>{{$data["unit_price"]}}</p>
+                                     @endif
+                                     @if (isset($datalist))
+                                         @foreach ($datalist as $_data)
+                                            <span>{{$_data["unit_price"]}},</span>
+                                         @endforeach
+                                     @endif
+                                 </div>
                              </div>
-                             <div class="col-md-6">
-                                 @if (isset($data["goods_name"]))
-                                     <p>{{$data["goods_name"]}}</p>
-                                 @endif
-                                 @if (isset($datalist))
-                                     @foreach ($datalist as $_data)
-                                        {{$_data["goods_name"]}},
-                                     @endforeach
-                                 @endif
+                         </div>
+                         <div class="form-group col-md-10">
+                             <div class="row">
+                                 <div class="col-md-2">
+                                     <!--購入数-->
+                                     @lang('goods.purchase_number')：
+                                 </div>
+                                 <div class="col-md-10">
+                                     @if (isset($data["purchase_number"]))
+                                         <p>{{$data["purchase_number"]}}</p>
+                                     @endif
+                                     @if (isset($purchase_number))
+                                         @foreach ($purchase_number as $number)
+                                            <span>{{$number}},</span>
+                                         @endforeach
+                                     @endif
+                                 </div>
                              </div>
                          </div>
-                         <div class="form-group col-md-5">
-                             <!--単価-->
-                             @lang('goods.unit_price_tittle')：
-                             @if (isset($data["unit_price"]))
-                                 <p>{{$data["unit_price"]}}</p>
-                             @endif
-                             @if (isset($datalist))
-                                 @foreach ($datalist as $_data)
-                                    <span>{{$_data["unit_price"]}},</span>
-                                 @endforeach
-                             @endif
+                         <div class="form-group col-md-10">
+                             <div class="row">
+                                 <div class="col-md-2">
+                                     <!--割引-->
+                                     @lang('goods.discount_price')：
+                                 </div>
+                                 <div class="col-md-10">
+                                     @if (isset($data["discount_price"]))
+                                         <p>{{$data["discount_price"]}}</p>
+                                     @endif
+                                 </div>
+                             </div>
                          </div>
-                         <div class="form-group col-md-5">
-                             <!--購入数-->
-                             @lang('goods.purchase_number')：
-                             @if (isset($data["purchase_number"]))
-                                 <p>{{$data["purchase_number"]}}</p>
-                             @endif
-                             @if (isset($purchase_number))
-                                 @foreach ($purchase_number as $number)
-                                    <span>{{$number}},</span>
-                                 @endforeach
-                             @endif
-                         </div>
-                         <div class="form-group col-md-5">
-                             <!--割引-->
-                             @lang('goods.discount_price')：
-                             @if (isset($data["discount_price"]))
-                                 <p>{{$data["discount_price"]}}</p>
-                             @endif
-                         </div>
-                         <div class="form-group col-md-5">
-                             <!--請求金額-->
-                             @lang('goods.purchase_price')：
-                             @if (isset($data["purchase_price"]))
-                                 <p>{{$data["purchase_price"]}}</p>
-                             @endif
+                         <div class="form-group col-md-10">
+                             <div class="row">
+                                 <div class="col-md-2">
+                                     <!--請求金額-->
+                                     @lang('goods.purchase_price')：
+                                 </div>
+                                 <div class="col-md-10">
+                                     @if (isset($data["purchase_price"]))
+                                         <p>{{$data["purchase_price"]}}</p>
+                                     @endif
+                                 </div>
+                             </div>
                          </div>
                         <div class="form-group">
                             <!--決済-->
