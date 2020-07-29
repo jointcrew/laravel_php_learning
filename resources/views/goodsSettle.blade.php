@@ -8,7 +8,7 @@
                 <div class="card-header">@lang('common.menu.goods_settle')</div>
                 <div class="col-md-12 justify-content-center">
                 @if ($role==1)
-                    <a href="/goodsSearch">@lang('common.back')</a>
+                    <a href="/goodsSearch?stock=1&category=null">@lang('common.back')</a>
                 @endif
                 @if ($role==5)
                     <form action="/goodsSettle" method="post">
@@ -24,7 +24,7 @@
                           <!-- CSRF保護 -->
                          @csrf
                          <div class="form-group col-md-12">
-                             <a href="/goodsSearch">@lang('common.back')</a>
+                             <a href="/goodsSearch?stock=1&category=null">@lang('common.back')</a>
                          </div>
                          <div class="form-group col-md-10">
                              <div class="row">
@@ -37,9 +37,17 @@
                                          <p>{{$data["goods_name"]}}</p>
                                      @endif
                                      @if (isset($datalist))
-                                         @foreach ($datalist as $_data)
-                                            {{$_data["goods_name"]}},
-                                         @endforeach
+                                            <?php
+                                             $length = count($datalist);
+                                             foreach ($datalist as $key => $_data){
+                                                 if ($key !== $length - 1) {
+                                                        echo $_data["goods_name"].', ';
+                                                 }
+                                                 if ($key === $length - 1) {
+                                                        echo $_data["goods_name"];
+                                                 }
+                                             }
+                                            ?>
                                      @endif
                                  </div>
                             </div>
@@ -55,9 +63,17 @@
                                          <p>{{$data["unit_price"]}}</p>
                                      @endif
                                      @if (isset($datalist))
-                                         @foreach ($datalist as $_data)
-                                            <span>{{$_data["unit_price"]}},</span>
-                                         @endforeach
+                                         <?php
+                                          $length = count($datalist);
+                                          foreach ($datalist as $key => $_data){
+                                              if ($key !== $length - 1) {
+                                                     echo $_data["unit_price"].'円'.', ';
+                                              }
+                                              if ($key === $length - 1) {
+                                                     echo $_data["unit_price"].'円';
+                                              }
+                                          }
+                                         ?>
                                      @endif
                                  </div>
                              </div>
@@ -65,17 +81,20 @@
                          <div class="form-group col-md-10">
                              <div class="row">
                                  <div class="col-md-2">
+                                     @if (isset($data["purchase_number"]))
                                      <!--購入数-->
-                                     @lang('goods.purchase_number')：
+                                        @lang('goods.purchase_number')：
+                                     @endif
+                                     @if (isset($settle_data))
+                                        @lang('goods.total_purchase_number')：
+                                     @endif
                                  </div>
                                  <div class="col-md-10">
                                      @if (isset($data["purchase_number"]))
                                          <p>{{$data["purchase_number"]}}</p>
                                      @endif
-                                     @if (isset($purchase_number))
-                                         @foreach ($purchase_number as $number)
-                                            <span>{{$number}},</span>
-                                         @endforeach
+                                     @if (isset($settle_data))
+                                        <p>{{$settle_data["total_purchase_number"]}}@lang('goods.number')</p>
                                      @endif
                                  </div>
                              </div>
@@ -83,12 +102,21 @@
                          <div class="form-group col-md-10">
                              <div class="row">
                                  <div class="col-md-2">
-                                     <!--割引-->
-                                     @lang('goods.discount_price')：
+                                     @if (isset($data["discount_price"]))
+                                         <!--割引-->
+                                         @lang('goods.discount_price')：
+                                     @endif
+                                     @if (isset($settle_data))
+                                         <!--合計割引額-->
+                                         @lang('goods.total_discount_price')：
+                                     @endif
                                  </div>
                                  <div class="col-md-10">
                                      @if (isset($data["discount_price"]))
                                          <p>{{$data["discount_price"]}}</p>
+                                     @endif
+                                     @if (isset($settle_data))
+                                        <p>{{$settle_data["total_price"]}}@lang('common.yen')</p>
                                      @endif
                                  </div>
                              </div>
@@ -102,6 +130,9 @@
                                  <div class="col-md-10">
                                      @if (isset($data["purchase_price"]))
                                          <p>{{$data["purchase_price"]}}</p>
+                                     @endif
+                                     @if (isset($settle_data))
+                                        <p>{{$settle_data["purchase_price"]}}@lang('common.yen')</p>
                                      @endif
                                  </div>
                              </div>

@@ -11,6 +11,7 @@ return [
  'add'                => ' 商品追加',
  'user_list'          => '＜ ユーザー一覧',
  'user'               => 'ユーザー一覧',
+ 'user_manage'        => 'ユーザー管理',
  'save'               => '保存',
  'add_btm'            => '追加',
  'add_btm'            => '追加',
@@ -20,6 +21,8 @@ return [
  'purchase'           => '購入',
  'settlement'         => '決済',
  'none'               => 'なし',
+ 'yen'                => '円',
+ '(yen)'              => '(円)',
  'menu' => [
      'sample'         => 'サンプル',
      'sample_add'     => 'サンプル登録',

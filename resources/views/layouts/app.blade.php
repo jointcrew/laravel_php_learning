@@ -84,12 +84,7 @@
                             @lang('common.menu.goods')<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu bg-light">
-                            <li><a href="/goodsSearch">・@lang('common.menu.goods_search')</a></li>
-                            @if ($role==1)
-                            <li><a href="/goodsEdit">・@lang('common.menu.goods_edit')</a></li>
-                            <li><a href="/goodsUser">・@lang('common.menu.goods_user')</a></li>
-                            <li><a href="/goodsUserEdit">・@lang('common.menu.goods_user_edit')</a></li>
-                            @endif
+                            <li><a href="/goodsSearch?stock=1&category=null">・@lang('common.menu.goods_search')</a></li>
                         </ul>
                     </li>
                 </ul>

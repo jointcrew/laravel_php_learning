@@ -91,6 +91,7 @@ class Goods extends Model
      *
      */
     public static function search ($data, $limit=10) {
+
         //SQL文が使え、->が使えるようになる
         $search_data = self::query();
 

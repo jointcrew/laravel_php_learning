@@ -59,7 +59,7 @@ class ItemController extends Controller
             //Itemモデルのinsertメソッドにアクセスし、データを保存
             $aaa = Item::insert($data);
         }
-        return view('items', compact('type_array','me','request'));
+        return view('items', compact('type_array','request'));
     }
 
      /**
@@ -117,7 +117,7 @@ class ItemController extends Controller
         //itemモデルのsearchメソッドにアクセスし、データを取得
         $searchlist = Item::search($data);
 
-        return view('itemsearch', compact('searchlist','request', 'data'));
+        return view('itemsearch', compact('searchlist','request','data'));
     }
 
      /**
@@ -175,7 +175,7 @@ class ItemController extends Controller
          if ($request->isMethod('post') == true) {
              //フォームの内容をすべて取得
              $data = $request->all();
-             //配列にcreate_userを追加
+             //配列に入力値を追加
              $data['item_id'] =$request->input('item_id');
              $data['create_user'] = $id;
              $data['item_name'] = $request->input('item_name');

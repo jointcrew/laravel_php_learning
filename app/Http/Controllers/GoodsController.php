@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Goods;
 use App\Models\Purchase;
 use App\Models\User;
+use App\Rules\nomal_number;
 
 class GoodsController extends Controller
 {
@@ -100,7 +101,16 @@ class GoodsController extends Controller
             ];
             //Goodsモデルのinsertメソッドにアクセスし、データを保存
             $insert_data = Purchase::insert($data);
+            //文言を$msgに代入
+            if ($insert_data == null) {
+               $msg= \Lang::get('goods.goods_Settle.2');
+            } else {
+               $msg =\Lang::get('goods.goods_Settle.1');
+            }
+
+            return view('goodsSearch',compact('role','request','msg'));
         }
+
         return view('goodsSearch',compact('role','request'));
     }
 
@@ -219,6 +229,9 @@ class GoodsController extends Controller
                     return view('goodsSettle',compact('data','role'));
                 //検索画面からだったら
                 } elseif (!is_null($all_once_flag)) {
+                    //$validatedData  = $request->validate([
+                    //    'purchase_number' => [new nomal_number]
+                    //]);
 
                     $purchase_numbers = $request->input('purchase_number');
 
@@ -231,37 +244,43 @@ class GoodsController extends Controller
                     //Goodsモデルのfind_goodsメソッドにアクセスし、同goods_idデータを取得
                     $datalist = Goods::find_goods($goods_IDs);
 
-                    //$discount_price = '';
+                    //割引額
                     $discount_price = array();
+                    //合計金額
+                    $total_price = array();
+                    //請求金額
+                    $purchase_price = array();
+
                     foreach ($datalist as $data){
 
-                    //割引額を計算
-                    $data['discount_price'] = 0;
-                    if ($data['discount_rate'] > 0 && $purchase_numbers[$data['goods_id']] >= $data['discount_number']) {
-                        $rate =  $data['discount_rate'] * 0.01;
-                        $data['discount_price'] = ($data['unit_price'] * $purchase_numbers[$data['goods_id']]) * $rate;
-                        //var_dump($purchase_number);
-                        //exit;
-                    }
+                        //割引額を計算
+                        $data['discount_price'] = 0;
+                        if ($data['discount_rate'] > 0 && $purchase_numbers[$data['goods_id']] >= $data['discount_number']) {
+                            $rate =  $data['discount_rate'] * 0.01;
+                            $data['discount_price'] = ($data['unit_price'] * $purchase_numbers[$data['goods_id']]) * $rate;
+                        }
 
-                    //合計金額を計算
-                    $data['total_price'] = $data['unit_price'] * $purchase_numbers[$data['goods_id']];
-                    //請求金額を計算
-                    $data['purchase_price'] = ($data['unit_price'] * $purchase_numbers[$data['goods_id']]) - $data['discount_price'];
+                        //合計金額を計算
+                        $data['total_price'] = $data['unit_price'] * $purchase_numbers[$data['goods_id']];
+                        //請求金額を計算
+                        $data['purchase_price'] = ($data['unit_price'] * $purchase_numbers[$data['goods_id']]) - $data['discount_price'];
 
-                    //$discount_price .= $data['discount_price'].',';
-
-                    array_push($discount_price,$data['discount_price']);
-
-
-
+                        array_push($discount_price,$data['discount_price']);
+                        array_push($total_price,$data['total_price']);
+                        array_push($purchase_price,$data['purchase_price']);
 
                     }
+                    $settle_data = [
+                        'total_purchase_number' => array_sum($purchase_numbers),
+                        'discount_price'        => array_sum($discount_price),
+                        'total_price'           => array_sum($total_price),
+                        'purchase_price'        => array_sum($purchase_price)
+                    ];
+                    //$settle_data['discount_price'] = (int)$discount_price;
                     //決済画面へ
-                    return view('goodsSettle',compact('datalist','role'));
+                    return view('goodsSettle',compact('datalist','role','settle_data'));
 
                 }
-
             }
         }
         return view('goodsEdit',compact('data','role'));

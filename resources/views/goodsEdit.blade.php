@@ -19,7 +19,7 @@
                             <input type="hidden" name="total_purchase_number" value={{$data["total_purchase_number"]}}>
                         @endif
                         <div class="form-group col-md-5">
-                            <a href="/goodsSearch">@lang('common.back')</a>
+                            <a href="/goodsSearch?stock=1&category=null">@lang('common.back')</a>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-5">
@@ -171,7 +171,7 @@
                         <div class="row">
                             <div class="form-group col-md-5">
                                 <!--単価-->
-                                @lang('goods.unit_price_tittle')：@if($role==1)<span class="red">@lang('common.required')</span>@endif
+                                @lang('goods.unit_price_tittle')@lang('common.(yen)')：@if($role==1)<span class="red">@lang('common.required')</span>@endif
                                 @if ($role==1)
                                     <input type="number" class="form-control" name="unit_price" size="40"
                                     value="<?php old('unit_price')? print old('unit_price'):(isset($data["unit_price"])? print  $data["unit_price"]:'');?>">
@@ -181,7 +181,7 @@
                                 @endif
                                 @if ($role==5)
                                     @if (isset($data["unit_price"]))
-                                        <p>{{$data["unit_price"]}}</p>
+                                        <p>{{$data["unit_price"]}}@lang('common.yen')</p>
                                     @endif
                                 @endif
                             </div>

@@ -9,10 +9,16 @@
                 <div class="card-header">@lang('common.search')</div>
                 <div class="col-md-12 justify-content-center">
                     <div class="form-group">
-                        <!--検索-->
+                        <!--ユーザー管理-->
                         <br>
                         @if ($role==1)
-                            <input type="submit" class="btn btn-info" value= 'ユーザー管理'>
+                            <a href="/goodsUser" class="btn btn-info">@lang('common.user_manage')</a>
+                        @endif
+                    </div>
+                    <div>
+                        <!--購入メッセージ-->
+                        @if (isset($msg))
+                            <span class="red">{{$msg}}</span>
                         @endif
                     </div>
                     <p>@lang('item.search_item')<!--検索内容--></p>
@@ -54,7 +60,8 @@
                                         <input type="radio" name="stock" class="custom-control-input" id="custom-radio-{{$key}}" value={{$key}}
                                         @if ($request->input("stock")==$key)
                                             checked
-                                        @endif>
+                                        @endif
+                                        >
                                         <label class="custom-control-label" for="custom-radio-{{$key}}">{{$value}}</label>
                                     </div>
                                 @endforeach
@@ -84,7 +91,7 @@
                         <div class="form-group">
                             <!--新規登録-->
                             @if ($role==1)
-                                <input type="submit" class="btn btn-info" value= @lang('common.new_registrat')>
+                                <a href="/goodsEdit" class="btn btn-info">@lang('common.new_registrat')</a>
                             @endif
                         </div>
                     </form>
@@ -161,10 +168,12 @@
                                 @endforeach
                             @endif
                         </table>
-                        <div class="form-group">
-                            <!--決済-->
-                            <input type="submit" class="btn btn-info" value= @lang('common.settlement')>
-                        </div>
+                        @if ($role==5)
+                            <div class="form-group">
+                                <!--決済-->
+                                <input type="submit" class="btn btn-info" value= @lang('common.settlement')>
+                            </div>
+                        @endif
                         @if (isset($searchlist))
                             {{ $searchlist->appends(request()->input())->links() }}
                         @endif
