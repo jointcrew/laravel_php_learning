@@ -93,14 +93,26 @@ class GoodsController extends Controller
             $data = [
                 'goods_id'             => $request->input('goods_id'),
                 'unit_price'           => $request->input('unit_price'),
-                'purchase_number'      => $request->input('purchase_number'),
+                'purchase_numbers'     => $request->input('purchase_numbers'),
                 'total_price'          => $request->input('total_price'),
                 'discount_price'       => $request->input('discount_price'),
                 'purchase_price'       => $request->input('purchase_price'),
                 'user_id'              => $id
             ];
+
+            $all_once_flag = $request->input('all_once_flag');
+            //できれば一緒のモデルメソットにする
+            if (!is_null($all_once_flag)) {
+                //複数商品決済
+                $data['user_id'] = $request->input('user_id');
+                $insert_data = Purchase::insert_all($data);
+            } else {
+                //単一商品決済
+                //Goodsモデルのsearchメソッドにアクセスし、データを取得
+                $insert_data = Purchase::inserts($data);
+            }
             //Goodsモデルのinsertメソッドにアクセスし、データを保存
-            $insert_data = Purchase::insert($data);
+
             //文言を$msgに代入
             if ($insert_data == null) {
                $msg= \Lang::get('goods.goods_Settle.2');
@@ -199,8 +211,6 @@ class GoodsController extends Controller
                 //item_infoのカンマを外し配列に、空は排除
                 $data["item_info"] = explode(",", $data['item_info']);
                 $data["item_info"] = array_filter($data['item_info']);
-                //総購入数を取得(検索画面からの遷移時)
-                $data['total_purchase_number'] = $request->input('total_purchase_number');
 
                 return view('goodsEdit',compact('msg','data','role'));
             }
@@ -234,7 +244,6 @@ class GoodsController extends Controller
                     //]);
 
                     $purchase_numbers = $request->input('purchase_number');
-
                     //購入数を入力していない商品idを外す
                     $purchase_numbers = array_filter($purchase_numbers);
                     //find_goodsメソッドでデータを取得をす得するため、渡す変数をgoods_idの配列に直す。
@@ -243,6 +252,7 @@ class GoodsController extends Controller
 
                     //Goodsモデルのfind_goodsメソッドにアクセスし、同goods_idデータを取得
                     $datalist = Goods::find_goods($goods_IDs);
+                    //$datalist['purchase_numbers'] = $purchase_numbers;
 
                     //割引額
                     $discount_price = array();
@@ -265,20 +275,27 @@ class GoodsController extends Controller
                         //請求金額を計算
                         $data['purchase_price'] = ($data['unit_price'] * $purchase_numbers[$data['goods_id']]) - $data['discount_price'];
 
-                        array_push($discount_price,$data['discount_price']);
-                        array_push($total_price,$data['total_price']);
-                        array_push($purchase_price,$data['purchase_price']);
+                        $discount_price[$data['goods_id']] = $data['discount_price'];
+                        $total_price[$data['goods_id']] = $data['total_price'];
+                        $purchase_price[$data['goods_id']] = $data['purchase_price'];
 
                     }
-                    $settle_data = [
-                        'total_purchase_number' => array_sum($purchase_numbers),
+
+                    $datalist['purchase_numbers'] = $purchase_numbers;
+                    $datalist['discount_price']   = $discount_price;
+                    $datalist['purchase_price'] = $purchase_price;
+                    $datalist['total_price'] = $total_price;
+
+                    $total_data = [
+                        'purchase_number'       => array_sum($purchase_numbers),
                         'discount_price'        => array_sum($discount_price),
                         'total_price'           => array_sum($total_price),
                         'purchase_price'        => array_sum($purchase_price)
                     ];
                     //$settle_data['discount_price'] = (int)$discount_price;
                     //決済画面へ
-                    return view('goodsSettle',compact('datalist','role','settle_data'));
+
+                    return view('goodsSettle',compact('datalist','role','total_data','id'));
 
                 }
             }

@@ -54,6 +54,7 @@ return [
   'total_purchase_number'          => '合計購入数',
   'number'                         => '個',
   'discount_price'                 => '割引額',
+  'after_discount'                 => '割引後金額',
   'total_discount_price'           => '合計割引額',
   'purchase_price'                 => '請求金額',
   'hot_selling'                    => '売れ筋',

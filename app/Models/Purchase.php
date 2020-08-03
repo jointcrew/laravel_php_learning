@@ -28,14 +28,14 @@ class Purchase extends Model
     ];
 
     public $timestamps = false;
-    
+
     /**
      * データを保存する
      *
      * @param array  $data
      * @return string $data
      */
-    public static function insert($data) {
+    public static function inserts($data) {
         $input_date = [
             'goods_id'        => $data['goods_id'],
             'unit_price'      => $data['unit_price'],
@@ -49,5 +49,38 @@ class Purchase extends Model
         self::create($input_date);
 
         return $data;
+    }
+
+    /**
+     * データを保存する
+     *
+     * @param array  $data
+     * @return string $data
+     */
+    public static function insert_all($data) {
+
+        foreach ($data['goods_id'] as $value) {
+            //同じgoods_idを配列にして返す
+            $datalist[] = array_column( $data, $value );
+            $insert_datas = array();
+            $keys = [
+                'goods_id',
+                'unit_price',
+                'purchase_number',
+                'total_price',
+                'discount_price',
+                'purchase_price',
+                'user_id'
+            ];
+                foreach ($datalist as $val) {
+                    //キー名と値をマッピングして連想配列を返却
+                    $insert_data = array_combine($keys, $val);
+                    $insert_data['created_at'] = now();
+                    array_push($insert_datas,$insert_data);
+                }
+            }
+
+        self::insert($insert_datas);
+        return $insert_datas;
     }
 }
