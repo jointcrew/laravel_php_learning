@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Goods extends Model
 {
@@ -37,22 +38,25 @@ class Goods extends Model
      * @return string $data
      */
     public static function insert($data) {
-        $input_date = [
-            'goods_name'      => $data['goods_name'],
-            'category'        => $data['category'],
-            'type'            => $data['type'],
-            'unit_price'      => $data['unit_price'],
-            'discount_number' => $data['discount_number'],
-            'discount_rate'   => $data['discount_rate'],
-            'stock'           => $data['stock'],
-            'item_info'       => $data['item_info'],
-            'comment'         => $data['comment'],
-            'status'          => $data['status'],
-            'created_at'      => now(),
-        ];
-        self::create($input_date);
-
-        return $data;
+        //トランザクション処理
+        $insert = DB::transaction(function () use ($data) {
+            $input_data = [
+                'goods_name'      => $data['goods_name'],
+                'category'        => $data['category'],
+                'type'            => $data['type'],
+                'unit_price'      => $data['unit_price'],
+                'discount_number' => $data['discount_number'],
+                'discount_rate'   => $data['discount_rate'],
+                'stock'           => $data['stock'],
+                'item_info'       => $data['item_info'],
+                'comment'         => $data['comment'],
+                'status'          => $data['status'],
+                'created_at'      => now(),
+            ];
+            self::create($input_data);
+            return $data;
+        });
+        return $insert;
     }
 
     /**
@@ -62,25 +66,29 @@ class Goods extends Model
      * @return string $data
      */
     public static function edit($data) {
-        //$edit_dataにDBから$data[item_id]と同じ値を取得する。
-        $edit_data = self::find($data['goods_id']);
-        //$data[item_id]があるとき保存の処理が行われる。
-        if ($edit_data) {
-            $edit_data -> goods_name = $data['goods_name'];
-            $edit_data -> category   = $data['category'];
-            $edit_data -> type       = $data['type'];
-            $edit_data -> unit_price = $data['unit_price'];
-            $edit_data -> discount_number = $data['discount_number'];
-            $edit_data -> discount_rate = $data['discount_rate'];
-            $edit_data -> stock   = $data['stock'];
-            $edit_data -> item_info       = $data['item_info'];
-            $edit_data -> status = $data['status'];
-            $edit_data -> updated_at = now();
-            $edit_data -> save();
-            return $data;
-        } else {
-             return false;
-        }
+        //トランザクション処理
+        $insert = DB::transaction(function () use ($data) {
+            //$edit_dataにDBから$data[item_id]と同じ値を取得する。
+            $edit_data = self::find($data['goods_id']);
+            //$data[item_id]があるとき保存の処理が行われる。
+            if ($edit_data) {
+                $edit_data -> goods_name = $data['goods_name'];
+                $edit_data -> category   = $data['category'];
+                $edit_data -> type       = $data['type'];
+                $edit_data -> unit_price = $data['unit_price'];
+                $edit_data -> discount_number = $data['discount_number'];
+                $edit_data -> discount_rate = $data['discount_rate'];
+                $edit_data -> stock   = $data['stock'];
+                $edit_data -> item_info       = $data['item_info'];
+                $edit_data -> status = $data['status'];
+                $edit_data -> updated_at = now();
+                $edit_data -> save();
+                return $data;
+            } else {
+                 return false;
+            }
+        });
+        return $insert;
     }
 
 

@@ -39,7 +39,6 @@
                                         </option>
                                     @endforeach
                                 </select>
-
                             </div>
                             <div class="form-group col-md-5">
                                 <!--商品名-->
@@ -149,9 +148,9 @@
                                     @endif
                                     <td>
                                         @if ($role==5)
-                                            @if ($list["stock"] >= 1)<!--在庫ありだったら、購入数入力-->
+                                            @if ($list["stock"] >= 1)<!--在庫ありだったら、購入数入力  -->
                                                 <div>
-                                                    <input  type="number" name="purchase_number[{{$list["goods_id"]}}]" size="10" value="" id={{$list["goods_id"]}}>
+                                                    <input oninput="this.value = Math.abs(this.value)" min="0"  type="number" name="purchase_number[{{$list["goods_id"]}}]" size="10" value='' id={{$list["goods_id"]}}>
                                                     <label for={{$list["goods_id"]}}>@lang('goods.number')</label>
                                                 </div>
                                             @endif

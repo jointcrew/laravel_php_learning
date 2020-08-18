@@ -15,7 +15,7 @@
                     <div>
                         @if (isset($data["goods_id"]))
                             <input type="hidden" name="goods_id" value={{$data["goods_id"]}}>
-                            <input type="hidden" name="purchase_number" value={{$data["purchase_number"]}}>
+                            <input type="hidden" name="purchase_numbers" value={{$data["purchase_number"]}}>
                             <input type="hidden" name="discount_price" value={{$data["discount_price"]}}>
                             <input type="hidden" name="total_price" value={{$data["total_price"]}}>
                             <input type="hidden" name="purchase_price" value={{$data["purchase_price"]}}>

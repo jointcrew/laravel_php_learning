@@ -21,8 +21,15 @@ return [
   'admin'                  => '管理者',
   'user'                   => '一般',
   'password'               => 'パスワード ※変更時のみ記入',
+  'only_change'            => '※変更時のみ記入',
   'only_password'          => 'パスワード',
   'password_confirmation'  => '確認用パスワード',
   'user_register_success'  => '登録しました',
-  'user_register_fail'     => '登録失敗'
+  'user_register_fail'     => '登録失敗',
+  'close'                  => '閉じる',
+  'user_summary'           => '検索サマリ',
+  'userlist_status'        => [
+                               0 => '使用可能',
+                               1 => '削除済み',
+  ],
 ];

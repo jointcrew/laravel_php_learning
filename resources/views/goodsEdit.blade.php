@@ -108,7 +108,7 @@
                                 <!--在庫-->
                                 @lang('goods.stock_tittle')：@if($role==1)<span class="red">@lang('common.required')</span>@endif
                                 @if ($role==1)
-                                    <input type="number" class="form-control" name="stock" size="40"
+                                    <input oninput="this.value = Math.abs(this.value)" min="0" type="number" class="form-control" name="stock" size="40"
                                     value="<?php old('stock')? print old('stock'):(isset($data["stock"])? print  $data["stock"]:'');?>">
                                     @if ($errors->has('stock'))
                                         <br><span class="red">{{ $errors->first('stock')}}</span>
@@ -173,7 +173,7 @@
                                 <!--単価-->
                                 @lang('goods.unit_price_tittle')@lang('common.(yen)')：@if($role==1)<span class="red">@lang('common.required')</span>@endif
                                 @if ($role==1)
-                                    <input type="number" class="form-control" name="unit_price" size="40"
+                                    <input oninput="this.value = Math.abs(this.value)" min="0" type="number" class="form-control" name="unit_price" size="40"
                                     value="<?php old('unit_price')? print old('unit_price'):(isset($data["unit_price"])? print  $data["unit_price"]:'');?>">
                                     @if ($errors->has('unit_price'))
                                         <br><span class="red">{{ $errors->first('unit_price')}}</span>
@@ -276,16 +276,17 @@
                             <!--ステータス-->
                             @lang('user.user_status')：@if($role==1)<span class="red">@lang('common.required')</span>@endif
                             <select name='status' class="form-control">
-                            @foreach($status as $key => $value)
-                                <option name="status" value={{$key}}
-                                <?php
-                                if (isset($data["status"]) && $key==$data["status"]){
-                                    echo 'selected';
-                                } elseif (old('status')== $key){
-                                    echo 'selected';
-                                }?>>{{$value}}
-                                </option>
-                            @endforeach
+                                @foreach($status as $key => $value)
+                                    <option name="status" value={{$key}}
+                                    <?php
+                                    if (isset($data["status"]) && $key==$data["status"]){
+                                        echo 'selected';
+                                    } elseif (old('status')== $key){
+                                        echo 'selected';
+                                    }?>>{{$value}}
+                                    </option>
+                                @endforeach
+                            </select>
                             @if ($errors->has('status'))
                                 <br><span class="red">{{ $errors->first('status')}}</span>
                             @endif

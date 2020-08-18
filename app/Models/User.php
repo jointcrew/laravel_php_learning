@@ -45,6 +45,37 @@ class User extends Model
        return $insert;
    }
 
+   /**
+   * データを登録する
+   *
+   * @param array  $data
+   * @return array|null
+   */
+  public static function goodsUserInsert($data) {
+      //トランザクション処理
+      $insert = DB::transaction(function () use ($data) {
+          //pwハッシュ化
+          $data['pass'] = Hash::make($data['pass']);
+          $input_data = [
+              'name'                => $data['name'],
+              'email'               => $data['email'],
+              'password'            => $data['pass'],
+              'role'                => $data['role'],
+              'status'              => $data['status'],
+              'created_at'          => now(),
+          ];
+          $input_data['id'] = self::insertGetId($input_data);
+          return $input_data;
+      });
+      return $insert;
+  }
+
+  /**
+  * データを編集する
+  *
+  * @param array  $data
+  * @return array|null
+  */
     public static function userEdit ($data) {
 
         //$edit_dataにDBから$data[item_id]と同じ値を取得する。
@@ -70,5 +101,34 @@ class User extends Model
       return $user_id;
     }
 
+    /**
+    * データを編集する
+    *
+    * @param array  $data
+    * @return array|null
+    */
+      public static function goodsUserEdit ($data,$user_id) {
+          //$edit_dataにDBから$data[item_id]と同じ値を取得する。
+          $edit_data = self::find($user_id);
+          if (!is_null($data['pass'])) {
+              //pwハッシュ化
+              $data['password']=Hash::make($data['pass']);
+          } elseif (is_null($data['pass'])) {
+              //pwハッシュ化
+              $data['password']=Hash::make($edit_data['password']);
+          }
+          //$data[item_id]があるとき保存の処理が行われる。
+          if ($edit_data) {
+              $edit_data -> name = $data['name'];
+              $edit_data -> email = $data['email'];
+              $edit_data -> role = $data['role'];
+              $edit_data -> status = $data['status'];
+              $edit_data -> password = $data['password'];
+              $edit_data -> save();
+          } else {
+              return $edit_data = null;
+          }
+          return $edit_data;
+      }
 
  }

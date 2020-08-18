@@ -56,8 +56,12 @@ return [
   'discount_price'                 => '割引額',
   'after_discount'                 => '割引後金額',
   'total_discount_price'           => '合計割引額',
+  'total_purchase_price'           => '合計購入額',
+  'price'                          => '金額',
   'purchase_price'                 => '請求金額',
+  'buy_price'                      => '購入金額',
   'hot_selling'                    => '売れ筋',
   'sales'                          => 'いままでに売れた個数：',
+  'purchase_date'                  => '購入日',
   'count'                          => '個'
 ];

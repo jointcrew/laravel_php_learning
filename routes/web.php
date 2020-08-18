@@ -91,3 +91,8 @@ Route::post('/goodsEdit', 'GoodsController@goodsEdit')->name('goodsEdit');
 Route::get('/goodsUser', 'GoodsController@goodsUser')->name('goodsUser');
 //ユーザー登録・編集
 Route::get('/goodsUserEdit', 'GoodsController@goodsUserEdit')->name('goodsUserEdit');
+Route::post('/goodsUserEdit', 'GoodsController@goodsUserEdit')->name('goodsUserEdit');
+//購入サマリ検索
+Route::get('/summarySearch', 'GoodsController@summarySearch')->name('summarySearch');
+
+Route::post('user/{id}', ['as'=>'user.update', 'uses'=>'UserController@updateUserProfile']);

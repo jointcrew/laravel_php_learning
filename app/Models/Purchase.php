@@ -39,7 +39,7 @@ class Purchase extends Model
         $input_date = [
             'goods_id'        => $data['goods_id'],
             'unit_price'      => $data['unit_price'],
-            'purchase_number' => $data['purchase_number'],
+            'purchase_number' => $data['purchase_numbers'],
             'total_price'     => $data['total_price'],
             'discount_price'  => $data['discount_price'],
             'purchase_price'  => $data['purchase_price'],
@@ -52,7 +52,7 @@ class Purchase extends Model
     }
 
     /**
-     * データを保存する
+     * データを保存する(複数商品購入の際)
      *
      * @param array  $data
      * @return string $data
@@ -83,4 +83,79 @@ class Purchase extends Model
         self::insert($insert_datas);
         return $insert_datas;
     }
+
+    /**
+     * 検索条件を指定してデータを取得する
+     *@param int  $create_uder
+     *@return array|null
+     *
+     */
+    public static function search ($data) {
+
+        $lists = array();
+        $names = array();
+        //配列に直す
+        $data['user_id'] = explode(",", $data['user_id']);
+        //var_dump($data);
+        //exit;
+        //チェックがついていなかったら、全ユーザーidを取得する
+        if ($data['user_id'][0]=='') {
+            $users = User::query();
+            $users ->select('id','name')
+                   ->orderby('id');
+            //useridを取得
+            $users = $users ->get();
+            //objectを配列に直したい
+            foreach ($users as $user) {
+                array_push($data['user_id'],$user['id']);
+                $names[$user['id']] = $user['name'];
+            }
+        }
+        //ユーザー一人ずつ検索をかけ、最後に検索結果を配列に入れ込む
+        foreach ($data['user_id'] as $user_id) {
+            //SQL文が使え、->が使えるようになる
+            $search_data = self::query();
+
+            $search_data ->select('goods.goods_name','purchase.purchase_number','purchase.total_price','purchase.created_at','purchase.discount_price','users.name')
+                         -> join('goods','goods.goods_id','=',"purchase.goods_id")
+                         -> join('users','users.id','=',"purchase.user_id")
+                         -> where('purchase.user_id',$user_id);
+            //ここで検索をかける
+
+            //商品名検索、likeにして部分一致のを取得にする
+            if ($data['goods_name']) {
+                $search_data ->where('goods.goods_name','like','%'.$data['goods_name'].'%');
+            }
+
+            if (!($data['category']=='null')) {
+                $search_data ->where('goods.category',$data['category']);
+            }
+
+            if ($data['price_start']){
+                $search_data -> where('purchase.purchase_price','>=', $data['price_start']);
+            }
+
+            if ($data['price_end']){
+                $search_data -> where('purchase.purchase_price','<=', $data['price_end']);
+            }
+
+            if ($data['date_start']){
+                $search_data -> where('purchase.created_at','>=', $data['date_start']);
+            }
+
+            if ($data['date_end']){
+                $search_data -> where('purchase.created_at','<=', $data['date_end'].' 23:59:59');
+            }
+
+            //検索結果を取得
+            $list = $search_data ->get();
+
+            //検索結果を配列に入れる
+            //array_push($lists[$user_id],$list);
+            $lists[$user_id] = $list;
+        }
+        return [$lists];
+    }
+
+
 }
