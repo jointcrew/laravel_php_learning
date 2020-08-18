@@ -26,7 +26,6 @@ $(function(){
 		var date_start  = $('#date_start').val();
 		var date_end    = $('#date_end').val();
         var user_id     = $('#user_id').val();
-        console.log(user_id);
 		// HTMLでの送信をキャンセル
         event.preventDefault();
 
@@ -52,10 +51,11 @@ $(function(){
 				  },
 		    }).done(function(data) {
 	  		// 通信成功時の処理
-            console.log(data);
+            //console.log(user_id);
+            //console.log(data);
 
-            var data2 = JSON.stringify(data);
-				console.log(data2);
+            //var data2 = JSON.stringify(data);
+			//console.log(data2);
 
             $('#user_name_id').empty();
             $('#goods_name_id').empty();
@@ -64,16 +64,20 @@ $(function(){
             $('#discount_price_id').empty();
             $('#created_at_id').empty();
 
-            $.each(data['response'][0][user_id], function(property, value) {
-                $('#user_name_id').append(data['response'][0][user_id][property]['name'] + '<br>');
-                $('#goods_name_id').append(data['response'][0][user_id][property]['goods_name'] + '<br>');
-                $('#purchase_number_id').append(data['response'][0][user_id][property]['purchase_number'] + '<br>');
-                $('#total_price_id').append(data['response'][0][user_id][property]['total_price'] + '<br>');
-                $('#discount_price_id').append(data['response'][0][user_id][property]['discount_price'] + '<br>');
-                $('#created_at_id').append(data['response'][0][user_id][property]['created_at'] + '<br>');
-                console.log(property + ':'+value['goods_name']);
-                //append複数表示
-                 //$('#ttt').append(value + '<br>');
+            $.each(data['response'][0], function(user_id) {
+
+                $.each(data['response'][0][user_id], function(property, value) {
+                    $('#user_name_id').append(data['response'][0][user_id][property]['name'] + '<br>');
+                    $('#goods_name_id').append(data['response'][0][user_id][property]['goods_name'] + '<br>');
+                    $('#purchase_number_id').append(data['response'][0][user_id][property]['purchase_number'] + '<br>');
+                    $('#total_price_id').append(data['response'][0][user_id][property]['total_price'] + '<br>');
+                    $('#discount_price_id').append(data['response'][0][user_id][property]['discount_price'] + '<br>');
+                    $('#created_at_id').append(data['response'][0][user_id][property]['created_at'] + '<br>');
+                    //console.log(property + ':'+value['goods_name']);
+                    //append複数表示
+                     //$('#ttt').append(value + '<br>');
+                })
+
             })
 
 		  	}).always(function(data) {
