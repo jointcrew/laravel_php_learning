@@ -105,7 +105,7 @@ class Purchase extends Model
                    ->orderby('id');
             //useridを取得
             $users = $users ->get();
-            //objectを配列に直したい
+            //$dataにid情報を挿入
             foreach ($users as $user) {
                 array_push($data['user_id'],$user['id']);
                 $names[$user['id']] = $user['name'];
@@ -149,12 +149,17 @@ class Purchase extends Model
 
             //検索結果を取得
             $list = $search_data ->get();
+            //$list = $search_data ->paginate(10);
 
             //検索結果を配列に入れる
-            //array_push($lists[$user_id],$list);
+            //array_push($lists[$names],$names);
+
+            //$lists = $names;
             $lists[$user_id] = $list;
+            $lists['names'] = $names;
         }
-        return [$lists];
+        //return [$lists,$names];
+        return \Response::json($lists);
     }
 
 

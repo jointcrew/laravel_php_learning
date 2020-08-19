@@ -41,34 +41,53 @@ $(function(){
 					date_end: date_end,
                     user_id: user_id,
 				  },
-		    }).done(function(data) {
+	    }).done(function(data) {
 	  		// 通信成功時の処理
             console.log(data);
+            //再検索の際、前検索結果を削除する(タイトル以外削除)
             while( table.rows[ 1 ] ) table.deleteRow( 1 );
 
-            $.each(data['response'][0], function(user_id) {
-                $.each(data['response'][0][user_id], function(property, value) {
+            $.each(data['response']['original']['names'], function(user_id,user_name) {
+
+                //購入履歴なし
+                $('#table').append(
+                   '<tr><td>'+
+                   user_name+
+                   '</td><td>'+
+                   '-'+
+                   '</td><td>'+
+                   '-'+
+                   '</td><td>'+
+                   '-'+
+                   '</td><td>'+
+                   '-'+
+                   '</td><td>'+
+                   '-'+
+                   '</td></tr>'
+                );
+
+                $.each(data['response']['original'][user_id], function(property, value) {
                     $('#table').append(
                        '<tr><td>'+
-                       data['response'][0][user_id][property]['name']+
+                       data['response']['original'][user_id][property]['name']+
                        '</td><td>'+
-                       data['response'][0][user_id][property]['goods_name']+
+                       data['response']['original'][user_id][property]['goods_name']+
                        '</td><td>'+
-                       data['response'][0][user_id][property]['purchase_number']+
+                       data['response']['original'][user_id][property]['purchase_number']+
                        '</td><td>'+
-                       data['response'][0][user_id][property]['total_price']+
+                       data['response']['original'][user_id][property]['total_price']+
                        '</td><td>'+
-                       data['response'][0][user_id][property]['discount_price']+
+                       data['response']['original'][user_id][property]['discount_price']+
                        '</td><td>'+
-                       data['response'][0][user_id][property]['created_at']+
-                       '</tr>'
-                   );
-                })
-            })
+                       data['response']['original'][user_id][property]['created_at']+
+                       '</td></tr>'
+                    );
+                });
+            });
 
-		  	}).always(function(data) {
-		  		// 常に実行する処理
-		  		$("#modalForm").modal('hide'); // モーダルを閉じる
-		  	});
-        });
+	  	}).always(function(data) {
+	  		// 常に実行する処理
+	  		$("#modalForm").modal('hide'); // モーダルを閉じる
+	  	});
     });
+});
