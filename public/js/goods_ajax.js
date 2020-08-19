@@ -14,9 +14,6 @@ $(function(){
         document.getElementById( "user_id" ).value = arr ;
 	});
 
-
-
-
     //モーダル検索ボタン
     $('#form_buttum').click(function() {
 		var category    = $('#category').val();
@@ -26,14 +23,9 @@ $(function(){
 		var date_start  = $('#date_start').val();
 		var date_end    = $('#date_end').val();
         var user_id     = $('#user_id').val();
+
 		// HTMLでの送信をキャンセル
         event.preventDefault();
-
-        // 操作対象のフォーム要素を取得
-        //var $form = $(this);
-
-        // 送信ボタンを取得
-        //var $button = $form.find('button');
 
         // 送信
         $.ajax({
@@ -51,33 +43,27 @@ $(function(){
 				  },
 		    }).done(function(data) {
 	  		// 通信成功時の処理
-            //console.log(user_id);
-            //console.log(data);
-
-            //var data2 = JSON.stringify(data);
-			//console.log(data2);
-
-            $('#user_name_id').empty();
-            $('#goods_name_id').empty();
-            $('#purchase_number_id').empty();
-            $('#total_price_id').empty();
-            $('#discount_price_id').empty();
-            $('#created_at_id').empty();
+            console.log(data);
+            while( table.rows[ 1 ] ) table.deleteRow( 1 );
 
             $.each(data['response'][0], function(user_id) {
-
                 $.each(data['response'][0][user_id], function(property, value) {
-                    $('#user_name_id').append(data['response'][0][user_id][property]['name'] + '<br>');
-                    $('#goods_name_id').append(data['response'][0][user_id][property]['goods_name'] + '<br>');
-                    $('#purchase_number_id').append(data['response'][0][user_id][property]['purchase_number'] + '<br>');
-                    $('#total_price_id').append(data['response'][0][user_id][property]['total_price'] + '<br>');
-                    $('#discount_price_id').append(data['response'][0][user_id][property]['discount_price'] + '<br>');
-                    $('#created_at_id').append(data['response'][0][user_id][property]['created_at'] + '<br>');
-                    //console.log(property + ':'+value['goods_name']);
-                    //append複数表示
-                     //$('#ttt').append(value + '<br>');
+                    $('#table').append(
+                       '<tr><td>'+
+                       data['response'][0][user_id][property]['name']+
+                       '</td><td>'+
+                       data['response'][0][user_id][property]['goods_name']+
+                       '</td><td>'+
+                       data['response'][0][user_id][property]['purchase_number']+
+                       '</td><td>'+
+                       data['response'][0][user_id][property]['total_price']+
+                       '</td><td>'+
+                       data['response'][0][user_id][property]['discount_price']+
+                       '</td><td>'+
+                       data['response'][0][user_id][property]['created_at']+
+                       '</tr>'
+                   );
                 })
-
             })
 
 		  	}).always(function(data) {
@@ -86,14 +72,3 @@ $(function(){
 		  	});
         });
     });
-
-
-
-//検索
-$("#the-form").click(function() {
-    //$('the-form').submit(function(event) {
-        alert('ファイルの取得に失敗しました。');
-
-
-    //});
-});
