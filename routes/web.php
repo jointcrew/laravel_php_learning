@@ -81,18 +81,21 @@ Route::group(['middleware' => ['auth', 'can:admin']], function () {
 //検索画面
 Route::get('/goodsSearch', 'GoodsController@goodsSearch')->name('goodsSearch');
 Route::post('/goodsSearch', 'GoodsController@goodsSearch')->name('goodsSearch');
-//決済画面
+//決済前確認画面
+Route::post('/beforeSettle', 'GoodsController@beforeSettle')->name('beforeSettle');
+//決済処理
 Route::get('/goodsSettle', 'GoodsController@goodsSettle')->name('goodsSettle');
 Route::post('/goodsSettle', 'GoodsController@goodsSettle')->name('goodsSettle');
 //商品登録・編集
 Route::get('/goodsEdit', 'GoodsController@goodsEdit')->name('goodsEdit');
 Route::post('/goodsEdit', 'GoodsController@goodsEdit')->name('goodsEdit');
+//商品詳細
+Route::get('/goodsDetail', 'GoodsController@goodsDetail')->name('goodsDetail');
 //ユーザー管理
 Route::get('/goodsUser', 'GoodsController@goodsUser')->name('goodsUser');
 //ユーザー登録・編集
 Route::get('/goodsUserEdit', 'GoodsController@goodsUserEdit')->name('goodsUserEdit');
 Route::post('/goodsUserEdit', 'GoodsController@goodsUserEdit')->name('goodsUserEdit');
-//購入サマリ検索
-Route::get('/summarySearch', 'GoodsController@summarySearch')->name('summarySearch');
+
 
 Route::post('user/{id}', ['as'=>'user.update', 'uses'=>'UserController@updateUserProfile']);

@@ -1,22 +1,28 @@
 @extends('layouts.app')
 
+<script src="{{ asset('js/form_action_change.js?202008190') }}" defer></script>
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-11">
             <div class="card" >
+                <div id="t1"></div>
                 @if ($role==1)
                     <div class="card-header">@lang('common.menu.goods_edit')</div>
                 @elseif ($role==5)
                     <div class="card-header">@lang('common.menu.goods_detail')</div>
                 @endif
                 <div class="col-md-12 justify-content-center">
-                    <form action="/goodsEdit" method="post">
+                    <form id='form' name='form' method="post">
                         <!-- CSRF保護 -->
                         @csrf
                         @if (isset($data["goods_id"]))
                             <input type="hidden" name="goods_id" value={{$data["goods_id"]}}>
                             <input type="hidden" name="total_purchase_number" value={{$data["total_purchase_number"]}}>
+                        @endif
+                        @if (isset($msg))
+                            <span class="red">{{$msg}}</span>
                         @endif
                         <div class="form-group col-md-5">
                             <a href="/goodsSearch?stock=1&category=null">@lang('common.back')</a>
@@ -242,9 +248,9 @@
                             @if ($role==5)
                                 <!--購入数-->
                                 @lang('goods.purchase_number_tittle')：
-                                <input type="number" class="form-control" name="purchase_number" size="40">
+                                <input oninput="this.value = Math.abs(this.value)" min="0" type="number" class="form-control" name="purchase_number" size="40">
                                 @if ($errors->has('purchase_number'))
-                                    <br><span class="red">@lang('validation.purchase_number')</span>
+                                    <br><span class="red">{{ $errors->first('purchase_number') }}</span>
                                 @endif
                             @endif
                         </div>
@@ -295,16 +301,13 @@
                         <div class="form-group">
                             @if ($role==1)
                                 <!--保存-->
-                                <input type="submit" class="btn btn-primary" value= @lang('common.save')>
+                                <input type="submit" onclick="action_role1();" class="btn btn-primary" value= @lang('common.save')>
                             @endif
                             @if ($role==5)
                                 <!--決済-->
-                                <input type="submit" class="btn btn-primary" value= @lang('common.settlement')>
+                                <input type="submit" onclick="action_role5();" class="btn btn-primary" value= @lang('common.settlement')>
                             @endif
                         </div>
-                        @if (isset($msg))
-                            <span class="red">{{$msg}}</span>
-                        @endif
                     </form>
                 </div>
             </div>

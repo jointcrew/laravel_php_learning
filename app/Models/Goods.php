@@ -93,7 +93,7 @@ class Goods extends Model
 
 
     /**
-     * item_name,apply,selector,create_userを指定してデータを取得する
+     * 検索。item_name,apply,selector,create_userを指定してデータを取得する
      *@param int  $create_uder
      *@return array|null
      *

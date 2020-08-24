@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Purchase extends Model
 {
@@ -36,19 +37,23 @@ class Purchase extends Model
      * @return string $data
      */
     public static function inserts($data) {
-        $input_date = [
-            'goods_id'        => $data['goods_id'],
-            'unit_price'      => $data['unit_price'],
-            'purchase_number' => $data['purchase_numbers'],
-            'total_price'     => $data['total_price'],
-            'discount_price'  => $data['discount_price'],
-            'purchase_price'  => $data['purchase_price'],
-            'user_id'         => $data['user_id'],
-            'created_at'      => now(),
-        ];
-        self::create($input_date);
+        //トランザクション処理
+        $insert = DB::transaction(function () use ($data) {
+            $input_date = [
+                'goods_id'        => $data['goods_id'],
+                'unit_price'      => $data['unit_price'],
+                'purchase_number' => $data['purchase_numbers'],
+                'total_price'     => $data['total_price'],
+                'discount_price'  => $data['discount_price'],
+                'purchase_price'  => $data['purchase_price'],
+                'user_id'         => $data['user_id'],
+                'created_at'      => now(),
+            ];
+            self::create($input_date);
 
-        return $data;
+            return $data;
+        });
+        return $insert;
     }
 
     /**
@@ -58,30 +63,33 @@ class Purchase extends Model
      * @return string $data
      */
     public static function insert_all($data) {
+        //トランザクション処理
+        $insert = DB::transaction(function () use ($data) {
 
-        foreach ($data['goods_id'] as $value) {
-            //同じgoods_idを配列にして返す
-            $datalist[] = array_column( $data, $value );
-            $insert_datas = array();
-            $keys = [
-                'goods_id',
-                'unit_price',
-                'purchase_number',
-                'total_price',
-                'discount_price',
-                'purchase_price',
-                'user_id'
-            ];
-                foreach ($datalist as $val) {
-                    //キー名と値をマッピングして連想配列を返却
-                    $insert_data = array_combine($keys, $val);
-                    $insert_data['created_at'] = now();
-                    array_push($insert_datas,$insert_data);
+            foreach ($data['goods_id'] as $value) {
+                //同じgoods_idを配列にして返す
+                $datalist[] = array_column( $data, $value );
+                $insert_datas = array();
+                $keys = [
+                    'goods_id',
+                    'unit_price',
+                    'purchase_number',
+                    'total_price',
+                    'discount_price',
+                    'purchase_price',
+                    'user_id'
+                ];
+                    foreach ($datalist as $val) {
+                        //キー名と値をマッピングして連想配列を返却
+                        $insert_data = array_combine($keys, $val);
+                        $insert_data['created_at'] = now();
+                        array_push($insert_datas,$insert_data);
+                    }
                 }
-            }
-
-        self::insert($insert_datas);
-        return $insert_datas;
+            self::insert($insert_datas);
+            return $insert_datas;
+        });
+        return $insert;
     }
 
     /**
@@ -148,8 +156,8 @@ class Purchase extends Model
             }
 
             //検索結果を取得
-            $list = $search_data ->get();
-            //$list = $search_data ->paginate(10);
+            //$list = $search_data ->get();
+            $list = $search_data ->paginate(10);
 
             //検索結果を配列に入れる
             //array_push($lists[$names],$names);

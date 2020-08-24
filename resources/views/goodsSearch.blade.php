@@ -97,7 +97,7 @@
                 </div>
             </div>
             <br>
-            <form action="/goodsEdit" method="post">
+            <form action="/beforeSettle" method="post">
                 <input type="hidden" name="all_once_flag" value='all_once_flag'>
                 <!-- CSRF保護 -->
                 @csrf
@@ -126,7 +126,7 @@
                                 @endif
                                 <tr>
                                     <td>@lang("goods.category.$list->category")<!--カテゴリ--></td>
-                                    <td><a href="/goodsEdit?goods_id={{$list->goods_id}}&total_purchase_number={{$list["purchase_number"]}}">{{$list["goods_name"]}}</a><!--商品名--></td>
+                                    <td><a href="/goodsDetail?goods_id={{$list->goods_id}}&total_purchase_number={{$list["purchase_number"]}}">{{$list["goods_name"]}}</a><!--商品名--></td>
                                     <td>@if ($list["stock"] >= 1)<!--在庫-->
                                             <img class="img_stock_on" alt="あり" width="40" height="40" src="/img/stock_on.jpg">
                                         @elseif ($list["stock"] == 0)

@@ -51,36 +51,26 @@ $(function(){
 
                 //購入履歴なし
                 $('#table').append(
-                   '<tr><td>'+
-                   user_name+
-                   '</td><td>'+
-                   '-'+
-                   '</td><td>'+
-                   '-'+
-                   '</td><td>'+
-                   '-'+
-                   '</td><td>'+
-                   '-'+
-                   '</td><td>'+
-                   '-'+
-                   '</td></tr>'
+                   '<tr>\
+                   <td>'+user_name+'</td>\
+                   <td>'+'-'+'</td>\
+                   <td>'+'-'+'</td>\
+                   <td>'+'-'+'</td>\
+                   <td>'+'-'+'</td>\
+                   <td>'+'-'+'</td>\
+                   </tr>'
                 );
 
-                $.each(data['response']['original'][user_id], function(property, value) {
+                $.each(data['response']['original'][user_id]['data'], function(property, value) {
                     $('#table').append(
-                       '<tr><td>'+
-                       data['response']['original'][user_id][property]['name']+
-                       '</td><td>'+
-                       data['response']['original'][user_id][property]['goods_name']+
-                       '</td><td>'+
-                       data['response']['original'][user_id][property]['purchase_number']+
-                       '</td><td>'+
-                       data['response']['original'][user_id][property]['total_price']+
-                       '</td><td>'+
-                       data['response']['original'][user_id][property]['discount_price']+
-                       '</td><td>'+
-                       data['response']['original'][user_id][property]['created_at']+
-                       '</td></tr>'
+                       '<tr>\
+                       <td>'+ data['response']['original'][user_id]['data'][property]['name']+'</td>\
+                       <td>'+ data['response']['original'][user_id]['data'][property]['goods_name']+'</td>\
+                       <td>'+ data['response']['original'][user_id]['data'][property]['purchase_number']+'</td>\
+                       <td>'+ data['response']['original'][user_id]['data'][property]['total_price']+'</td>\
+                       <td>'+ data['response']['original'][user_id]['data'][property]['discount_price']+'</td>\
+                       <td>'+ data['response']['original'][user_id]['data'][property]['created_at']+'</td>\
+                       </tr>'
                     );
                 });
             });
