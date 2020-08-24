@@ -50,6 +50,11 @@ class Purchase extends Model
                 'created_at'      => now(),
             ];
             self::create($input_date);
+            $edit_data = Goods::find($data['goods_id']);
+            //$data[item_id]があるとき保存の処理が行われる。
+            $edit_data -> stock = $data['goods_stock'];
+            $edit_data -> updated_at = now();
+            $edit_data -> save();
 
             return $data;
         });
@@ -156,8 +161,8 @@ class Purchase extends Model
             }
 
             //検索結果を取得
-            //$list = $search_data ->get();
-            $list = $search_data ->paginate(10);
+            $list = $search_data ->get();
+            //$list = $search_data ->paginate(10);
 
             //検索結果を配列に入れる
             //array_push($lists[$names],$names);

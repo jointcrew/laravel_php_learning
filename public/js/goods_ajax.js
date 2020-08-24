@@ -47,33 +47,66 @@ $(function(){
             //再検索の際、前検索結果を削除する(タイトル以外削除)
             while( table.rows[ 1 ] ) table.deleteRow( 1 );
 
-            $.each(data['response']['original']['names'], function(user_id,user_name) {
-
-                //購入履歴なし
-                $('#table').append(
-                   '<tr>\
-                   <td>'+user_name+'</td>\
-                   <td>'+'-'+'</td>\
-                   <td>'+'-'+'</td>\
-                   <td>'+'-'+'</td>\
-                   <td>'+'-'+'</td>\
-                   <td>'+'-'+'</td>\
-                   </tr>'
-                );
-
-                $.each(data['response']['original'][user_id]['data'], function(property, value) {
+            //ユーザーチェックなし、全ユーザーの購入サマリを表示
+            if (data['response']['original']['names']) {
+                $.each(data['response']['original']['names'], function(user_id,user_name) {
+                    //購入履歴なし
                     $('#table').append(
-                       '<tr>\
-                       <td>'+ data['response']['original'][user_id]['data'][property]['name']+'</td>\
-                       <td>'+ data['response']['original'][user_id]['data'][property]['goods_name']+'</td>\
-                       <td>'+ data['response']['original'][user_id]['data'][property]['purchase_number']+'</td>\
-                       <td>'+ data['response']['original'][user_id]['data'][property]['total_price']+'</td>\
-                       <td>'+ data['response']['original'][user_id]['data'][property]['discount_price']+'</td>\
-                       <td>'+ data['response']['original'][user_id]['data'][property]['created_at']+'</td>\
-                       </tr>'
+                       '<tr><td>'+
+                       user_name+
+                       '</td><td>'+
+                       '-'+
+                       '</td><td>'+
+                       '-'+
+                       '</td><td>'+
+                       '-'+
+                       '</td><td>'+
+                       '-'+
+                       '</td><td>'+
+                       '-'+
+                       '</td></tr>'
                     );
+                    $.each(data['response']['original'][user_id], function(property, value) {
+                        $('#table').append(
+                           '<tr><td>'+
+                           data['response']['original'][user_id][property]['name']+
+                           '</td><td>'+
+                           data['response']['original'][user_id][property]['goods_name']+
+                           '</td><td>'+
+                           data['response']['original'][user_id][property]['purchase_number']+
+                           '</td><td>'+
+                           data['response']['original'][user_id][property]['total_price']+
+                           '</td><td>'+
+                           data['response']['original'][user_id][property]['discount_price']+
+                           '</td><td>'+
+                           data['response']['original'][user_id][property]['created_at']+
+                           '</td></tr>'
+                        );
+                    });
                 });
-            });
+            };
+            //ユーザーチェックあり、チェックユーザーの購入サマリを表示
+            if (data['response']['original']['names']=='') {
+                $.each(data['response']['original'], function(user_id) {
+                   $.each(data['response']['original'][user_id], function(property, value) {
+                       $('#table').append(
+                          '<tr><td>'+
+                          data['response']['original'][user_id][property]['name']+
+                          '</td><td>'+
+                          data['response']['original'][user_id][property]['goods_name']+
+                          '</td><td>'+
+                          data['response']['original'][user_id][property]['purchase_number']+
+                          '</td><td>'+
+                          data['response']['original'][user_id][property]['total_price']+
+                          '</td><td>'+
+                          data['response']['original'][user_id][property]['discount_price']+
+                          '</td><td>'+
+                          data['response']['original'][user_id][property]['created_at']+
+                          '</tr>'
+                        );
+                    });
+                });
+            };
 
 	  	}).always(function(data) {
 	  		// 常に実行する処理
