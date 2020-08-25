@@ -20,6 +20,7 @@
                             <input type="hidden" name="total_price" value={{$data["total_price"]}}>
                             <input type="hidden" name="purchase_price" value={{$data["purchase_price"]}}>
                             <input type="hidden" name="unit_price" value={{$data["unit_price"]}}>
+                            <input type="hidden" name="goods_stock" value={{$data["stock"]}}>
                         @endif
                         @if (isset($datalist))
                             <input type="hidden" name="all_once_flag" value='all_once_flag'>
@@ -40,6 +41,7 @@
                                     <input type="hidden" name="goods_id[{{$data_unit["goods_id"]}}]" value={{$data_unit["goods_id"]}}>
                                     <input type="hidden" name="unit_price[{{$data_unit["goods_id"]}}]" value={{$data_unit["unit_price"]}}>
                                     <input type="hidden" name="user_id[{{$data_unit["goods_id"]}}]" value={{$id}}>
+                                    <input type="hidden" name="multi_goods_stock[{{$data_unit["goods_id"]}}]" value={{$data_unit['stock']}}>
                                 @endif
                             @endforeach
                         @endif

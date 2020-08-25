@@ -3,7 +3,7 @@
   src="https://code.jquery.com/jquery-3.5.1.js"
   integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
   crossorigin="anonymous"></script>
-<script src="{{ asset('js/goods_ajax.js?202008190') }}" defer></script>
+<script src="{{ asset('js/goods_ajax.js?202008244') }}" defer></script>
 
 
 @section('content')

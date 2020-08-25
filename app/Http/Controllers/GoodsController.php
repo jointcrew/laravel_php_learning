@@ -119,13 +119,12 @@ class GoodsController extends Controller
 
         //保存ボタンを押したときに処理をする
         if ($request->isMethod('post') == true) {
-
             //検索画面から一度に複数商品購入かどうかのflag
             $all_once_flag = $request->input('all_once_flag');
             //単一商品購入
             if (is_null($all_once_flag)) {
                 $validatedData  = $request->validate([
-                    'purchase_number' => 'required|	lte:100000'
+                    'purchase_number' => "required|integer|max:{$data['stock']}"
                 ]);
                 //購入数を$dataに挿入
                 $data['purchase_number'] = $request->input('purchase_number');
@@ -139,7 +138,7 @@ class GoodsController extends Controller
                 $purchase_numbers = $request->input('purchase_number');
                 //すべての購入数が0だったら、検索画面へリダイレクト
                 $check = $this->purchase_numbers_check($purchase_numbers);
-                if ($check == false) {
+                if (!is_null($check)) {
                     return redirect()->back();
                 }
                 //購入数を入力していない商品idを外す
@@ -149,6 +148,13 @@ class GoodsController extends Controller
                 $goods_IDs = array_keys($purchase_numbers);
                 //Goodsモデルのfind_goodsメソッドにアクセスし、同goods_idデータを取得
                 $datalist = Goods::find_goods($goods_IDs);
+                //購入数が在庫を上回っていたらリダイレクト
+                foreach ($datalist as $data) {
+                    $data["stock"] = ($data["stock"]) - ($purchase_numbers[$data["goods_id"]]);
+                    if ($data["stock"]<0) {
+                        return redirect()->back();
+                    }
+                }
                 //表示金額を計算
                 $datalist = $this->all_once_calculate($datalist,$purchase_numbers);
                 $total_data = [
@@ -157,12 +163,9 @@ class GoodsController extends Controller
                     'total_price'           => array_sum($datalist['total_price']),
                     'purchase_price'        => array_sum($datalist['purchase_price'])
                 ];
-
                 //決済画面へ
                 return view('goodsSettle',compact('datalist','total_data','role','id'));
-
             }
-
         }
     }
 
@@ -189,14 +192,21 @@ class GoodsController extends Controller
                 'total_price'          => $request->input('total_price'),
                 'discount_price'       => $request->input('discount_price'),
                 'purchase_price'       => $request->input('purchase_price'),
+                'goods_stock'          => $request->input('goods_stock'),
                 'user_id'              => $id
             ];
+            //購入後の在庫数取得
+            $multi_goods_stock = $request->input('multi_goods_stock');
+            //複数購入のフラグ
             $all_once_flag = $request->input('all_once_flag');
             if (!is_null($all_once_flag)) {
-                //複数商品決済、選択商品取得
+                //DBに保存するためuser_idが必要
                 $data['user_id'] = $request->input('user_id');
-                $insert_data = Purchase::insert_all($data);
+                //複数商品決済
+                $insert_data = Purchase::insert_all($data,$multi_goods_stock);
             } else {
+                //在庫数更新
+                $data['goods_stock'] = ($data['goods_stock']) - ($data['purchase_numbers']);
                 //単一商品決済
                 $insert_data = Purchase::inserts($data);
             }
@@ -243,9 +253,9 @@ class GoodsController extends Controller
                'category'          =>'integer',
                'type'              =>'integer',
                'goods_name'        =>'required|string|max:50',
-               'unit_price'        =>'required|lte:100000',
+               'unit_price'        =>'required|integer|max:100000',
                'discount_number'   =>'required',
-               'stock'             =>'required|lte:100000',
+               'stock'             =>'required|integer|max:100000',
                'comment'           =>'max:250',
                'status'            =>'required',
            ]);

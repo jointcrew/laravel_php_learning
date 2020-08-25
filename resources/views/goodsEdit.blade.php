@@ -124,8 +124,10 @@
                                     @if (isset($data["stock"]))
                                         @if ($data["stock"]>=1 && $data["stock"]<=5)
                                             <p>@lang('goods.little_stock')</p>
+                                            <p>残り{{$data["stock"]}}個</p>
                                         @elseif ($data["stock"]>5)
                                             <p>@lang('goods.in_stock')</p>
+                                            <p>残り{{$data["stock"]}}個</p>
                                         @endif
                                     @endif
                                 @endif

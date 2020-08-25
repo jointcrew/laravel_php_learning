@@ -62,6 +62,7 @@ return [
   'buy_price'                      => '購入金額',
   'hot_selling'                    => '売れ筋',
   'sales'                          => 'いままでに売れた個数：',
+  'input_purchase'                 => '※購入希望個数は在庫数以下の数字をご入力ください',
   'purchase_date'                  => '購入日',
   'count'                          => '個'
 ];

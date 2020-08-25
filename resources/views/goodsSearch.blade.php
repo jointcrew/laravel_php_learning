@@ -109,6 +109,7 @@
                                     <p>@lang('common.search_list')<!--検索結果--></p>
                                     <th>@lang('goods.category_tittle')<!--カテゴリ--></th>
                                     <th>@lang('goods.goods_name_tittle')<!--商品名--></th>
+                                    <th>@lang('goods.stock_tittle')<!--在庫数--></th>
                                     <th>@lang('goods.stock_goods_info')<!--特殊--></th>
                                     @if ($role==5)
                                         <th>@lang('goods.purchase')<!--購入--></th>
@@ -127,6 +128,7 @@
                                 <tr>
                                     <td>@lang("goods.category.$list->category")<!--カテゴリ--></td>
                                     <td><a href="/goodsDetail?goods_id={{$list->goods_id}}&total_purchase_number={{$list["purchase_number"]}}">{{$list["goods_name"]}}</a><!--商品名--></td>
+                                    <td>{{$list["stock"]}}<!--在庫数--></td>
                                     <td>@if ($list["stock"] >= 1)<!--在庫-->
                                             <img class="img_stock_on" alt="あり" width="40" height="40" src="/img/stock_on.jpg">
                                         @elseif ($list["stock"] == 0)
@@ -171,6 +173,7 @@
                             <div class="form-group">
                                 <!--決済-->
                                 <input type="submit" class="btn btn-info" value= @lang('common.settlement')>
+                                <span class='red'>@lang('goods.input_purchase')</span>
                             </div>
                         @endif
                         @if (isset($searchlist))

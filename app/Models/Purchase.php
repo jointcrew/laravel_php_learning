@@ -34,7 +34,7 @@ class Purchase extends Model
      * データを保存する
      *
      * @param array  $data
-     * @return string $data
+     * @return $data
      */
     public static function inserts($data) {
         //トランザクション処理
@@ -51,7 +51,7 @@ class Purchase extends Model
             ];
             self::create($input_date);
             $edit_data = Goods::find($data['goods_id']);
-            //$data[item_id]があるとき保存の処理が行われる。
+            //指定goods_id($data[item_id])のstockが更新される
             $edit_data -> stock = $data['goods_stock'];
             $edit_data -> updated_at = now();
             $edit_data -> save();
@@ -65,12 +65,12 @@ class Purchase extends Model
      * データを保存する(複数商品購入の際)
      *
      * @param array  $data
-     * @return string $data
+     * @return array $insert_datas
      */
-    public static function insert_all($data) {
-        //トランザクション処理
-        $insert = DB::transaction(function () use ($data) {
+    public static function insert_all($data,$multi_goods_stock) {
 
+        //トランザクション処理
+        $insert = DB::transaction(function () use ($data,$multi_goods_stock) {
             foreach ($data['goods_id'] as $value) {
                 //同じgoods_idを配列にして返す
                 $datalist[] = array_column( $data, $value );
@@ -92,6 +92,13 @@ class Purchase extends Model
                     }
                 }
             self::insert($insert_datas);
+            foreach ($multi_goods_stock as $key => $stock) {
+                $edit_data = Goods::find($key);
+                //指定goods_id($data[item_id])のstockが更新される
+                $edit_data -> stock = $stock;
+                $edit_data -> updated_at = now();
+                $edit_data -> save();
+            }
             return $insert_datas;
         });
         return $insert;
@@ -100,7 +107,7 @@ class Purchase extends Model
     /**
      * 検索条件を指定してデータを取得する
      *@param int  $create_uder
-     *@return array|null
+     *@return array $insert_datas
      *
      */
     public static function search ($data) {
@@ -109,8 +116,6 @@ class Purchase extends Model
         $names = array();
         //配列に直す
         $data['user_id'] = explode(",", $data['user_id']);
-        //var_dump($data);
-        //exit;
         //チェックがついていなかったら、全ユーザーidを取得する
         if ($data['user_id'][0]=='') {
             $users = User::query();

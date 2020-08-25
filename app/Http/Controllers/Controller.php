@@ -91,15 +91,15 @@ class Controller extends BaseController
             $data['purchase_price'] = ($data['unit_price'] * $purchase_numbers[$data['goods_id']]) - $data['discount_price'];
 
             $discount_price[$data['goods_id']] = $data['discount_price'];
-            $total_price[$data['goods_id']] = $data['total_price'];
+            $total_price[$data['goods_id']]    = $data['total_price'];
             $purchase_price[$data['goods_id']] = $data['purchase_price'];
 
         }
 
         $datalist['purchase_numbers'] = $purchase_numbers;
         $datalist['discount_price']   = $discount_price;
-        $datalist['purchase_price'] = $purchase_price;
-        $datalist['total_price'] = $total_price;
+        $datalist['purchase_price']   = $purchase_price;
+        $datalist['total_price']      = $total_price;
 
         return $datalist;
     }
