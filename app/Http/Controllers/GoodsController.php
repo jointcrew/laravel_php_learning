@@ -31,6 +31,7 @@ class GoodsController extends Controller
         $discount_number = \Lang::get('goods.discount_number');
         $status          = \Lang::get('user.status');
         $userlist_status = \Lang::get('user.userlist_status');
+        $roles           = \Lang::get('user.role_name');
 
         //一気に送りたい
         View::share('discount_number', $discount_number);
@@ -41,6 +42,7 @@ class GoodsController extends Controller
         View::share('stock', $stock);
         View::share('discount_number', $discount_number);
         View::share('userlist_status', $userlist_status);
+        View::share('roles', $roles);
     }
 
     /**
@@ -93,6 +95,7 @@ class GoodsController extends Controller
             $data['item_info'] = explode(",", $data['item_info']);
             $data['item_info'] = array_filter($data['item_info']);
         }
+
         return view('goodsEdit',compact('data','role'));
     }
 

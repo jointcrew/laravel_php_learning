@@ -86,6 +86,8 @@ Route::post('/beforeSettle', 'GoodsController@beforeSettle')->name('beforeSettle
 //決済処理
 Route::get('/goodsSettle', 'GoodsController@goodsSettle')->name('goodsSettle');
 Route::post('/goodsSettle', 'GoodsController@goodsSettle')->name('goodsSettle');
+//カテゴリに応じた種別取得
+Route::get('/getType', 'GoodsController@getType')->name('getType');
 //商品登録・編集
 Route::get('/goodsEdit', 'GoodsController@goodsEdit')->name('goodsEdit');
 Route::post('/goodsEdit', 'GoodsController@goodsEdit')->name('goodsEdit');

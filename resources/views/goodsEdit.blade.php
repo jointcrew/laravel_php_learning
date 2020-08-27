@@ -1,6 +1,10 @@
 @extends('layouts.app')
-
+<script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script>
 <script src="{{ asset('js/form_action_change.js?202008190') }}" defer></script>
+<script src="{{ asset('js/select_change.js?202008270') }}" defer></script>
 
 @section('content')
 <div class="container">
@@ -21,18 +25,24 @@
                             <input type="hidden" name="goods_id" value={{$data["goods_id"]}}>
                             <input type="hidden" name="total_purchase_number" value={{$data["total_purchase_number"]}}>
                         @endif
+                        @if ((isset($data["goods_id"])) && (old('type')==null))
+                            <input type="hidden" name="edit_type" id="type_value" value={{$data["type"]}}>
+                        @endif
+                        @if ((isset($data["goods_id"])) && (!old('type')==null))
+                            <input type="hidden" name="old_type" id="type_value" value={{old('type')}}>
+                        @endif
+                        @if ((!isset($data["goods_id"])) && (!old('type')==null))
+                            <input type="hidden" name="old_type" id="type_value" value={{old('type')}}>
+                        @endif
                         @if (isset($msg))
                             <span class="red">{{$msg}}</span>
                         @endif
-                        <div class="form-group col-md-5">
-                            <a href="/goodsSearch?stock=1&category=null">@lang('common.back')</a>
-                        </div>
                         <div class="row">
                             <div class="form-group col-md-5">
                                 <!--カテゴリ-->
                                 @lang('goods.category_tittle')：@if($role==1)<span class="red">@lang('common.required')</span>@endif
                                 @if ($role==1)
-                                    <select name='category' class="form-control">
+                                    <select name='category' class="form-control" id="select_category">
                                         @foreach($category as $key => $value)
                                         <option name="category" value={{$key}}
                                         <?php
@@ -63,20 +73,8 @@
                                 <!--種別-->
                                 @lang('goods.type_tittle')：@if($role==1)<span class="red">@lang('common.required')</span>@endif
                                 @if ($role==1)
-                                    <select name='type' class="form-control">
-                                    @foreach($type as $key => $value)
-                                        <option name="type" value={{$key}}
-                                        <?php
-                                        if (old('type')){
-                                            if (old('type')==$key) {
-                                                echo 'selected';
-                                            }
-                                        }  elseif (isset($data["type"]) && $key==$data["type"]){
-                                            echo 'selected';
-                                        }?>
-                                        >{{$value}}
-                                        </option>
-                                    @endforeach
+                                    <select name='type' class="form-control" id="select_type">
+                                        <option></option>
                                     </select>
                                     @if ($errors->has('type'))
                                         <br><span class="red">@lang('validation.type')</span>
@@ -128,6 +126,8 @@
                                         @elseif ($data["stock"]>5)
                                             <p>@lang('goods.in_stock')</p>
                                             <p>残り{{$data["stock"]}}個</p>
+                                        @elseif ($data["stock"]==0)
+                                            <p>@lang('goods.stock_0')</p>
                                         @endif
                                     @endif
                                 @endif
@@ -250,7 +250,12 @@
                             @if ($role==5)
                                 <!--購入数-->
                                 @lang('goods.purchase_number_tittle')：
-                                <input oninput="this.value = Math.abs(this.value)" min="0" type="number" class="form-control" name="purchase_number" size="40">
+                                @if ($data['stock']==0)
+                                    <input disabled oninput="this.value = Math.abs(this.value)" min="0" type="number" class="form-control" name="purchase_number" size="40">
+                                @else
+                                    <input  oninput="this.value = Math.abs(this.value)" min="0" type="number" class="form-control" name="purchase_number" size="40">
+                                @endif
+
                                 @if ($errors->has('purchase_number'))
                                     <br><span class="red">{{ $errors->first('purchase_number') }}</span>
                                 @endif
@@ -301,13 +306,19 @@
                         </div>
                         @endif
                         <div class="form-group">
+                                <a class="btn btn-outline-primary" href="/goodsSearch?stock=1&category=null">@lang('common.back')</a>
                             @if ($role==1)
                                 <!--保存-->
                                 <input type="submit" onclick="action_role1();" class="btn btn-primary" value= @lang('common.save')>
                             @endif
                             @if ($role==5)
                                 <!--決済-->
-                                <input type="submit" onclick="action_role5();" class="btn btn-primary" value= @lang('common.settlement')>
+
+                                @if ($data['stock']==0)
+                                    <input disabled type="submit" onclick="action_role5();" class="btn btn-primary" value= @lang('common.settlement')>
+                                @else
+                                    <input  type="submit" onclick="action_role5();" class="btn btn-primary" value= @lang('common.settlement')>
+                                @endif
                             @endif
                         </div>
                     </form>

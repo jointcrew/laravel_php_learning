@@ -5,6 +5,16 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-11">
+            <!--購入メッセージ-->
+            @if (isset($msg))
+            <div class="card">
+                <div class="card-header">@lang('common.resalt')</div>
+                <div class="col-md-12 justify-content-center">
+                    <span class="red">{{$msg}}</span>
+                </div>
+            </div>
+            @endif
+            <br>
             <div class="card" >
                 <div class="card-header">@lang('common.search')</div>
                 <div class="col-md-12 justify-content-center">
@@ -16,10 +26,6 @@
                         @endif
                     </div>
                     <div>
-                        <!--購入メッセージ-->
-                        @if (isset($msg))
-                            <span class="red">{{$msg}}</span>
-                        @endif
                     </div>
                     <p>@lang('item.search_item')<!--検索内容--></p>
                     <form action="/goodsSearch" method="get">

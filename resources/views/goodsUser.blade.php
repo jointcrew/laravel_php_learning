@@ -13,9 +13,6 @@
             <div class="card">
                 @if (!isset($msg))
                     <div class="card-header">@lang('common.user')</div>
-                    <div class="form-group col-md-5">
-                        <a href="/goodsSearch">@lang('common.back')</a>
-                    </div>
                 @elseif (isset($msg))
                     <br>
                     <div class="form-group col-md-5">
@@ -73,7 +70,7 @@
                         <div class="form-inline">
                             <div class="form-group">
                                 <!--戻る-->
-                                <a href="/goodsSearch?stock=1&category=null" class="btn btn-primary">@lang('common.new_registrat')</a>
+                                <a href="/goodsSearch?stock=1&category=null" class="btn btn-primary">@lang('common.back')</a>
                             </div>
                             <div class="form-group">
                                 <!--サマリ-->
@@ -170,7 +167,6 @@
                                       <div class="modal-footer">
                                           <div class="form-group">
                                               <!--検索-->
-                                              <input type="submit" class="btn btn-primary" value= API >
                                               <input type="submit" class="btn btn-primary" value= @lang('common.search')  id="form_buttum">
                                               <div id="t1"></div>
                                           </div>

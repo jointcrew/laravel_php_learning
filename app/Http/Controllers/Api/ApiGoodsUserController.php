@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\ApiUser;
+use App\Models\Types;
 use App\Models\Purchase;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ApiGoodsUserController extends Controller
@@ -41,23 +40,44 @@ class ApiGoodsUserController extends Controller
     }
 
     /**
-     * POST：登録
+     * カテゴリに応じて種別をDBから取得する
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostRequest $request)
+    public function store (Request $request)
     {
-        //配列に入力値を追加
-        $data = [
-            'user_name'        => $request->input('user_name'),
-            'age'              => $request->input('age'),
-            'create_user_id'   => $request->input('create_user_id'),
-            'create_user_name' => $request->input('create_user_name'),
-        ];
-        //ApiUserモデルのinsertメソッドにアクセスし、データを保存
-        $insert_data = ApiUser::insert($data);
+        $html = '';
+        $flag = $_POST['flag'];
+        //
+        if ($flag == 'type_value') {
+            $type_vale = $_POST['type_value'];
+            $categorys_id = Types::category_id_search($type_vale);
+            foreach ($categorys_id as $category) {
+                $category_id = $category["category_id"];
+            }
+        } elseif ($flag == 'category_id') {
+            $category_id = $_POST['category'];
+        }
 
-        return response()->success($insert_data, self::RESPONSE_CODE_200);
+        $types = Types::search($category_id);
+
+        foreach ($types as $type) {
+            if (!isset($type_vale)) {
+                $html .= '<option id="type" name="type" value="'.$type['value_number'].'">'.$type['type_name'].'</option>';
+            }
+            if ((isset($type_vale)) && ($type['value_number'] == $type_vale)) {
+                $html .= '<option selected id="type" name="type" value="'.$type['value_number'].'">'.$type['type_name'].'</option>';
+            } elseif (isset($type_vale)) {
+                $html .= '<option id="type" name="type" value="'.$type['value_number'].'">'.$type['type_name'].'</option>';
+            }
+        }
+        if ($types == false) {
+            //エラーを返す
+            return response()->error(\Lang::get('api.api_e_title.t0001'), array(\Lang::get('api.api_mes.m0001')), self::RESPONSE_CODE_400);
+        }
+        //正常を返す
+        return response()->success($html, self::RESPONSE_CODE_200);
+
     }
 }
