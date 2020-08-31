@@ -103,6 +103,10 @@ class Goods extends Model
         //SQL文が使え、->が使えるようになる
         $search_data = self::query();
 
+        $search_data ->select(\DB::raw('goods.*, SUM(purchase.purchase_number) as purchase_number'))
+                     ->leftJoin('purchase','goods.goods_id','=','purchase.goods_id')
+                     ->groupBy('goods.goods_id');
+
         if ($data['goods_name']) {
             $search_data -> where('goods_name',$data['goods_name']);
         }
@@ -127,9 +131,7 @@ class Goods extends Model
             $search_data -> where('stock','=',$data['stock']);
         }
 
-        $search_data ->select(\DB::raw('goods.*, SUM(purchase.purchase_number) as purchase_number'))
-                     ->leftJoin('purchase','goods.goods_id','=','purchase.goods_id')
-                     ->groupBy('goods.goods_id');
+
 
         return $search_data ->paginate($limit);
     }

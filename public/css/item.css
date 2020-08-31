@@ -5,3 +5,9 @@ span.red{
 p.red{
   color: red;
 }
+
+#text1:focus {
+    border: 2px solid SteelBlue;
+    z-index: 10;
+    outline: 0;
+}

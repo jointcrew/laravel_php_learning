@@ -25,24 +25,6 @@ class Controller extends BaseController
 
 
     /**
-     * 複数商品購入の際、購入数がすべて0ではないかチェック。
-     * すべて0だった場合は前画面へリダイレクト
-     * @param $purchase_numbers
-     * @return $count == $number false
-     */
-    public function purchase_numbers_check($purchase_numbers)
-    {
-        $count = count($purchase_numbers);
-        $number = 0;
-        foreach ($purchase_numbers as $purchase_number) {
-            if ($purchase_number == null or $purchase_number == 0)
-            $number++;
-        }
-        if ($count == $number) {
-            return false;
-        }
-    }
-    /**
      * 単一商品の際、決済前表示のための計算処理
      * @param $data
      * @return $data

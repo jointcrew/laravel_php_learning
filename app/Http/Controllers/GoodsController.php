@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Goods;
 use App\Models\Purchase;
 use App\Models\User;
-use App\Rules\nomal_number;
+use Illuminate\Support\Facades\Validator;
 
 class GoodsController extends Controller
 {
@@ -43,6 +43,7 @@ class GoodsController extends Controller
         View::share('discount_number', $discount_number);
         View::share('userlist_status', $userlist_status);
         View::share('roles', $roles);
+
     }
 
     /**
@@ -50,7 +51,7 @@ class GoodsController extends Controller
      * @param Request $request
      * @return view
      */
-    public function goodsSearch(Request $request)
+    public function goodsSearch(Request $request, $msg = null)
     {
         // 現在認証されているユーザーの取得
         $user = Auth::user();
@@ -66,11 +67,18 @@ class GoodsController extends Controller
             'stock'           => $request->input('stock'),
             'item_info'       => $request->input('item_info_1').','.$request->input('item_info_2'),
         ];
+        //item_infoのカンマを外し配列に、空は排除
         $data['item_info'] = explode(",", $data['item_info']);
         $data['item_info'] = array_filter($data['item_info']);
-        //Goodsモデルのsearchメソッドにアクセスし、データを取得
+        //検索条件なしの場合、在庫あり($data['stock'] = '1')の商品を取得
+        $all_null = array_filter($data);
+        if (empty($all_null)) {
+            $data['stock'] = '1';
+            $data['category'] = 'null';
+        }
+        //Goodsのsearchメソットで商品検索
         $searchlist = Goods::search($data);
-        return view('goodsSearch',compact('searchlist','role','request','data'));
+        return view('goodsSearch',compact('searchlist','role','request','data','msg'));
     }
 
     /**
@@ -137,13 +145,26 @@ class GoodsController extends Controller
                 return view('goodsSettle',compact('data','role'));
             //複数商品購入
             } elseif (!is_null($all_once_flag)) {
+                //在庫数取得
+                $stocks = $request->input('goods_stock');
+                //購入数取得
+                $purchase_numbers = $request->input('purchase_number');
+                //バリデーション、在庫数以下入力
+                foreach ($stocks as $key => $stock) {
+                    //バリデーションルール
+                    $array["purchase_number.$key"] = "nullable|integer|max:{$stock}";
+                    //バリデーションメッセージ
+                    $stock_array["purchase_number.$key.max"] = "購入数は:max以下の数字を指定してください。";
+                }
+                     $validator = Validator::make($request->all(), $array,$stock_array);
+                 //エラー時リダイレクト
+                if ($validator->fails()) {
+                    return redirect('goodsSearch')
+                    ->withErrors($validator)
+                    ->withInput();
+                }
                 //購入数(複数商品なので配列で)を$dataに挿入
                 $purchase_numbers = $request->input('purchase_number');
-                //すべての購入数が0だったら、検索画面へリダイレクト
-                $check = $this->purchase_numbers_check($purchase_numbers);
-                if (!is_null($check)) {
-                    return redirect()->back();
-                }
                 //購入数を入力していない商品idを外す
                 $purchase_numbers = array_filter($purchase_numbers);
                 //find_goodsメソッドでデータを取得をす得するため、渡す変数をgoods_idの配列に直す。
@@ -151,15 +172,9 @@ class GoodsController extends Controller
                 $goods_IDs = array_keys($purchase_numbers);
                 //Goodsモデルのfind_goodsメソッドにアクセスし、同goods_idデータを取得
                 $datalist = Goods::find_goods($goods_IDs);
-                //購入数が在庫を上回っていたらリダイレクト
-                foreach ($datalist as $data) {
-                    $data["stock"] = ($data["stock"]) - ($purchase_numbers[$data["goods_id"]]);
-                    if ($data["stock"]<0) {
-                        return redirect()->back();
-                    }
-                }
                 //表示金額を計算
                 $datalist = $this->all_once_calculate($datalist,$purchase_numbers);
+                //それぞれの合計数
                 $total_data = [
                     'purchase_number'       => array_sum($datalist['purchase_numbers']),
                     'discount_price'        => array_sum($datalist['discount_price']),
@@ -167,7 +182,7 @@ class GoodsController extends Controller
                     'purchase_price'        => array_sum($datalist['purchase_price'])
                 ];
                 //決済画面へ
-                return view('goodsSettle',compact('datalist','total_data','role','id'));
+                return view('goodsSettle',compact('datalist','total_data','role','id','request'));
             }
         }
     }
@@ -219,9 +234,9 @@ class GoodsController extends Controller
             } else {
                $msg =\Lang::get('goods.goods_Settle.1');
             }
-            return view('goodsSearch',compact('role','request','msg'));
+            return $this->goodsSearch($request,$msg);
         }
-        return view('goodsSearch',compact('role','request'));
+        return $this->goodsSearch($request);
     }
 
 
@@ -290,8 +305,8 @@ class GoodsController extends Controller
                 } else {
                    $msg =\Lang::get('goods.goods_Edit.1');
                 }
+            //商品登録
             } else {
-                //商品登録
                 //Goodsモデルのinsertメソッドにアクセスし、データを保存
                 $insert_data = Goods::insert($data);
                 //文言を$msgに代入
@@ -354,7 +369,6 @@ class GoodsController extends Controller
                 //ユーザー登録
                 //Goodsモデルのinsertメソッドにアクセスし、データを保存
                 $insert_data = User::goodsUserInsert($data);
-
                 //文言を$msgに代入
                 if ($insert_data == null) {
                    $msg= \Lang::get('user.user_register_fail');

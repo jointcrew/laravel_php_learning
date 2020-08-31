@@ -38,10 +38,11 @@
                             <span class="red">{{$msg}}</span>
                         @endif
                         <div class="row">
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-md-6">
+                                <br>
                                 <!--カテゴリ-->
-                                @lang('goods.category_tittle')：@if($role==1)<span class="red">@lang('common.required')</span>@endif
                                 @if ($role==1)
+                                    @lang('goods.category_tittle')：<span class="red">@lang('common.required')</span>
                                     <select name='category' class="form-control" id="select_category">
                                         @foreach($category as $key => $value)
                                         <option name="category" value={{$key}}
@@ -64,15 +65,16 @@
                                 @if ($role==5)
                                     @foreach($category as $key => $value)
                                         @if (isset($data["category"]) && $key==$data["category"])
-                                            <p>{{$value}}</p>
+                                            <p><strong>@lang('goods.category_tittle')</strong>：{{$value}}</p>
                                         @endif
                                     @endforeach
                                 @endif
                             </div>
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-md-6">
+                                <br>
                                 <!--種別-->
-                                @lang('goods.type_tittle')：@if($role==1)<span class="red">@lang('common.required')</span>@endif
                                 @if ($role==1)
+                                    @lang('goods.type_tittle')：<span class="red">@lang('common.required')</span>
                                     <select name='type' class="form-control" id="select_type">
                                         <option></option>
                                     </select>
@@ -83,17 +85,18 @@
                                 @if ($role==5)
                                     @foreach($type as $key => $value)
                                         @if (isset($data["type"]) && $key==$data["type"])
-                                            <p>{{$value}}</p>
+                                            <p><strong>@lang('goods.type_tittle')</strong>：{{$value}}</p>
                                         @endif
                                     @endforeach
                                 @endif
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-md-6">
                                 <!--商品名-->
-                                @lang('goods.goods_name_tittle')：@if($role==1)<span class="red">@lang('common.required')</span>@endif
+
                                 @if ($role==1)
+                                @lang('goods.goods_name_tittle')：<span class="red">@lang('common.required')</span>
                                     <input type="text" class="form-control" name="goods_name" size="40"
                                     value="<?php old('goods_name')? print old('goods_name'):(isset($data["goods_name"])? print  $data["goods_name"]:'');?>">
                                     @if ($errors->has('goods_name'))
@@ -102,16 +105,16 @@
                                 @endif
                                 @if ($role==5)
                                     @if (isset($data["goods_name"]))
-                                        <p>{{$data["goods_name"]}}</p>
+                                        <p><strong>@lang('goods.goods_name_tittle')</strong>：{{$data["goods_name"]}}</p>
                                     @endif
                                 @endif
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-md-6">
                                 <!--在庫-->
-                                @lang('goods.stock_tittle')：@if($role==1)<span class="red">@lang('common.required')</span>@endif
                                 @if ($role==1)
+                                @lang('goods.stock_tittle')：<span class="red">@lang('common.required')</span>
                                     <input oninput="this.value = Math.abs(this.value)" min="0" type="number" class="form-control" name="stock" size="40"
                                     value="<?php old('stock')? print old('stock'):(isset($data["stock"])? print  $data["stock"]:'');?>">
                                     @if ($errors->has('stock'))
@@ -121,22 +124,21 @@
                                 @if ($role==5)
                                     @if (isset($data["stock"]))
                                         @if ($data["stock"]>=1 && $data["stock"]<=5)
-                                            <p>@lang('goods.little_stock')</p>
-                                            <p>残り{{$data["stock"]}}個</p>
+                                            <strong>@lang('goods.stock_tittle')</strong>：@lang('goods.little_stock')
+                                            ・残り{{$data["stock"]}}個
                                         @elseif ($data["stock"]>5)
-                                            <p>@lang('goods.in_stock')</p>
-                                            <p>残り{{$data["stock"]}}個</p>
+                                            <strong>@lang('goods.stock_tittle')</strong>：@lang('goods.in_stock')
+                                            ・残り{{$data["stock"]}}個
                                         @elseif ($data["stock"]==0)
-                                            <p>@lang('goods.stock_0')</p>
+                                            <p><strong>@lang('goods.stock_tittle')</strong>：@lang('goods.stock_0')</p>
                                         @endif
                                     @endif
                                 @endif
                             </div>
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-md-6">
                                 <!--特殊-->
-                                <div class="form-group col-md-5">
-                                    <label class="control-label">@lang('goods.goods_info_tittle')：</label>
                                     @if ($role==1)
+                                    <label class="control-label">@lang('goods.goods_info_tittle')：</label>
                                         @foreach($item_info as $key => $value)
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" name="item_info[{{$key}}]" class="custom-control-input" id="custom-check-{{$key}}"
@@ -162,10 +164,11 @@
                                         @endif
                                     @endif
                                     @if ($role==5)
+                                        <strong>@lang('goods.goods_info_tittle')</strong>：
                                         @foreach($item_info as $key => $value)
                                             @foreach($data->item_info as $item_info)
                                                 @if ($key==$item_info)
-                                                    <p>{{$value}}</p>
+                                                    {{$value}}　
                                                 @endif
                                             @endforeach
                                         @endforeach
@@ -173,14 +176,14 @@
                                             <p>@lang('common.none')</p>
                                         @endif
                                     @endif
-                                </div>
                             </div>
                         </div>
+                        <br>
                         <div class="row">
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-md-6">
                                 <!--単価-->
-                                @lang('goods.unit_price_tittle')@lang('common.(yen)')：@if($role==1)<span class="red">@lang('common.required')</span>@endif
                                 @if ($role==1)
+                                @lang('goods.unit_price_tittle')：<span class="red">@lang('common.required')</span>
                                     <input oninput="this.value = Math.abs(this.value)" min="0" type="number" class="form-control" name="unit_price" size="40"
                                     value="<?php old('unit_price')? print old('unit_price'):(isset($data["unit_price"])? print  $data["unit_price"]:'');?>">
                                     @if ($errors->has('unit_price'))
@@ -189,14 +192,14 @@
                                 @endif
                                 @if ($role==5)
                                     @if (isset($data["unit_price"]))
-                                        <p>{{$data["unit_price"]}}@lang('common.yen')</p>
+                                        <p><strong>@lang('goods.unit_price_tittle')</strong>：{{$data["unit_price"]}}@lang('common.yen')</p>
                                     @endif
                                 @endif
                             </div>
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-md-6">
                                 <!--割引-->
-                                @lang('goods.discount_number_tittle')：@if($role==1)<span class="red">@lang('common.required')</span>@endif
                                 @if ($role==1)
+                                @lang('goods.discount_number_tittle')：<span class="red">@lang('common.required')</span>
                                     <select name='discount_number' class="form-control">
                                     @foreach($discount_number as $key => $value)
                                         <option name="discount_number" value={{$key}}
@@ -217,6 +220,7 @@
                                     @endif
                                 @endif
                                 @if ($role==5)
+                                <strong>@lang('goods.discount_number_tittle')</strong>：
                                     @foreach($discount_number as $key => $value)
                                         @if (isset($data["discount_number"]) && $key==$data["discount_number"])
                                             @if ($data["discount_number"]==0)
@@ -230,10 +234,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-md-12">
                                 <!--コメント、ifの所を改行すると表示の際変な隙間が出来てしまう-->
-                                @lang('goods.comment_tittle')：
                                 @if ($role==1)
+                                    @lang('goods.comment_tittle')：
                                     <textarea class="form-control" name="comment" size="40" rows="4" cols="250"><?php old('comment')? print old('comment'):(isset($data["comment"])? print  $data["comment"]:'');?></textarea>
                                     @if ($errors->has('comment'))
                                         <br><span class="red">{{ $errors->first('comment')}}</span>
@@ -241,40 +245,43 @@
                                 @endif
                                 @if ($role==5)
                                     @if (isset($data["comment"]))
-                                        <p>{{$data["comment"]}}</p>
+                                        <p><strong>@lang('goods.comment_tittle')</strong>：{{$data["comment"]}}</p>
                                     @endif
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group col-md-5 row">
-                            @if ($role==5)
-                                <!--購入数-->
-                                @lang('goods.purchase_number_tittle')：
-                                @if ($data['stock']==0)
-                                    <input disabled oninput="this.value = Math.abs(this.value)" min="0" type="number" class="form-control" name="purchase_number" size="40">
-                                @else
-                                    <input  oninput="this.value = Math.abs(this.value)" min="0" type="number" class="form-control" name="purchase_number" size="40">
-                                @endif
-
-                                @if ($errors->has('purchase_number'))
-                                    <br><span class="red">{{ $errors->first('purchase_number') }}</span>
-                                @endif
-                            @endif
+                        <div class="row">
+                            <div class="form-group col-md-8">
+                                @if ($role==5)
+                                    <!--購入数-->
+                                    <strong>@lang('goods.purchase_number_tittle')</strong>：@lang('goods.input_purchase')
+                                        @if ($data['stock']==0)
+                                            <input disabled oninput="this.value = Math.abs(this.value)" min="0" type="number"  name="purchase_number" size="40">
+                                        @else
+                                            <input id="text1" oninput="this.value = Math.abs(this.value)" min="0" type="number"  name="purchase_number" size="40">
+                                        @endif
+                                        @if ($errors->has('purchase_number'))
+                                            <br><span class="red">{{ $errors->first('purchase_number') }}</span>
+                                        @endif
+                                    @endif
+                            </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-5">
                                 @if ($role==1)
-                                    <!--総購入数-->
-                                    @lang('goods.total_purchase_number')：
-                                    @if ($data["total_purchase_number"]==null)
-                                        <p>0 @lang('goods.count')</p>
-                                    @else
-                                        <p>{{$data["total_purchase_number"]}}@lang('goods.count')</p>
+                                    @if (isset($data['goods_id']))
+                                        <!--総購入数-->
+                                        @lang('goods.total_purchase_number')：
+                                        @if ($data["total_purchase_number"]==null)
+                                            <p>0 @lang('goods.count')</p>
+                                        @else
+                                            <p>{{$data["total_purchase_number"]}}@lang('goods.count')</p>
+                                        @endif
                                     @endif
                                 @endif
                                 @if ($role==5)
                                     <!--売れ筋-->
-                                    @lang('goods.sales')
+                                    <strong>@lang('goods.sales')</strong>：
                                     @if ($data["total_purchase_number"]==null)
                                         0
                                     @else
@@ -306,14 +313,13 @@
                         </div>
                         @endif
                         <div class="form-group">
-                                <a class="btn btn-outline-primary" href="/goodsSearch?stock=1&category=null">@lang('common.back')</a>
+                                <a class="btn btn-outline-primary" href="/goodsSearch">@lang('common.back')</a>
                             @if ($role==1)
                                 <!--保存-->
                                 <input type="submit" onclick="action_role1();" class="btn btn-primary" value= @lang('common.save')>
                             @endif
                             @if ($role==5)
                                 <!--決済-->
-
                                 @if ($data['stock']==0)
                                     <input disabled type="submit" onclick="action_role5();" class="btn btn-primary" value= @lang('common.settlement')>
                                 @else

@@ -70,7 +70,7 @@
                         <div class="form-inline">
                             <div class="form-group">
                                 <!--戻る-->
-                                <a href="/goodsSearch?stock=1&category=null" class="btn btn-primary">@lang('common.back')</a>
+                                <a href="/goodsSearch" class="btn btn-primary">@lang('common.back')</a>
                             </div>
                             <div class="form-group">
                                 <!--サマリ-->

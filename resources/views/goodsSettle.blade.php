@@ -8,7 +8,7 @@
                 <div class="card-header">@lang('common.menu.goods_settle')</div>
                 <div class="col-md-12 justify-content-center">
                     @if ($role==1)
-                    <a class="btn btn-outline-primary" href="/goodsSearch?stock=1&category=null">@lang('common.back')</a>
+                    <a class="btn btn-outline-primary" href="/goodsSearch">@lang('common.back')</a>
                     @endif
                     <form action="/goodsSettle" method="post">
                     @if ($role==5)
@@ -146,7 +146,7 @@
                         </div>
                         <div class="form-group">
                             @if (isset($datalist))
-                            <a class="btn btn-outline-primary" href="/goodsSearch?stock=1&category=null">@lang('common.back')</a>
+                            <a class="btn btn-outline-primary" href="/goodsSearch">@lang('common.back')</a>
                             @else
                             <a class="btn btn-outline-primary" href="/goodsDetail?goods_id={{$data['goods_id']}}">@lang('common.back')</a>
                             @endif

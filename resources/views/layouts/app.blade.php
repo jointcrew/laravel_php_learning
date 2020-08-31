@@ -19,7 +19,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/item.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/item.css?202008270') }}">
 </head>
 <body>
     <div id="app">
@@ -84,7 +84,7 @@
                             @lang('common.menu.goods')<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu bg-light">
-                            <li><a href="/goodsSearch?stock=1&category=null">・@lang('common.menu.goods_search')</a></li>
+                            <li><a href="/goodsSearch">・@lang('common.menu.goods_search')</a></li>
                         </ul>
                     </li>
                 </ul>

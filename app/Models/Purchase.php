@@ -50,8 +50,9 @@ class Purchase extends Model
                 'created_at'      => now(),
             ];
             self::create($input_date);
-            $edit_data = Goods::find($data['goods_id']);
+
             //指定goods_id($data[item_id])のstockが更新される
+            $edit_data = Goods::find($data['goods_id']);
             $edit_data -> stock = $data['goods_stock'];
             $edit_data -> updated_at = now();
             $edit_data -> save();
@@ -92,9 +93,10 @@ class Purchase extends Model
                     }
                 }
             self::insert($insert_datas);
+
+            //指定goods_id($data[item_id])のstockが更新される
             foreach ($multi_goods_stock as $key => $stock) {
                 $edit_data = Goods::find($key);
-                //指定goods_id($data[item_id])のstockが更新される
                 $edit_data -> stock = $stock;
                 $edit_data -> updated_at = now();
                 $edit_data -> save();
@@ -167,6 +169,7 @@ class Purchase extends Model
 
             //検索結果を取得
             $list = $search_data ->get();
+            //サマリ検索結果、モーダルのページネーション追加のため（途中）
             //$list = $search_data ->paginate(10);
 
             //検索結果を配列に入れる
