@@ -10,6 +10,16 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-11">
+            <!--購入メッセージ-->
+            @if (isset($msg))
+                <div class="card">
+                    <div class="card-header">@lang('common.resalt')</div>
+                    <div class="col-md-12 justify-content-center">
+                        <span class="red">{{$msg}}</span>
+                    </div>
+                </div>
+                <br>
+            @endif
             <div class="card" >
                 <div id="t1"></div>
                 @if ($role==1)
@@ -33,9 +43,6 @@
                         @endif
                         @if ((!isset($data["goods_id"])) && (!old('type')==null))
                             <input type="hidden" name="old_type" id="type_value" value={{old('type')}}>
-                        @endif
-                        @if (isset($msg))
-                            <span class="red">{{$msg}}</span>
                         @endif
                         <div class="row">
                             <div class="form-group col-md-6">

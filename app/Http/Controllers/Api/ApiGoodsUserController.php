@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Types;
-use App\Models\Purchase;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ApiGoodsUserController extends Controller
@@ -29,7 +29,7 @@ class ApiGoodsUserController extends Controller
             'user_id'           => $request->input('user_id'),
         ];
 
-        $summary = Purchase::search($data);
+        $summary = User::search($data);
 
         if ($summary == false) {
             //エラーを返す

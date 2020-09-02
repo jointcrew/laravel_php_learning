@@ -1,19 +1,8 @@
 $(function(){
-    //チェックボックス(userid)情報をモーダルに渡す
-    $('#Modal').on('show.bs.modal', function (event) {
-        const arr = [];
-        const summary = document.getElementsByName("summary");
 
-        for (let i = 0; i < summary.length; i++){
-            if(summary[i].checked){ //(summary[i].checked === true)と同じ
-                arr.push(summary[i].value);
-            }
-        }
-        document.getElementById( "user_id" ).value = arr ;
-    });
+    //ページネーションクリック
+    $(document).on('click', '#pagination a', function() {
 
-    //モーダル検索ボタン
-    $('#form_buttum').click(function() {
         var category    = $('#category').val();
         var goods_name  = $('#goods_name').val();
         var price_start = $('#price_start').val();
@@ -21,13 +10,11 @@ $(function(){
         var date_start  = $('#date_start').val();
         var date_end    = $('#date_end').val();
         var user_id     = $('#user_id').val();
-
-        // HTMLでの送信をキャンセル
-        event.preventDefault();
-
+        //ページリンク取得
+        val = $(this).attr("href");
         // 送信
         $.ajax({
-            url: 'api/api_goodsuser',
+            url: val,
             type: 'GET',
             dataType: "json",
             data: { // 送信するデータ
@@ -41,9 +28,9 @@ $(function(){
             },
         }).done(function(data) {
             // 通信成功時の処理
+
             //再検索の際、前検索結果を削除する(タイトル以外削除)
             while( table.rows[ 1 ] ) table.deleteRow( 1 );
-            $("#pagination").empty();
 
             //購入サマリを表示
             $.each(data['response']['original']['data'], function(property, value) {
@@ -82,19 +69,23 @@ $(function(){
                     );
                 }
             });
+            //ページネーション再構築
+            $("#pagination").empty();
 
-            //ページネーション処理
+            //グローバルパラメータ取得
             var next_page_url = data['response']['original']['next_page_url'];
             var prev_page_url = data['response']['original']['prev_page_url'];
             var last_page = data['response']['original']['last_page'];
             var page = data['response']['original']['current_page'];
             var total  = data['response']['original']['total'];
+
             //10個前制御
             if(prev_page_url == null){
                 $("#pagination").append("<li class='disabled page-item'><a class='page-link' href=''>«</a></li>");
             }else{
                 $("#pagination").append("<li class='active'><a class='page-link' href='/api/api_goodsuser?page="+(page-10)+"'>«</a></li>");
             }
+
             //Prev 制御
             if(prev_page_url == null){
                 $("#pagination").append("<li class='disabled page-item'><a class='page-link' href=''><</a></li>");
@@ -124,7 +115,7 @@ $(function(){
 
             //Next制御
             if(next_page_url == null){
-                $("#pagination").append("<li class='disabled page-item'><a class='page-link' href=''>>'</a></li>");
+                $("#pagination").append("<li class='disabled page-item'><a class='page-link' href=''>></a></li>");
             }else{
                 $("#pagination").append("<li class='page-item'><a class='page-link' href='/api/api_goodsuser?page="+(page+1)+"'>></a></li>");
             }
@@ -132,15 +123,18 @@ $(function(){
             //10個とばし制御
             if(next_page_url == null){
                 $("#pagination").append("<li class='disabled page-item'><a class='page-link' href=''>»</a></li>");
-            }else if ((page+10)>last_page) {
+            } else if ((page+10)>last_page) {
                 $("#pagination").append("<li class='disabled page-item'><a class='page-link' href=''>»</a></li>");
             }else{
                 $("#pagination").append("<li class='page-item'><a class='page-link' href='/api/api_goodsuser?page="+(page+10)+"'>»</a></li>");
             }
-
+            //ページ遷移を止める
+            return false;
         }).always(function(data) {
             // 常に実行する処理
             $("#modalForm").modal('hide'); // モーダルを閉じる
+            return false;
         });
+        return false;
     });
 });
