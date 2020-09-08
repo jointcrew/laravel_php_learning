@@ -3,8 +3,9 @@
   src="https://code.jquery.com/jquery-3.5.1.js"
   integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
   crossorigin="anonymous"></script>
-<script src="{{ asset('js/goods_ajax.js?20200902') }}" defer></script>
-<script src="{{ asset('js/user_summary_pegenatin.js?1') }}" defer></script>
+<script src=" js/goods_ajax.js?<?= strtotime('now') ?> " defer></script>
+<script src="js/user_summary_pegenatin.js?<?= strtotime('now') ?>" defer></script>
+<script src="js/practice.js?<?= strtotime('now') ?>" defer></script>
 
 @section('content')
 <div class="container">

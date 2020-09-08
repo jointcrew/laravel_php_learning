@@ -98,6 +98,9 @@ Route::get('/goodsUser', 'GoodsController@goodsUser')->name('goodsUser');
 //ユーザー登録・編集
 Route::get('/goodsUserEdit', 'GoodsController@goodsUserEdit')->name('goodsUserEdit');
 Route::post('/goodsUserEdit', 'GoodsController@goodsUserEdit')->name('goodsUserEdit');
-
+//excelデータ表示
+Route::get('/excel', 'ExcelController@excel')->name('excel');
+//excelデータ作成
+Route::get('/export', 'ExcelController@export')->name('export');
 
 Route::post('user/{id}', ['as'=>'user.update', 'uses'=>'UserController@updateUserProfile']);

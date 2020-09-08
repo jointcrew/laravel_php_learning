@@ -19,7 +19,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('bootstrap/css/bootstrap.css') }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/item.css?202008270') }}">
+    <link rel="stylesheet" type="text/css" href="css/item.css?<?= strtotime('now') ?>">
 </head>
 <body>
     <div id="app">
@@ -86,6 +86,11 @@
                         <ul class="dropdown-menu bg-light">
                             <li><a href="/goodsSearch">・@lang('common.menu.goods_search')</a></li>
                         </ul>
+                    </li>
+
+                    <!-- 自力で -->
+                    <li class="dropdown">
+                        <a href="/excel">Excel出力画面</a>
                     </li>
                 </ul>
 

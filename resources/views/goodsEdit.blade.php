@@ -3,8 +3,8 @@
   src="https://code.jquery.com/jquery-3.5.1.js"
   integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
   crossorigin="anonymous"></script>
-<script src="{{ asset('js/form_action_change.js?202008190') }}" defer></script>
-<script src="{{ asset('js/select_change.js?202008270') }}" defer></script>
+<script src="js/form_action_change.js?<?= strtotime('now') ?>" defer></script>
+<script src="js/select_change.js?<?= strtotime('now') ?>" defer></script>
 
 @section('content')
 <div class="container">
