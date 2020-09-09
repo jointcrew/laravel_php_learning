@@ -19,6 +19,7 @@
         "maatwebsite/excel": "^3.1"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.5",
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.9.1",
         "krlove/eloquent-model-generator": "^1.3",

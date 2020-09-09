@@ -8,22 +8,21 @@ use Maatwebsite\Excel\Validators\Failure;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
-use Maatwebsite\Excel\Concerns\SkipsOnError;
-//use Maatwebsite\Excel\Concerns\SkipsOnFailure;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\WithValidation;
-use Maatwebsite\Excel\Concerns\SkipsErrors;
-//use Maatwebsite\Excel\Concerns\SkipsFailures;
-//use Maatwebsite\Excel\Concerns\WithEvents;
-//use Maatwebsite\Excel\Events\AfterImport;
+use Session;
 
 class UserInfoImport implements ToModel,
     WithHeadingRow,
     WithChunkReading,
     WithValidation,
-    SkipsOnError
-    //SkipsOnFailure
+    SkipsOnFailure
 {
-    use Importable,SkipsErrors;
+    use Importable;
+
+    public $error_num = 0;
+    public $success_num = 0;
+
     /**
     * @param array $row
     *
@@ -31,7 +30,9 @@ class UserInfoImport implements ToModel,
     */
     public function model(array $row)
     {
-
+        //成功件数をカウント
+        $this->success_num++;
+        //生年月日がシリアル値で来るので、標準日付型に変換
         $birthday = date('Y/m/d', ($row['birthday_day'] - 25569) * 60 * 60 * 24);
 
         return new UserInfo([
@@ -48,11 +49,15 @@ class UserInfoImport implements ToModel,
 
     }
 
-    //100件ずつinsert
+    /**
+     * 100件ずつ読み込み
+     * @return array
+     */
     public function batchSize(): int
     {
         return 100;
     }
+
     /**
      * 行の分割サイズ
      * @return int
@@ -61,6 +66,7 @@ class UserInfoImport implements ToModel,
     {
         return 100;
     }
+
     /**
      * バリデーションルール
      * @return array
@@ -83,7 +89,22 @@ class UserInfoImport implements ToModel,
      */
     public function onFailure(Failure ...$failures)
     {
-        // Handle the failures how you'd like.
+        //errorが上書きされてしまうため、配列のようにして管理
+        $number = $this->error_num;
+        Session::put("errors[$number]", $failures);
+        $this->error_num++;
+
     }
+
+    /**
+     * 成功件数を返す
+     * @return int
+     */
+    public function succes_number()
+    {
+        $success_number = $this->success_num;
+        return $success_number;
+    }
+
 
 }

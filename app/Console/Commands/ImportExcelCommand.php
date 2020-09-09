@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Imports\UserInfoImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Session;
 
 class ImportExcelCommand extends Command implements WithHeadingRow
 {
@@ -40,23 +41,24 @@ class ImportExcelCommand extends Command implements WithHeadingRow
      */
     public function handle()
     {
+        //start1表示
         $this->output->title('Starting import');
-
+        //file取得
         $file = $this->argument('file');
-        //(new UserInfoImport)->withOutput($this->output)->import($file);
-        //(new UserInfoImport)->import($file);
+        //insertなどの処理
         $import = new UserInfoImport();
         $import->import($file);
-        dd($import->errors());
-
-
-        //var_dump($file);
-        //$this->error($val);
-        //$totalRows = count($count);
-        //$this->error($totalRows);
-        //Excel::import(new UserInfoImport, $file);
-        //dd('Row count: ' . $import->getRowCount());
-        $this->output->success('Import successful');
+        //成功件数を取得
+        $success_number = $import->succes_number();
+        //エラー内容を取得
+        $alls = Session::all();
+        $erroe_number = 0;
+        //エラー数をカウント
+        foreach ($alls as $all) {
+            $erroe_number++;
+        }
+        //処理後、文言表示
+        $this->output->success('エラー件数'.$erroe_number.'件、'.'成功件数'.$success_number.'件');
     }
 
 }
