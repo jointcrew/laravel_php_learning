@@ -34,18 +34,30 @@ class UserInfoImport implements ToModel,
         $this->success_num++;
         //生年月日がシリアル値で来るので、標準日付型に変換
         $birthday = date('Y/m/d', ($row['birthday_day'] - 25569) * 60 * 60 * 24);
+        //モデルインスタンス
+        $insert = new UserInfo();
 
-        return new UserInfo([
+        $data = [
+            'id'                       => $row['id'],
             'last_name'                => $row['last_name'],
             'name'                     => $row['name'],
             'last_name_kana'           => $row['last_name_kana'],
             'name_kana'                => $row['name_kana'],
             'gender'                   => $row['gender'],
             'birthday_day'             => $birthday,
-            'created_at'               => now(),
-            'updated_at'               => null,
-            'prefecture_kana'          => null,
-        ]);
+            'status'                   => $row['status'],
+        ];
+
+        if (is_null($data['status'])) {
+            //新規作成
+            $insert->insert($data);
+        } elseif ($data['status'] == 5) {
+            //編集
+            $insert->edit($data);
+        } elseif ($data['status'] == 1) {
+            //削除
+            $insert->user_delete($data);
+        }
 
     }
 
@@ -80,6 +92,8 @@ class UserInfoImport implements ToModel,
             'last_name_kana' => ['required','alpha'],
             'name_kana'      => ['required','alpha'],
             'gender'         => ['required','integer','max:2'],
+            'status'         => ['integer','nullable'],
+            'id'             => ['required','integer'],
             'birthday_day'   => ['required','digits:5'],
         ];
     }
