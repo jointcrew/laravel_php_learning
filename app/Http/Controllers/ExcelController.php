@@ -6,21 +6,11 @@ require_once "../vendor/autoload.php";
 
 use Illuminate\Http\Request;
 use App\Models\UserInfo;
-use App\Exports\UserInfoExport;
 use Maatwebsite\Excel\Facades\Excel;
-
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Cell;
-use PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Style;
 use PhpOffice\PhpSpreadsheet\Style\Border;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx as XlsxWriter;
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XlsxReader;
 
 class ExcelController extends Controller
 {
@@ -44,7 +34,6 @@ class ExcelController extends Controller
     public function export()
     {
         // Excel 定義
-        //return Excel::download(new UserInfoExport, 'users.xlsx');
         $spreadsheet = new Spreadsheet();
         // スプレッドシート作成
         $sheet_name = 'users';
@@ -115,13 +104,12 @@ class ExcelController extends Controller
         $file_name = 'users_info.xlsx';
         $writer = new Xlsx($spreadsheet);
         $check = $writer->save($file_path.$file_name);
-
+        //メッセージ
         if ($check == false) {
             $msg = \Lang::get('excel.export_success');
         } else {
             $msg = \Lang::get('goods.export_fail');
         }
-
         //excelデータ出力画面へ
         $userlist = UserInfo::paginate(15);
         return view('excel',compact('userlist','msg'));

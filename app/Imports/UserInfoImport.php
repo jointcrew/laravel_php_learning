@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use App\Rules\Hankaku;
 use Session;
 
 class UserInfoImport implements ToModel,
@@ -87,10 +88,10 @@ class UserInfoImport implements ToModel,
     {
         // 書き方は通常のバリデーションと同じ。
         return [
-            'last_name'      => ['required','string'],
-            'name'           => ['required','string'],
-            'last_name_kana' => ['required','alpha'],
-            'name_kana'      => ['required','alpha'],
+            'last_name'      => ['required','string','max:50'],
+            'name'           => ['required','string','max:50'],
+            'last_name_kana' => ['required',new Hankaku,'max:50'],
+            'name_kana'      => ['required',new Hankaku,'max:50'],
             'gender'         => ['required','integer','max:2'],
             'status'         => ['integer','nullable'],
             'id'             => ['required','integer'],

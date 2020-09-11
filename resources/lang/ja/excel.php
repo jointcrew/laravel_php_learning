@@ -9,6 +9,7 @@ return [
     'excel_export'    => 'Excel出力',
     'export_success'  => 'Excel出力成功',
     'export_fail'     => 'Excel失敗',
+    'error_msg'       => 'エラーメッセージ',
     'gender_number' => [
         '1'  => '男性',
         '2'  => '女性',

@@ -53,9 +53,21 @@ class ImportExcelCommand extends Command implements WithHeadingRow
         //エラー内容を取得
         $alls = Session::all();
         $erroe_number = 0;
-        //エラー数をカウント
-        foreach ($alls as $all) {
-            $erroe_number++;
+        //エラーがあれば、メッセージ表示、エラー数カウント
+        if (!empty($alls)) {
+            $this->error(\Lang::get('excel.error_msg'));
+            foreach ($alls as $all) {
+                foreach ($all as $key => $error) {
+                    //エラー行数取得
+                    $row = $error->row();
+                    $row--;
+                    //エラーメッセージ取得
+                    $error_msg = $error->errors();
+                    $this->info($row.'行目の'.$error_msg[0]);
+                }
+                //エラー数をカウント
+                $erroe_number++;
+            }
         }
         //処理後、文言表示
         $this->output->success('エラー件数'.$erroe_number.'件、'.'成功件数'.$success_number.'件');
