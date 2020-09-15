@@ -26,7 +26,7 @@ class ChangeGoodsTable extends Migration
     public function down()
     {
         Schema::table('goods', function (Blueprint $table) {
-            $table->integer('item_info')->change();
+            $table->integer('item_info')->length(2)->nullable()->comment('1.新商品、2.期間限定')->change();
         });
     }
 }
