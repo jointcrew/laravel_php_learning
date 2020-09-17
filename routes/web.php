@@ -102,5 +102,13 @@ Route::post('/goodsUserEdit', 'GoodsController@goodsUserEdit')->name('goodsUserE
 Route::get('/excel', 'ExcelController@excel')->name('excel');
 //excelデータ作成
 Route::get('/export', 'ExcelController@export')->name('export');
+//unitテスト画面
+Route::get('/book_manage', 'UnitTestController@book_manage')->name('book_manage');
+//unitテスト,本登録画面
+Route::post('/book_register', 'UnitTestController@book_register')->name('book_register');
+//unitテスト,本貸出画面
+Route::get('/book_rent', 'UnitTestController@book_rent')->name('book_rent');
+//unitテスト,本返却画面
+Route::get('/book_return', 'UnitTestController@book_return')->name('book_return');
 
 Route::post('user/{id}', ['as'=>'user.update', 'uses'=>'UserController@updateUserProfile']);

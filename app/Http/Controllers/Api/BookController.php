@@ -10,7 +10,8 @@ class BookController  extends Controller
 {
     public function index()
     {
-        return Book::all();
+        $summary = Book::all();
+        return response()->success($summary, self::RESPONSE_CODE_200);
     }
     public function store(Request $request)
     {
@@ -18,6 +19,7 @@ class BookController  extends Controller
         $book->title = $request->title;
         $book->author = $request->author;
         $book->description = $request->description;
+        $book->status = Book::Available;
         $book->save();
         return $book;
     }

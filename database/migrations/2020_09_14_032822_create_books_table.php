@@ -14,10 +14,9 @@ class CreateBooksTable extends Migration
     public function up()
     {
         Schema::create('books', function (Blueprint $table) {
-               //$table->id();
                $table->bigIncrements('id');
-               $table->string('author');
-               $table->string('title');
+               $table->string('author', 100);
+               $table->string('title', 100);
                $table->string('description', 500);
                $table->integer('status')->default(App\Book::Available);
                $table->integer('rent_count')->default(0);

@@ -8,6 +8,7 @@ return [
     'birthday_day'    => '生年月日',
     'excel_export'    => 'Excel出力',
     'export_success'  => 'Excel出力成功',
+    'excel_view'      => 'Excel出力画面',
     'export_fail'     => 'Excel失敗',
     'error_msg'       => 'エラーメッセージ',
     'gender_number' => [

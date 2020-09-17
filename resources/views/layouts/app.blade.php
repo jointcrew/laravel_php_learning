@@ -88,10 +88,21 @@
                         </ul>
                     </li>
 
-                    <!-- 自力で -->
+                    <!-- unitテスト -->
                     <li class="dropdown">
-                        <a href="/excel">Excel出力画面</a>
+                        <a href="#" class="dropdown-toggle mr-4" data-toggle="dropdown">
+                            @lang('unit_test.Unit_test')
+                        </a>
+                        <ul class="dropdown-menu bg-light">
+                            <li><a href="/book_manage">・@lang('unit_test.book_manege')</a></li>
+                        </ul>
                     </li>
+
+                    <!-- ex -->
+                    <li class="dropdown">
+                        <a href="/excel">・@lang('excel.excel_view')</a>
+                    </li>
+
                 </ul>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">

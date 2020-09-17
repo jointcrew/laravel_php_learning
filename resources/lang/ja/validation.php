@@ -167,6 +167,11 @@ return [
         'unit_price'            => '単価' ,
         'stock'                 => '在庫',
         'purchase_number'       => '購入数',
+        'title'                 => 'タイトル' ,
+        'author'                => '著者',
+        'description'           => '説明',
+        'return_id'             => 'ID',
+        'id'                    => 'ID',
     ],
 
 ];
