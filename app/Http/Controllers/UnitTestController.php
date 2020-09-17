@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Validator;
 use App\Book;
+use App\Models\User;
 use Session;
 
 class UnitTestController extends Controller
@@ -103,22 +104,28 @@ class UnitTestController extends Controller
            'rent_book_id'             =>"required|integer|exists:books,id",
            'rent_user_id'             =>"required|integer|exists:users,id",
         ]);
-        //statusを取得
-        $status_number = Book::select('status')->where('id',$data['rent_book_id'])->get();
 
-        foreach ($status_number as $satus) {
-            $rent_status = $satus['status'];
+        //利用本数を記録、本は3冊まで。3冊以上借りようとしたら、リダイレクトエラー
+        $check = User::where('id',$data['rent_user_id'])->first();
+        $number_book_rent = $check->checkRentBookNumber();
+        //貸出冊数上限越えなら、リダイレクト
+        if ($number_book_rent === false) {
+            return back()->with('message', '貸出上限を超えています');
         }
-        //貸出、statusを貸出不可に変更
-        $edit_data = Book::find($data['rent_book_id']);
-        $result = $edit_data->checkOut($rent_status);
 
+        $book = Book::find($data['rent_book_id']);
+        //statusを取得
+        $status = $book->status;
+        //貸出、statusを貸出不可に変更,利用者登録
+        $result = $book->checkOut($status,$data['rent_user_id']);
+        //貸出不可なら、リダイレクト
         if ($result === false) {
             return back()->with('message', '貸出不可');
         }
         if (is_null($result)) {
             $msg = \Lang::get('unit_test.rent_ok');
         }
+
         try {
             //http通信を行う
             $client = new Client();
@@ -137,11 +144,12 @@ class UnitTestController extends Controller
             //アクセス失敗したらエラーを返す
             return $e->getHandlerContext()['error'];
         }
+
         return view('bookManage',compact('datalist','msg'));
     }
 
     /**
-     * 本貸し出し
+     * 本返却
      * @param Request $request
      * @return view
      */
@@ -150,14 +158,14 @@ class UnitTestController extends Controller
         $data = $request->validate([
            'return_book_id'             =>'required|integer|exists:books,id',
         ]);
+
+        $book = Book::find($data['return_book_id']);
         //statusを取得
-        $status_number = Book::select('status')->where('id',$data['return_book_id'])->get();
-        foreach ($status_number as $satus) {
-            $back_status = $satus['status'];
-        }
+        $status = $book->status;
+        //userを取得
+        $user = $book->rent_user_id;
         //貸出可能にstatusを変更
-        $edit_data = Book::find($data['return_book_id']);
-        $result = $edit_data->returnBook($back_status);
+        $result = $book->returnBook($status);
 
         if ($result === false) {
             return back()->with('message', '返却済み');
@@ -165,6 +173,9 @@ class UnitTestController extends Controller
         if (is_null($result)) {
             $msg = \Lang::get('unit_test.return_ok');
         }
+        //利用本数を-1
+        $check = User::where('id',$user)->first();
+        $check->cutBackBookNumber();
         try {
             //http通信を行う
             $client = new Client();

@@ -170,7 +170,6 @@ return [
         'title'                 => 'タイトル' ,
         'author'                => '著者',
         'description'           => '説明',
-        'return_id'             => 'ID',
         'id'                    => 'ID',
     ],
 

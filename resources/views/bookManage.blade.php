@@ -72,16 +72,6 @@
                                                 @if ($errors->has('return_book_id'))
                                                     <br><span class="red">{{ $errors->first('return_book_id')}}</span>
                                                 @endif
-                                                <!-- user_id -->
-                                                <div class='col-md-2'>
-                                                    @lang('unit_test.user_id')
-                                                </div>
-                                                <div class='col-md-3 mb-2'>
-                                                    <input oninput="this.value = Math.abs(this.value)" min="0" type="number" class="form-control" name="return_user_id" value="{{ old('return_id') }}">
-                                                </div>
-                                                @if ($errors->has('return_user_id'))
-                                                    <br><span class="red">{{ $errors->first('return_user_id')}}</span>
-                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-md-1">
@@ -158,7 +148,7 @@
                                             <td>{{$data["author"]}}</td>
                                             <td>{{$data["title"]}}</td>
                                             <td>{{$data["description"]}}</td>
-                                            <td></td>
+                                            <td>{{$data["name"]}}</td>
                                             <td>@lang("unit_test.status.{$data['status']}")</td>
                                         </tr>
                                     @endforeach

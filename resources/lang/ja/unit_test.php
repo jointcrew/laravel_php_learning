@@ -14,7 +14,8 @@ return [
     'register'        => '登録',
     'result'          => '登録結果',
     'book_manege'     => '書籍管理',
-    'rent_user'        => '利用者',
+    'rent_user'       => '利用者',
+    'id'              => 'ID',
     'status'          => [
         1 => '○',
         2 => '×',

@@ -190,4 +190,41 @@ class User extends Model
         return \Response::json($list);
     }
 
+    /**
+     * 利用冊数をカウント、４冊以上はfalse
+     *@param int  $data
+     *@return false
+     *
+     */
+    public function checkRentBookNumber() {
+        //rent_booksを取得
+        $rent_books = $this->rent_books;
+        //2冊までだったら、現冊数に+1
+        if ((0 <= $rent_books) && ($rent_books < 3)) {
+            $this->increment('rent_books', 1);
+        } else {
+            return false;
+        }
+        $this->save();
+
+    }
+
+    /**
+     * 利用冊数を-1
+     *@param int  $data
+     *
+     */
+    public function cutBackBookNumber() {
+        //rent_booksを取得
+        $rent_books = $this->rent_books;
+        //３冊までだったら、現冊数に-1
+        if ((0 <= $rent_books) && ($rent_books < 3)) {
+            $this->decrement('rent_books', 1);
+        } else {
+            return false;
+        }
+        $this->save();
+
+    }
+
 }
