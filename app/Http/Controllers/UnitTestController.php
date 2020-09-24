@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Validator;
 use App\Book;
-use App\Models\User;
+use App\User;
 use Session;
 
 class UnitTestController extends Controller
@@ -125,7 +125,7 @@ class UnitTestController extends Controller
         if (is_null($result)) {
             $msg = \Lang::get('unit_test.rent_ok');
         }
-
+        //一覧表示
         try {
             //http通信を行う
             $client = new Client();
@@ -175,7 +175,12 @@ class UnitTestController extends Controller
         }
         //利用本数を-1
         $check = User::where('id',$user)->first();
-        $check->cutBackBookNumber();
+        $return = $check->checkReturnBookNumber();
+        //返却の際、rent_booksが0~3以外の本数だった場合
+        if ($return === false) {
+            return back()->with('message', '返却エラー');
+        }
+        //一覧表示
         try {
             //http通信を行う
             $client = new Client();

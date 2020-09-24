@@ -36,4 +36,41 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * 利用冊数を+1、３冊までしか借りられない
+     *@param int  $data
+     *@return false
+     *
+     */
+    public function checkRentBookNumber() {
+        //rent_booksを取得
+        $rent_books = $this->rent_books;
+        //貸出冊数が0~2冊までだったら、現冊数に+1
+        if ((0 <= $rent_books) && ($rent_books < 3)) {
+            $this->increment('rent_books', 1);
+        } else {
+            return false;
+        }
+        $this->save();
+
+    }
+
+    /**
+     * 利用冊数を-1
+     *@param int  $data
+     *
+     */
+    public function checkReturnBookNumber() {
+        //rent_booksを取得
+        $rent_books = $this->rent_books;
+        //貸出冊数が1~３冊までだったら、現冊数に-1
+        if ((0 < $rent_books) && ($rent_books <= 3)) {
+            $this->decrement('rent_books', 1);
+        } else {
+            return false;
+        }
+        $this->save();
+
+    }
 }
