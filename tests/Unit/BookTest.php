@@ -258,4 +258,22 @@ class BookTest extends TestCase
         );
     }
 
+    /**
+     * @expectedExceptionMessage Invalid Param
+     *返却時、貸出冊数が４冊以上であれば、エラー
+     */
+    public function testCheckReturnBookNumber_overBookNumber()
+    {
+        //貸出済のユーザー取得
+        $user = User::where('rent_books', 4)->first();
+        //貸出冊数が+1に
+        $check = $user->checkReturnBookNumber();
+        //falseか判定
+        $this->assertFalse($check);
+
+        print(
+            "testCheckReturnBookNumber_overBookNumber()...貸出冊数が４冊以上であれば、falseが返る\n"
+        );
+    }
+
 }

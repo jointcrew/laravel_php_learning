@@ -32,7 +32,6 @@ class UnitTestController extends Controller
             //http通信を行う
             $client = new Client();
             $url = \Config::get('services.book_api_url.restapi');
-
             $response = $client->request("GET", $url );
             //getBody()でAPIの結果を取得
             $datalist = $response->getBody();
@@ -130,9 +129,7 @@ class UnitTestController extends Controller
             //http通信を行う
             $client = new Client();
             $url = \Config::get('services.book_api_url.restapi');
-
             $response = $client->request("GET", $url );
-
             //getBody()でAPIの結果を取得
             $datalist = $response->getBody();
             //json_decodeで配列型に変換
@@ -176,7 +173,7 @@ class UnitTestController extends Controller
         //利用本数を-1
         $check = User::where('id',$user)->first();
         $return = $check->checkReturnBookNumber();
-        //返却の際、rent_booksが0~3以外の本数だった場合
+        //返却の際、貸出冊数が0~3以外の本数だった場合
         if ($return === false) {
             return back()->with('message', '返却エラー');
         }
@@ -185,7 +182,6 @@ class UnitTestController extends Controller
             //http通信を行う
             $client = new Client();
             $url = \Config::get('services.book_api_url.restapi');
-
             $response = $client->request("GET", $url );
             //getBody()でAPIの結果を取得
             $datalist = $response->getBody();
