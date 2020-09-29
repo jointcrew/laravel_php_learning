@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Book;
 use App\User;
 
-class BookController  extends Controller
+class BookController extends Controller
 {
     /**
      * GET：一覧表示データを取得。
@@ -16,8 +16,8 @@ class BookController  extends Controller
      */
     public function index()
     {
-        $summary = Book::select('books.*','users.name')
-                ->leftjoin('users','users.id','=','books.rent_user_id')
+        $summary = Book::select('books.*', 'users.name')
+                ->leftjoin('users', 'users.id', '=', 'books.rent_user_id')
                 ->groupBy('books.id')
                 ->get();
         return response()->success($summary, self::RESPONSE_CODE_200);
@@ -34,9 +34,8 @@ class BookController  extends Controller
         $book->title = $request->title;
         $book->author = $request->author;
         $book->description = $request->description;
-        $book->status = Book::Available;
+        $book->status = Book::AVAILABLE;
         $book->save();
         return $book;
     }
-
 }

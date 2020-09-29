@@ -31,17 +31,17 @@ class BookTest extends TestCase
     public function testCheckOut()
     {
         //statusが1（貸出可能）のレコード取得
-        $book = Book::where('status', Book::Available)->first();
+        $book = Book::where('status', Book::AVAILABLE)->first();
         //statusを取得
         $status = $book->status;
         $count = $book->rent_count;
         $rent_user_id = 1;
-        $book->checkOut($status,$rent_user_id);
+        $book->checkOut($status, $rent_user_id);
 
         // 貸し出し回数が、元の+1になっていることを確認
         $this->assertEquals($book->rent_count, $count + 1);
         // ステータスが貸し出し中になっていることを確認
-        $this->assertEquals($book->status, Book::LoanedOut);
+        $this->assertEquals($book->status, Book::LOANEDOUT);
         // 貸出者idが入っていることを確認
         $this->assertEquals($book->rent_user_id, $rent_user_id);
 
@@ -56,7 +56,7 @@ class BookTest extends TestCase
     public function testReturnBook()
     {
         //statusが2（貸出中）のレコード取得
-        $book = Book::where('status', Book::LoanedOut)->first();
+        $book = Book::where('status', Book::LOANEDOUT)->first();
         //statusを取得
         $status = $book->status;
         $count = $book->rent_count;
@@ -65,7 +65,7 @@ class BookTest extends TestCase
         // 返却時は、貸し出しが変化していないことを確認
         $this->assertEquals($book->rent_count, $count);
         // ステータスが利用可能になっていることを確認
-        $this->assertEquals($book->status, Book::Available);
+        $this->assertEquals($book->status, Book::AVAILABLE);
         // 貸出者idがnullになっていることを確認
         $this->assertNull($book->rent_user_id);
 
@@ -81,18 +81,17 @@ class BookTest extends TestCase
     public function testNonCheckOut()
     {
         //貸出済みのレコード取得
-        $book = Book::where('status', Book::LoanedOut)->first();
+        $book = Book::where('status', Book::LOANEDOUT)->first();
         //statusを取得
         $status = $book->status;
         $rent_user_id = 1;
         //再度貸出
-        $check = $book->checkOut($status,$rent_user_id);
+        $check = $book->checkOut($status, $rent_user_id);
         //falseか判定
         $this->assertFalse($check);
         print(
             "testNonCheckOut()...貸出済みの本を再度貸出した時はエラー,falseが返る。\n"
         );
-
     }
 
     /**
@@ -102,7 +101,7 @@ class BookTest extends TestCase
     public function testNonReturnBook()
     {
         //返却済みのレコード取得
-        $book = Book::where('status', Book::Available)->first();
+        $book = Book::where('status', Book::AVAILABLE)->first();
         //statusを取得
         $status = $book->status;
         //再度返却
@@ -112,7 +111,6 @@ class BookTest extends TestCase
         print(
             "testNonReturnBook()...返却済みの本を再度返却した時はエラー,falseが返る。\n"
         );
-
     }
 
     /**
@@ -132,21 +130,6 @@ class BookTest extends TestCase
 
     /**
      * @expectedExceptionMessage Invalid Param
-     *存在しないidがあった際。returnBook()
-     */
-    public function testNonIdReturnBook()
-    {
-        //statusを取得
-        $book = Book::select('status')->where('id', 1000000000000)->first();
-        //falseか判定
-        $this->assertNull($book);
-        print(
-            "testNonIdReturnBook()...存在しないidがあった際,nullが返る。\n"
-        );
-    }
-
-    /**
-     * @expectedExceptionMessage Invalid Param
      *statusが文字だった場合
      */
     public function testStatusString()
@@ -156,7 +139,7 @@ class BookTest extends TestCase
 
         $book = new Book();
         $rent_user_id = 1;
-        $check = $book->checkOut($status,$rent_user_id);
+        $check = $book->checkOut($status, $rent_user_id);
         //falseか判定
         $this->assertFalse($check);
         print(
@@ -198,7 +181,7 @@ class BookTest extends TestCase
         $this->assertEquals($user->rent_books, $rent_books + 1);
 
         print(
-            "testCheckRentBookNumber()...貸出冊数が+1になっているか確認\n"
+            "testCheckRentBookNumber()...Userの貸出冊数が+1になっているか確認\n"
         );
     }
 
@@ -218,7 +201,7 @@ class BookTest extends TestCase
         $this->assertEquals($user->rent_books, $rent_books - 1);
 
         print(
-            "testCheckReturnBookNumber()...貸出冊数が-1になっているか確認\n"
+            "testCheckReturnBookNumber()...Userの貸出冊数が-1になっているか確認\n"
         );
     }
 
@@ -226,7 +209,7 @@ class BookTest extends TestCase
      * @expectedExceptionMessage Invalid Param
      *貸出時３冊以上借りようとした際、エラー
      */
-    public function testCheckRentBookNumber_overBookNumber()
+    public function testCheckRentBookNumberOverBookNumber()
     {
         //貸出済のユーザー取得
         $user = User::where('rent_books', 3)->first();
@@ -244,7 +227,7 @@ class BookTest extends TestCase
      * @expectedExceptionMessage Invalid Param
      *返却時、貸出冊数がマイナスになるならば、エラー
      */
-    public function testCheckReturnBookNumber_underBookNumber()
+    public function testCheckReturnBookNumberUnderBookNumber()
     {
         //貸出済のユーザー取得
         $user = User::where('rent_books', 0)->first();
@@ -254,7 +237,7 @@ class BookTest extends TestCase
         $this->assertFalse($check);
 
         print(
-            "testCheckReturnBookNumber_underBookNumber()...貸出冊数がマイナスになるならば、falseが返る\n"
+            "testCheckReturnBookNumber_underBookNumber()...Userの貸出冊数がマイナスになるならば、falseが返る\n"
         );
     }
 
@@ -262,7 +245,7 @@ class BookTest extends TestCase
      * @expectedExceptionMessage Invalid Param
      *返却時、貸出冊数が４冊以上であれば、エラー
      */
-    public function testCheckReturnBookNumber_overBookNumber()
+    public function testCheckReturnBookNumberverBookNumber()
     {
         //貸出済のユーザー取得
         $user = User::where('rent_books', 4)->first();
@@ -272,8 +255,7 @@ class BookTest extends TestCase
         $this->assertFalse($check);
 
         print(
-            "testCheckReturnBookNumber_overBookNumber()...貸出冊数が４冊以上であれば、falseが返る\n"
+            "testCheckReturnBookNumber_overBookNumber()...Userの貸出冊数が４冊以上であれば、falseが返る\n"
         );
     }
-
 }

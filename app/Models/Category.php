@@ -15,5 +15,4 @@ class Category extends Model
 
     //DB項目
     protected $fillable = ['category_name', 'created_at','created_at', 'updated_at'];
-
 }

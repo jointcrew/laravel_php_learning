@@ -37,7 +37,8 @@ class UserInfo extends Model
      * @param array  $data
      * @return string|null
      */
-    public static function insert($data) {
+    public static function insert($data)
+    {
         $input_date = [
             'last_name'         => $data['last_name'],
             'name'              => $data['name'],
@@ -60,7 +61,8 @@ class UserInfo extends Model
     * @param array  $data
     * @return array|null
     */
-    public static function edit ($data) {
+    public static function edit($data)
+    {
         //$edit_dataにDBから$data[item_id]と同じ値を取得する。
         $edit_data = self::find($data['id']);
         //$data[item_id]があるとき保存の処理が行われる。
@@ -85,8 +87,8 @@ class UserInfo extends Model
      * @param array  $data
      * @return string|null
      */
-    public static function user_delete ($data) {
-
+    public static function userDelete($data)
+    {
         //$edit_dataにDBから$data[item_id]と同じ値を取得する。
         $edit_data = self::find($data['id']);
         //論理削除がおこなわれる。status==1
@@ -98,5 +100,4 @@ class UserInfo extends Model
             return false;
         }
     }
-
 }

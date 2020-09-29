@@ -37,7 +37,8 @@ class Goods extends Model
      * @param array  $data
      * @return string $data
      */
-    public static function insert($data) {
+    public static function insert($data)
+    {
         //トランザクション処理
         $insert = DB::transaction(function () use ($data) {
             $input_data = [
@@ -65,7 +66,8 @@ class Goods extends Model
      * @param array  $data
      * @return string $data
      */
-    public static function edit($data) {
+    public static function edit($data)
+    {
         //トランザクション処理
         $insert = DB::transaction(function () use ($data) {
             //$edit_dataにDBから$data[item_id]と同じ値を取得する。
@@ -98,37 +100,37 @@ class Goods extends Model
      *@return array|null
      *
      */
-    public static function search ($data, $limit=10) {
+    public static function search($data, $limit = 10)
+    {
 
         //SQL文が使え、->が使えるようになる
         $search_data = self::query();
 
         $search_data ->select(\DB::raw('goods.*, SUM(purchase.purchase_number) as purchase_number'))
-                     ->leftJoin('purchase','goods.goods_id','=','purchase.goods_id')
+                     ->leftJoin('purchase', 'goods.goods_id', '=', 'purchase.goods_id')
                      ->groupBy('goods.goods_id');
 
         if ($data['goods_name']) {
-            $search_data -> where('goods_name',$data['goods_name']);
+            $search_data -> where('goods_name', $data['goods_name']);
         }
 
         if ($data['category'] !== 'null') {
-            $search_data -> where('category',$data['category']);
+            $search_data -> where('category', $data['category']);
         }
 
         if (count($data['item_info']) == 1) {
-            $search_data -> whereRaw('FIND_IN_SET(?, item_info)',[$data['item_info']]);
+            $search_data -> whereRaw('FIND_IN_SET(?, item_info)', [$data['item_info']]);
         } elseif (count($data['item_info']) >= 2) {
-            $search_data -> whereRaw('FIND_IN_SET(?,item_info)',[$data['item_info'][0]]);
-            for($i=1;$i<count($data['item_info']);$i++)
-                {
-                    $search_data->WhereRaw('FIND_IN_SET(?,item_info)',[$data['item_info'][$i]]);
-                }
+            $search_data -> whereRaw('FIND_IN_SET(?,item_info)', [$data['item_info'][0]]);
+            for ($i = 1; $i < count($data['item_info']); $i++) {
+                $search_data->WhereRaw('FIND_IN_SET(?,item_info)', [$data['item_info'][$i]]);
+            }
         }
 
         if ($data['stock'] == 1) {
-            $search_data -> where('stock','>=',$data['stock']);
+            $search_data -> where('stock', '>=', $data['stock']);
         } elseif ($data['stock'] == 0) {
-            $search_data -> where('stock','=',$data['stock']);
+            $search_data -> where('stock', '=', $data['stock']);
         }
 
 
@@ -142,7 +144,8 @@ class Goods extends Model
      *@return array|null
      *
      */
-    public static function find_goods ($goods_IDs) {
+    public static function findGoods($goods_IDs)
+    {
         //SQL文が使え、->が使えるようになる
         $search_data = self::query();
         $search_data ->whereIn('goods_id', $goods_IDs)
@@ -150,5 +153,4 @@ class Goods extends Model
 
         return $search_data->get();
     }
-
 }

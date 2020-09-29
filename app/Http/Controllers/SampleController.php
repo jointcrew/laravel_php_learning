@@ -64,16 +64,15 @@ class SampleController extends Controller
      * サンプルAPI(rest apiを実行)
      * @return json
      */
-    public function sampleApi(){
+    public function sampleApi()
+    {
         //他からRESTAPIを呼び出すときは、use GuzzleHttp\Client;を宣言する。
-
         try {
             //http通信を行う
             $client = new Client();
             $response = $client->request("GET", \Config::get('services.api_url.restapi'));
             //getBody()でAPIの結果を取得
             return $response->getBody();
-
         } catch (\GuzzleHttp\Exception\ConnectException $e) {
             //アクセス失敗したらエラーを返す
             return $e->getHandlerContext()['error'];

@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Migrations;
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,10 +20,10 @@ class CreateBooksTable extends Migration
                $table->string('author', 100);
                $table->string('title', 100);
                $table->string('description', 500);
-               $table->integer('status')->default(App\Book::Available);
+               $table->integer('status')->default(App\Book::AVAILABLE);
                $table->integer('rent_count')->default(0);
                $table->timestamps();
-           });
+        });
     }
 
     /**

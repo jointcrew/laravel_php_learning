@@ -28,13 +28,14 @@ class Book extends Model
         'updated_at'
     ];
 
-    public const Available = 1;
-    public const LoanedOut = 2;
+    public const AVAILABLE = 1;
+    public const LOANEDOUT = 2;
 
-    public function checkOut($rent_status,$rent_user_id) {
-        if ($rent_status == self::Available ) {
+    public function checkOut($rent_status, $rent_user_id)
+    {
+        if ($rent_status == self::AVAILABLE) {
             $this ->increment('rent_count', 1);
-            $this -> status = self::LoanedOut;
+            $this -> status = self::LOANEDOUT;
             $this -> rent_user_id = $rent_user_id;
             $this -> save();
         } else {
@@ -43,14 +44,14 @@ class Book extends Model
     }
 
 
-    public function returnBook($back_status) {
-        if ($back_status == self::LoanedOut ) {
-            $this -> status = self::Available;
+    public function returnBook($back_status)
+    {
+        if ($back_status == self::LOANEDOUT) {
+            $this -> status = self::AVAILABLE;
             $this -> rent_user_id = null;
             $this ->save();
         } else {
             return false;
         }
     }
-
 }

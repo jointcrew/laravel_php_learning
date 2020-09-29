@@ -13,11 +13,7 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 use App\Rules\Hankaku;
 use Session;
 
-class UserInfoImport implements ToModel,
-    WithHeadingRow,
-    WithChunkReading,
-    WithValidation,
-    SkipsOnFailure
+class UserInfoImport implements ToModel, WithHeadingRow, WithChunkReading, WithValidation, SkipsOnFailure
 {
     use Importable;
 
@@ -57,9 +53,8 @@ class UserInfoImport implements ToModel,
             $insert->edit($data);
         } elseif ($data['status'] == 1) {
             //削除
-            $insert->user_delete($data);
+            $insert->userDelete($data);
         }
-
     }
 
     /**
@@ -90,8 +85,8 @@ class UserInfoImport implements ToModel,
         return [
             'last_name'      => ['required','string','max:50'],
             'name'           => ['required','string','max:50'],
-            'last_name_kana' => ['required',new Hankaku,'max:50'],
-            'name_kana'      => ['required',new Hankaku,'max:50'],
+            'last_name_kana' => ['required', new Hankaku(),'max:50'],
+            'name_kana'      => ['required', new Hankaku(),'max:50'],
             'gender'         => ['required','integer','max:2'],
             'status'         => ['integer','nullable'],
             'id'             => ['required','integer'],
@@ -108,18 +103,15 @@ class UserInfoImport implements ToModel,
         $number = $this->error_num;
         Session::put("errors[$number]", $failures);
         $this->error_num++;
-
     }
 
     /**
      * 成功件数を返す
      * @return int
      */
-    public function succes_number()
+    public function succesNumber()
     {
         $success_number = $this->success_num;
         return $success_number;
     }
-
-
 }

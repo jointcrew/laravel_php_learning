@@ -20,7 +20,7 @@
                             @endif
                             @if (!isset($insert_list))
                                 <!--貸出-->
-                                <form class="" action="/book_rent" method="get">
+                                <form class="" action="/bookRent" method="get">
                                     <div class="row border-bottom m-4">
                                         <div class="col-md-1">
                                             @lang('unit_test.rent')
@@ -55,7 +55,7 @@
                                     </div>
                                 </form>
                                 <!--返却-->
-                                <form class="" action="book_return" method="get">
+                                <form class="" action="bookReturn" method="get">
                                     <div class="row border-bottom m-4">
                                         <div class="col-md-1">
                                             @lang('unit_test.return')
@@ -80,7 +80,7 @@
                                     </div>
                                 </form>
                                 <!--登録-->
-                                <form class="" action="/book_register" method="post">
+                                <form class="" action="/bookRegister" method="post">
                                     <!-- CSRF保護 -->
                                     @csrf
                                     <div class="row  m-4">
@@ -162,7 +162,7 @@
                                         <td></td>
                                         <td>@lang("unit_test.status.{$insert_list['status']}")</td>
                                     </tr>
-                                    <a class="btn btn-outline-primary mb-3" href="/book_manage">@lang('common.back')</a>
+                                    <a class="btn btn-outline-primary mb-3" href="/bookManage">@lang('common.back')</a>
                                 @endif
                             </table>
                         </div>

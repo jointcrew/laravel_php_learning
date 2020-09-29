@@ -45,14 +45,14 @@ class ApiGoodsUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store (Request $request)
+    public function store(Request $request)
     {
         $html = '';
         $flag = $_POST['flag'];
         //
         if ($flag == 'type_value') {
             $type_vale = $_POST['type_value'];
-            $categorys_id = Types::category_id_search($type_vale);
+            $categorys_id = Types::categoryIdSearch($type_vale);
             foreach ($categorys_id as $category) {
                 $category_id = $category["category_id"];
             }
@@ -64,12 +64,12 @@ class ApiGoodsUserController extends Controller
 
         foreach ($types as $type) {
             if (!isset($type_vale)) {
-                $html .= '<option id="type" name="type" value="'.$type['value_number'].'">'.$type['type_name'].'</option>';
+                $html .= '<option id="type" name="type" value="' . $type['value_number'] . '">' . $type['type_name'] . '</option>';
             }
             if ((isset($type_vale)) && ($type['value_number'] == $type_vale)) {
-                $html .= '<option selected id="type" name="type" value="'.$type['value_number'].'">'.$type['type_name'].'</option>';
+                $html .= '<option selected id="type" name="type" value="' . $type['value_number'] . '">' . $type['type_name'] . '</option>';
             } elseif (isset($type_vale)) {
-                $html .= '<option id="type" name="type" value="'.$type['value_number'].'">'.$type['type_name'].'</option>';
+                $html .= '<option id="type" name="type" value="' . $type['value_number'] . '">' . $type['type_name'] . '</option>';
             }
         }
         if ($types == false) {
@@ -78,6 +78,5 @@ class ApiGoodsUserController extends Controller
         }
         //正常を返す
         return response()->success($html, self::RESPONSE_CODE_200);
-
     }
 }

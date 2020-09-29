@@ -28,5 +28,4 @@ class ApiListController extends Controller
 
         return view('apiList', compact('user'));
     }
-
 }

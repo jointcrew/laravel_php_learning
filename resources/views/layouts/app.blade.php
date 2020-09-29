@@ -94,7 +94,7 @@
                             @lang('unit_test.Unit_test')
                         </a>
                         <ul class="dropdown-menu bg-light">
-                            <li><a href="/book_manage">・@lang('unit_test.book_manege')</a></li>
+                            <li><a href="/bookManage">・@lang('unit_test.book_manege')</a></li>
                         </ul>
                     </li>
 

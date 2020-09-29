@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Migrations;
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -23,7 +25,7 @@ class CreateGoodsTable extends Migration
             $table->integer('discount_rate')->length(10)->default(0)->comment('0:割引率0％なので割引なし、10:10%割引');
             $table->integer('stock')->length(10);
             $table->integer('item_info')->length(2)->nullable()->comment('1.新商品、2.期間限定');
-            $table->string('comment',250)->nullable();
+            $table->string('comment', 250)->nullable();
             $table->timestamps();
         });
     }

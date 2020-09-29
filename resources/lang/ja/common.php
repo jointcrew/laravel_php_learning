@@ -1,4 +1,5 @@
 <?php
+
 return [
     'back'               => '戻る',
     'search'             => '検索',
@@ -43,6 +44,6 @@ return [
         'goods_settle'   => '決済画面',
         'goods_edit'     => '商品登録・編集',
         'goods_user'     => 'ユーザー一覧',
-        'goods_user_edit'=> 'ユーザー登録・編集',
+        'goods_user_edit' => 'ユーザー登録・編集'
     ]
 ];

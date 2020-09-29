@@ -9,19 +9,21 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use AuthorizesRequests;
+    use DispatchesJobs;
+    use ValidatesRequests;
 
-    const RESPONSE_CODE_200 = '200';
-    const RESPONSE_CODE_400 = '400';
-    const RESPONSE_CODE_401 = '401';
-    const RESPONSE_CODE_402 = '402';
-    const RESPONSE_CODE_403 = '403';
-    const RESPONSE_CODE_404 = '404';
-    const RESPONSE_CODE_405 = '405';
-    const RESPONSE_CODE_406 = '406';
-    const RESPONSE_CODE_407 = '407';
-    const RESPONSE_CODE_408 = '408';
-    const RESPONSE_CODE_409 = '409';
+    public const RESPONSE_CODE_200 = '200';
+    public const RESPONSE_CODE_400 = '400';
+    public const RESPONSE_CODE_401 = '401';
+    public const RESPONSE_CODE_402 = '402';
+    public const RESPONSE_CODE_403 = '403';
+    public const RESPONSE_CODE_404 = '404';
+    public const RESPONSE_CODE_405 = '405';
+    public const RESPONSE_CODE_406 = '406';
+    public const RESPONSE_CODE_407 = '407';
+    public const RESPONSE_CODE_408 = '408';
+    public const RESPONSE_CODE_409 = '409';
 
 
     /**
@@ -35,7 +37,7 @@ class Controller extends BaseController
         $data['discount_price'] = 0;
         if ($data['discount_rate'] > 0 && $data['purchase_number'] >= $data['discount_number']) {
             $rate =  $data['discount_rate'] * 0.01;
-            $data['discount_price'] = ($data['unit_price']*$data['purchase_number']) * $rate;
+            $data['discount_price'] = ($data['unit_price'] * $data['purchase_number']) * $rate;
         }
         //合計金額を計算
         $data['total_price'] = $data['unit_price'] * $data['purchase_number'];
@@ -49,7 +51,7 @@ class Controller extends BaseController
      * @param $datalist,$purchase_numbers
      * @return $datalist
      */
-    public function all_once_calculate($datalist,$purchase_numbers)
+    public function allOnceCalculate($datalist, $purchase_numbers)
     {
         //割引額
         $discount_price = array();
@@ -58,8 +60,7 @@ class Controller extends BaseController
         //請求金額
         $purchase_price = array();
 
-        foreach ($datalist as $data){
-
+        foreach ($datalist as $data) {
             //割引額を計算
             $data['discount_price'] = 0;
             if ($data['discount_rate'] > 0 && $purchase_numbers[$data['goods_id']] >= $data['discount_number']) {
@@ -75,7 +76,6 @@ class Controller extends BaseController
             $discount_price[$data['goods_id']] = $data['discount_price'];
             $total_price[$data['goods_id']]    = $data['total_price'];
             $purchase_price[$data['goods_id']] = $data['purchase_price'];
-
         }
 
         $datalist['purchase_numbers'] = $purchase_numbers;
@@ -85,6 +85,4 @@ class Controller extends BaseController
 
         return $datalist;
     }
-
-
 }

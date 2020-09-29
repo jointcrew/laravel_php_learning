@@ -43,7 +43,6 @@ class GoodsController extends Controller
         View::share('discount_number', $discount_number);
         View::share('userlist_status', $userlist_status);
         View::share('roles', $roles);
-
     }
 
     /**
@@ -59,13 +58,13 @@ class GoodsController extends Controller
         $role = $user["role"];
         //バリデーション
         $data = $request->validate([
-           'goods_name'       =>'max:50',
+           'goods_name'       => 'max:50',
         ]);
         $data = [
             'goods_name'      => $request->input('goods_name'),
             'category'        => $request->input('category'),
             'stock'           => $request->input('stock'),
-            'item_info'       => $request->input('item_info_1').','.$request->input('item_info_2'),
+            'item_info'       => $request->input('item_info_1')  . ',' . $request->input('item_info_2'),
         ];
         //item_infoのカンマを外し配列に、空は排除
         $data['item_info'] = explode(",", $data['item_info']);
@@ -78,7 +77,7 @@ class GoodsController extends Controller
         }
         //Goodsのsearchメソットで商品検索
         $searchlist = Goods::search($data);
-        return view('goodsSearch',compact('searchlist','role','request','data','msg'));
+        return view('goodsSearch', compact('searchlist', 'role', 'request', 'data', 'msg'));
     }
 
     /**
@@ -103,8 +102,7 @@ class GoodsController extends Controller
             $data['item_info'] = explode(",", $data['item_info']);
             $data['item_info'] = array_filter($data['item_info']);
         }
-
-        return view('goodsEdit',compact('data','role'));
+        return view('goodsEdit', compact('data', 'role'));
     }
 
 
@@ -142,7 +140,7 @@ class GoodsController extends Controller
                 //表示金額を計算
                 $data = $this->calculate($data);
                 //決済画面へ
-                return view('goodsSettle',compact('data','role'));
+                return view('goodsSettle', compact('data', 'role'));
             //複数商品購入
             } elseif (!is_null($all_once_flag)) {
                 //在庫数取得
@@ -156,7 +154,7 @@ class GoodsController extends Controller
                     //バリデーションメッセージ
                     $stock_array["purchase_number.$key.max"] = "購入数は:max以下の数字を指定してください。";
                 }
-                     $validator = Validator::make($request->all(), $array,$stock_array);
+                     $validator = Validator::make($request->all(), $array, $stock_array);
                  //エラー時リダイレクト
                 if ($validator->fails()) {
                     return redirect('goodsSearch')
@@ -167,13 +165,13 @@ class GoodsController extends Controller
                 $purchase_numbers = $request->input('purchase_number');
                 //購入数を入力していない商品idを外す
                 $purchase_numbers = array_filter($purchase_numbers);
-                //find_goodsメソッドでデータを取得をす得するため、渡す変数をgoods_idの配列に直す。
+                //findGoodsメソッドでデータを取得をす得するため、渡す変数をgoods_idの配列に直す。
                 //key(goods_id)を取り出す。
                 $goods_IDs = array_keys($purchase_numbers);
-                //Goodsモデルのfind_goodsメソッドにアクセスし、同goods_idデータを取得
-                $datalist = Goods::find_goods($goods_IDs);
+                //GoodsモデルのfindGoodsメソッドにアクセスし、同goods_idデータを取得
+                $datalist = Goods::findGoods($goods_IDs);
                 //表示金額を計算
-                $datalist = $this->all_once_calculate($datalist,$purchase_numbers);
+                $datalist = $this->allOnceCalculate($datalist, $purchase_numbers);
                 //それぞれの合計数
                 $total_data = [
                     'purchase_number'       => array_sum($datalist['purchase_numbers']),
@@ -182,7 +180,7 @@ class GoodsController extends Controller
                     'purchase_price'        => array_sum($datalist['purchase_price'])
                 ];
                 //決済画面へ
-                return view('goodsSettle',compact('datalist','total_data','role','id','request'));
+                return view('goodsSettle', compact('datalist', 'total_data', 'role', 'id', 'request'));
             }
         }
     }
@@ -221,7 +219,7 @@ class GoodsController extends Controller
                 //DBに保存するためuser_idが必要
                 $data['user_id'] = $request->input('user_id');
                 //複数商品決済
-                $insert_data = Purchase::insert_all($data,$multi_goods_stock);
+                $insert_data = Purchase::insertAll($data, $multi_goods_stock);
             } else {
                 //在庫数更新
                 $data['goods_stock'] = ($data['goods_stock']) - ($data['purchase_numbers']);
@@ -230,11 +228,11 @@ class GoodsController extends Controller
             }
             //文言を$msgに代入
             if ($insert_data == null) {
-               $msg= \Lang::get('goods.goods_Settle.2');
+                $msg = \Lang::get('goods.goods_Settle.2');
             } else {
-               $msg =\Lang::get('goods.goods_Settle.1');
+                $msg = \Lang::get('goods.goods_Settle.1');
             }
-            return $this->goodsSearch($request,$msg);
+            return $this->goodsSearch($request, $msg);
         }
         return $this->goodsSearch($request);
     }
@@ -268,21 +266,21 @@ class GoodsController extends Controller
             //フォームの内容をすべて取得
             $data = $request->validate([
                //バリデーション追加
-               'category'          =>'integer',
-               'type'              =>'integer',
-               'goods_name'        =>'required|string|max:50',
-               'unit_price'        =>'required|integer|max:100000',
-               'discount_number'   =>'required',
-               'stock'             =>'required|integer|max:100000',
-               'comment'           =>'max:250',
-               'status'            =>'required',
-           ]);
+               'category'          => 'integer',
+               'type'              => 'integer',
+               'goods_name'        => 'required|string|max:50',
+               'unit_price'        => 'required|integer|max:100000',
+               'discount_number'   => 'required',
+               'stock'             => 'required|integer|max:100000',
+               'comment'           => 'max:250',
+               'status'            => 'required',
+            ]);
             //配列にitem_infoを追加
             $item_info = \Lang::get('goods.item_info');
             $length = count($item_info);
             foreach ($item_info as $key => $value) {
                 if ($key < $length) {
-                    $data['item_info'] = $request->input("item_info.$key").',';
+                    $data['item_info'] = $request->input("item_info.$key") . ',';
                 } elseif ($key == $length) {
                     $data['item_info'] .= $request->input("item_info.$key");
                 }
@@ -301,9 +299,9 @@ class GoodsController extends Controller
                 $insert_data = Goods::edit($data);
                 //文言を$msgに代入
                 if ($insert_data == null) {
-                   $msg= \Lang::get('goods.goods_Edit.2');
+                    $msg = \Lang::get('goods.goods_Edit.2');
                 } else {
-                   $msg =\Lang::get('goods.goods_Edit.1');
+                    $msg = \Lang::get('goods.goods_Edit.1');
                 }
             //商品登録
             } else {
@@ -311,9 +309,9 @@ class GoodsController extends Controller
                 $insert_data = Goods::insert($data);
                 //文言を$msgに代入
                 if ($insert_data == null) {
-                   $msg= \Lang::get('user.user_register_fail');
+                    $msg = \Lang::get('user.user_register_fail');
                 } else {
-                   $msg =\Lang::get('user.user_register_success');
+                    $msg = \Lang::get('user.user_register_success');
                 }
             }
             //総購入数を取得(検索画面からの遷移時)
@@ -322,10 +320,10 @@ class GoodsController extends Controller
             $data["item_info"] = explode(",", $data['item_info']);
             $data["item_info"] = array_filter($data['item_info']);
 
-            return view('goodsEdit',compact('msg','data','role'));
+            return view('goodsEdit', compact('msg', 'data', 'role'));
         }
         //商品新規登録
-        return view('goodsEdit',compact('data','role'));
+        return view('goodsEdit', compact('data', 'role'));
     }
 
     /**
@@ -337,7 +335,7 @@ class GoodsController extends Controller
     {
         //現在認証されているユーザーの全商品を取得
         $userlist = User::paginate(10);
-        return view('goodsUser',compact('userlist'));
+        return view('goodsUser', compact('userlist'));
     }
 
     /**
@@ -353,52 +351,50 @@ class GoodsController extends Controller
         $data = User::find($data['user_id']);
 
         if ($request->isMethod('post') == true) {
-
             $user_id = $request->input('user_id');
             //ユーザー新規登録
             if (is_null($user_id)) {
                 $data = $request->validate([
                    //バリデーション追加
-                   'name'                    =>'required|string|max:30',
-                   'email'                   =>'required|email|unique:App\User,email|max:150',
-                   'pass'                    =>'confirmed|min:8',
-                   'pass_confirmation'       =>'nullable|min:8',
-                   'status'                  =>'required|integer|max:10',
-                   'role'                    =>'required|integer|max:10',
-               ]);
+                   'name'                    => 'required|string|max:30',
+                   'email'                   => 'required|email|unique:App\User,email|max:150',
+                   'pass'                    => 'confirmed|min:8',
+                   'pass_confirmation'       => 'nullable|min:8',
+                   'status'                  => 'required|integer|max:10',
+                   'role'                    => 'required|integer|max:10',
+                ]);
                 //ユーザー登録
                 //Goodsモデルのinsertメソッドにアクセスし、データを保存
                 $insert_data = User::goodsUserInsert($data);
                 //文言を$msgに代入
                 if ($insert_data == null) {
-                   $msg= \Lang::get('user.user_register_fail');
+                    $msg = \Lang::get('user.user_register_fail');
                 } else {
-                   $msg =\Lang::get('user.user_register_success');
+                    $msg = \Lang::get('user.user_register_success');
                 }
-                return view('goodsUser',compact('msg','insert_data'));
+                return view('goodsUser', compact('msg', 'insert_data'));
             //ユーザー編集
-            } elseif(!is_null($user_id)) {
-
+            } elseif (!is_null($user_id)) {
                 $data = $request->validate([
                    //バリデーション追加
-                   'name'                    =>'required|string|max:30',
-                   'email'                   =>'required|email|max:150',
-                   'pass'                    =>'confirmed|min:8|nullable',
-                   'pass_confirmation'       =>'nullable|min:8|nullable',
-                   'status'                  =>'required|integer|max:10',
-                   'role'                    =>'required|integer|max:10',
-               ]);
+                   'name'                    => 'required|string|max:30',
+                   'email'                   => 'required|email|max:150',
+                   'pass'                    => 'confirmed|min:8|nullable',
+                   'pass_confirmation'       => 'nullable|min:8|nullable',
+                   'status'                  => 'required|integer|max:10',
+                   'role'                    => 'required|integer|max:10',
+                ]);
                 //Userモデルのeditメソッドにアクセスし、データを編集
-                $insert_data = User::goodsUserEdit($data,$user_id);
+                $insert_data = User::goodsUserEdit($data, $user_id);
                 //文言を$msgに代入
                 if ($insert_data == null) {
-                   $msg= \Lang::get('goods.goods_Edit.2');
+                    $msg = \Lang::get('goods.goods_Edit.2');
                 } else {
-                   $msg =\Lang::get('goods.goods_Edit.1');
+                    $msg = \Lang::get('goods.goods_Edit.1');
                 }
-                return view('goodsUser',compact('msg','insert_data'));
+                return view('goodsUser', compact('msg', 'insert_data'));
             }
         }
-    return view('goodsUserEdit',compact('data','request'));
+        return view('goodsUserEdit', compact('data', 'request'));
     }
 }

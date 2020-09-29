@@ -24,7 +24,8 @@ class User extends Model
     * @param array  $data
     * @return array|null
     */
-    public static function insert($data) {
+    public static function insert($data)
+    {
         //トランザクション処理
         $insert = DB::transaction(function () use ($data) {
             //pwハッシュ化
@@ -51,7 +52,8 @@ class User extends Model
     * @param array  $data
     * @return array|null
     */
-    public static function goodsUserInsert($data) {
+    public static function goodsUserInsert($data)
+    {
         //トランザクション処理
         $insert = DB::transaction(function () use ($data) {
             //pwハッシュ化
@@ -76,12 +78,13 @@ class User extends Model
     * @param array  $data
     * @return array|null
     */
-    public static function userEdit ($data) {
+    public static function userEdit($data)
+    {
 
         //$edit_dataにDBから$data[item_id]と同じ値を取得する。
         $edit_data = self::find($data['user_id']);
         //pwハッシュ化
-        $data['password']=Hash::make($data['password']);
+        $data['password'] = Hash::make($data['password']);
         //$data[item_id]があるとき保存の処理が行われる。
         if ($edit_data) {
             $edit_data -> name = $data['name'];
@@ -94,10 +97,9 @@ class User extends Model
         }
     }
 
-    public static function userDelete ($user_id) {
-
-        $user_id = self::where('id',$user_id)->delete();
-
+    public static function userDelete($user_id)
+    {
+        $user_id = self::where('id', $user_id)->delete();
         return $user_id;
     }
 
@@ -107,15 +109,16 @@ class User extends Model
     * @param array  $data
     * @return array|null
     */
-    public static function goodsUserEdit ($data,$user_id) {
+    public static function goodsUserEdit($data, $user_id)
+    {
         //$edit_dataにDBから$data[item_id]と同じ値を取得する。
         $edit_data = self::find($user_id);
         if (!is_null($data['pass'])) {
             //pwハッシュ化
-            $data['password']=Hash::make($data['pass']);
+            $data['password'] = Hash::make($data['pass']);
         } elseif (is_null($data['pass'])) {
             //pwハッシュ化
-            $data['password']=Hash::make($edit_data['password']);
+            $data['password'] = Hash::make($edit_data['password']);
         }
         //$data[item_id]があるとき保存の処理が行われる。
         if ($edit_data) {
@@ -137,57 +140,64 @@ class User extends Model
      *@return array $insert_datas
      *
      */
-    public static function search ($data) {
-
+    public static function search($data)
+    {
         $lists = array();
         $names = array();
         //配列に直す
         $data['user_id'] = explode(",", $data['user_id']);
 
             $search_data = self::query();
-            $search_data ->select('users.id','users.name','goods.goods_name','purchase.purchase_number','purchase.total_price','purchase.created_at','purchase.discount_price')
-                         -> leftJoin('purchase','users.id','=',"purchase.user_id")
-                         -> leftJoin('goods','goods.goods_id','=',"purchase.goods_id");
+            $search_data
+            ->select(
+                'users.id',
+                'users.name',
+                'goods.goods_name',
+                'purchase.purchase_number',
+                'purchase.total_price',
+                'purchase.created_at',
+                'purchase.discount_price'
+            )
+            -> leftJoin('purchase', 'users.id', '=', "purchase.user_id")
+                         -> leftJoin('goods', 'goods.goods_id', '=', "purchase.goods_id");
 
             //商品名検索、likeにして部分一致のを取得にする
-            if ($data['goods_name']) {
-                $search_data ->where('goods.goods_name','like','%'.$data['goods_name'].'%');
-            }
+        if ($data['goods_name']) {
+            $search_data ->where('goods.goods_name', 'like', '%' . $data['goods_name'] . '%');
+        }
 
-            if (!($data['category']=='null')) {
-                $search_data ->where('goods.category',$data['category']);
-            }
+        if (!($data['category'] == 'null')) {
+            $search_data ->where('goods.category', $data['category']);
+        }
 
-            if ($data['price_start']) {
-                $search_data -> where('purchase.purchase_price','>=', $data['price_start']);
-            }
+        if ($data['price_start']) {
+            $search_data -> where('purchase.purchase_price', '>=', $data['price_start']);
+        }
 
-            if ($data['price_end']) {
-                $search_data -> where('purchase.purchase_price','<=', $data['price_end']);
-            }
+        if ($data['price_end']) {
+            $search_data -> where('purchase.purchase_price', '<=', $data['price_end']);
+        }
 
-            if ($data['date_start']) {
-                $search_data -> where('purchase.created_at','>=', $data['date_start']);
-            }
+        if ($data['date_start']) {
+            $search_data -> where('purchase.created_at', '>=', $data['date_start']);
+        }
 
-            if ($data['date_end']) {
-                $search_data -> where('purchase.created_at','<=', $data['date_end'].' 23:59:59');
-            }
+        if ($data['date_end']) {
+            $search_data -> where('purchase.created_at', '<=', $data['date_end'] . ' 23:59:59');
+        }
 
-            if (!($data['user_id'][0] == '')) {
-
-                if (count($data['user_id']) == 1) {
-                    $search_data -> whereRaw('FIND_IN_SET(?, purchase.user_id)',[$data['user_id'][0]]);
-                } elseif (count($data['user_id']) >= 2) {
-                    $search_data -> whereRaw('FIND_IN_SET(?,purchase.user_id)',[$data['user_id'][0]]);
-                    for($i=1;$i<count($data['user_id']);$i++) {
-                        $search_data->orWhereRaw('FIND_IN_SET(?,purchase.user_id)',[$data['user_id'][$i]]);
-                    }
+        if (!($data['user_id'][0] == '')) {
+            if (count($data['user_id']) == 1) {
+                $search_data -> whereRaw('FIND_IN_SET(?, purchase.user_id)', [$data['user_id'][0]]);
+            } elseif (count($data['user_id']) >= 2) {
+                $search_data -> whereRaw('FIND_IN_SET(?,purchase.user_id)', [$data['user_id'][0]]);
+                for ($i = 1; $i < count($data['user_id']); $i++) {
+                    $search_data->orWhereRaw('FIND_IN_SET(?,purchase.user_id)', [$data['user_id'][$i]]);
                 }
             }
+        }
         //検索結果を取得
         $list = $search_data ->paginate(10);
         return \Response::json($list);
     }
-
 }

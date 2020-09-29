@@ -1,38 +1,39 @@
 <?php
+
 return [
     'item_info' => [
         '1'  => '期間限定',
         '2'  => '新商品',
     ],
-    'discount_number' =>[
+    'discount_number' => [
         0 => 0,
         3 => 3,
         4 => 4,
         5 => 5,
     ],
-    'category' =>[
+    'category' => [
         'null' => null,
         1      => '食品/飲料水',
         2      => '家具',
 
     ],
-    'type' =>[
+    'type' => [
         'null' => null,
         1 => 'ジュース',
         2 => 'お酒',
         3 => '椅子',
         4 => '机',
     ],
-    'stock' =>[
+    'stock' => [
         1  => 'あり',
         0  => 'なし',
         99 => 'すべて',
     ],
-    'goods_Edit' =>[
+    'goods_Edit' => [
         1  => '編集しました',
         2  => '編集失敗',
     ],
-    'goods_Settle' =>[
+    'goods_Settle' => [
         1  => '購入しました',
         2  => '購入失敗',
     ],

@@ -1,4 +1,5 @@
 <?php
+
 return [
     'apply_text'             => [
         1 => 'JC社内',
@@ -8,7 +9,7 @@ return [
     'selector_text'          => [
         1 => '備品',
         2 => '私物',
-        3 =>'すべて'
+        3 => 'すべて'
     ],
     'title'                  => 'PHP study',
     'name'                   => '商品名',
@@ -24,12 +25,12 @@ return [
     'update_btn'             => '保存',
     'edit_link'              => '編集',
     'delete_link'            => '削除',
-    'apply'                  =>'申請先',
-    'apply1'                 =>'JC社内',
-    'apply2'                 =>'人事',
-    'apply3'                 =>'技術者',
-    'delete_success'         =>'削除しました',
-    'delete_fail'            =>'削除失敗',
+    'apply'                  => '申請先',
+    'apply1'                 => 'JC社内',
+    'apply2'                 => '人事',
+    'apply3'                 => '技術者',
+    'delete_success'         => '削除しました',
+    'delete_fail'            => '削除失敗',
     'Edit'                   => '商品編集',
     'search_item'            => '検索内容'
 ];

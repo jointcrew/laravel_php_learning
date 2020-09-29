@@ -49,7 +49,7 @@ class ImportExcelCommand extends Command implements WithHeadingRow
         $import = new UserInfoImport();
         $import->import($file);
         //成功件数を取得
-        $success_number = $import->succes_number();
+        $success_number = $import->succesNumber();
         //エラー内容を取得
         $alls = Session::all();
         $erroe_number = 0;
@@ -63,14 +63,13 @@ class ImportExcelCommand extends Command implements WithHeadingRow
                     $row--;
                     //エラーメッセージ取得
                     $error_msg = $error->errors();
-                    $this->info($row.'行目の'.$error_msg[0]);
+                    $this->info($row . '行目の' . $error_msg[0]);
                 }
                 //エラー数をカウント
                 $erroe_number++;
             }
         }
         //処理後、文言表示
-        $this->output->success('エラー件数'.$erroe_number.'件、'.'成功件数'.$success_number.'件');
+        $this->output->success('エラー件数' . $erroe_number . '件、' . '成功件数' . $success_number . '件');
     }
-
 }

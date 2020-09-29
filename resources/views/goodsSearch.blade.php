@@ -86,7 +86,6 @@
                                 @if ($errors->has('stock'))
                                     <br><span class="red">{{ $errors->first('stock')}}</span>
                                 @endif
-                                <?php //var_dump($request->input("stock"));?>
                             </div>
                             <!--特殊-->
                             <div class="form-group col-md-5">

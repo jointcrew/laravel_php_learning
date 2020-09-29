@@ -17,7 +17,7 @@ class Sample extends Model
     protected $fillable = ['sample_name', 'type', 'price', 'create_user', 'created_at', 'updated_at'];
 
     //種別の配列
-    static $type = [
+    public static $type = [
         1 => '文房具',
         2 => '食べ物',
     ];
@@ -28,7 +28,8 @@ class Sample extends Model
      * @param array  $data
      * @return string|null
      */
-    public static function insert($data) {
+    public static function insert($data)
+    {
         $input_date = [
             'sample_name' => $data['sample_name'],
             'type'        => $data['type'],
@@ -45,7 +46,8 @@ class Sample extends Model
      * @param int  $create_uder
      * @return array|null
      */
-    public static function findCreateUser ($create_uder = null) {
+    public static function findCreateUser($create_uder = null)
+    {
         $request = self::where('create_user', $create_uder)
                  ->get();
         return $request;

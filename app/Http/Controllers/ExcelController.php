@@ -22,8 +22,10 @@ class ExcelController extends Controller
     public function excel()
     {
         //現在認証されているユーザーの全商品を取得
-        $userlist = UserInfo::paginate(15);
-        return view('excel',compact('userlist'));
+        $userlist = UserInfo::where('status', 5)
+                  ->orwhere('status', null)
+                  ->paginate(10);
+        return view('excel', compact('userlist'));
     }
 
     /**
@@ -71,12 +73,12 @@ class ExcelController extends Controller
                 $data['birthday_day']
             ];
             //挿入データを追加
-            array_push($export_data,$push_data);
+            array_push($export_data, $push_data);
             $count++;
         }
         //A1から情報挿入
         $start_cell = 'A1';
-        $spreadsheet->getActiveSheet()->fromArray($export_data, NULL, $start_cell, true);
+        $spreadsheet->getActiveSheet()->fromArray($export_data, null, $start_cell, true);
         //罫線設定
         $sharedStyle = new Style();
         $sharedStyle->applyFromArray([
@@ -94,7 +96,7 @@ class ExcelController extends Controller
         $tittle_count--;
         $alphas = range('A', 'Z');
         foreach ($alphas as $key => $alpha) {
-            $spreadsheet->getSheet(0)->getColumnDimension( $alpha )->setWidth( 15.25 );
+            $spreadsheet->getSheet(0)->getColumnDimension($alpha)->setWidth(15.25);
             if ($key == $tittle_count) {
                 break;
             }
@@ -103,7 +105,7 @@ class ExcelController extends Controller
         $file_path = '/var/www/html/phptest/';
         $file_name = 'users_info.xlsx';
         $writer = new Xlsx($spreadsheet);
-        $check = $writer->save($file_path.$file_name);
+        $check = $writer->save($file_path . $file_name);
         //メッセージ
         if ($check == false) {
             $msg = \Lang::get('excel.export_success');
@@ -112,6 +114,6 @@ class ExcelController extends Controller
         }
         //excelデータ出力画面へ
         $userlist = UserInfo::paginate(15);
-        return view('excel',compact('userlist','msg'));
+        return view('excel', compact('userlist', 'msg'));
     }
 }

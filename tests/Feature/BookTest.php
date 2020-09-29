@@ -9,10 +9,11 @@ use Tests\TestCase;
 class BookTest extends TestCase
 {
     use RefreshDatabase;
+    
     /**
     * A basic feature test example.
     *
-    * @return void 
+    * @return void
     */
     public function testFetchBook()
     {
@@ -20,6 +21,10 @@ class BookTest extends TestCase
         $response = $this->get('/api/books');
 
         $response->assertStatus(200);
+
+        print(
+            "testFetchBook().../api/books(GET)ルーティング確認\n"
+        );
     }
 
 
@@ -32,5 +37,9 @@ class BookTest extends TestCase
             'description' => 'Laravel入門書です。'
         ]);
         $response->assertStatus(201);
+
+        print(
+            "testCreateBook().../api/books(POST)ルーティング確認\n"
+        );
     }
 }

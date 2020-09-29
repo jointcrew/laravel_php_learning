@@ -25,26 +25,25 @@ class UnitTestController extends Controller
      *
      * @return view
      */
-    public function book_manage()
+    public function bookManage()
     {
         //APIをつかって取得
         try {
             //http通信を行う
             $client = new Client();
             $url = \Config::get('services.book_api_url.restapi');
-            $response = $client->request("GET", $url );
+            $response = $client->request("GET", $url);
             //getBody()でAPIの結果を取得
             $datalist = $response->getBody();
             //json_decodeで配列型に変換
             $datalist = json_decode($datalist, true);
             //$datalist["response"]だけ取り出す
             $datalist = $datalist["response"];
-
         } catch (\GuzzleHttp\Exception\ConnectException $e) {
             //アクセス失敗したらエラーを返す
             return $e->getHandlerContext()['error'];
         }
-        return view('bookManage',compact('datalist'));
+        return view('bookManage', compact('datalist'));
     }
 
     /**
@@ -52,12 +51,12 @@ class UnitTestController extends Controller
      * @param Request $request
      * @return view
      */
-    public function book_register(Request $request)
+    public function bookRegister(Request $request)
     {
         $data = $request->validate([
-           'title'             =>'required|string|max:50',
-           'author'            =>'required|string|max:50',
-           'description'       =>'required|string|max:500',
+           'title'             => 'required|string|max:50',
+           'author'            => 'required|string|max:50',
+           'description'       => 'required|string|max:500',
         ]);
         //APIをつかって取得
         try {
@@ -72,7 +71,7 @@ class UnitTestController extends Controller
                     'description'         => $data['description'],
                 ]
             ];
-            $response = $client->request("POST", $url, $option );
+            $response = $client->request("POST", $url, $option);
             //getBody()でAPIの結果を取得
             $insert_list = $response->getBody();
             //json_decodeで配列型に変換
@@ -80,16 +79,15 @@ class UnitTestController extends Controller
 
             //文言を$msgに代入
             if ($insert_list == null) {
-               $msg= \Lang::get('user.user_register_fail');
+                $msg = \Lang::get('user.user_register_fail');
             } else {
-               $msg =\Lang::get('user.user_register_success');
+                $msg = \Lang::get('user.user_register_success');
             }
-
         } catch (\GuzzleHttp\Exception\ConnectException $e) {
             //アクセス失敗したらエラーを返す
             return $e->getHandlerContext()['error'];
         }
-        return view('bookManage',compact('insert_list','msg'));
+        return view('bookManage', compact('insert_list', 'msg'));
     }
 
     /**
@@ -97,15 +95,15 @@ class UnitTestController extends Controller
      * @param Request $request
      * @return view
      */
-    public function book_rent(Request $request)
+    public function bookRent(Request $request)
     {
         $data = $request->validate([
-           'rent_book_id'             =>"required|integer|exists:books,id",
-           'rent_user_id'             =>"required|integer|exists:users,id",
+           'rent_book_id'             => "required|integer|exists:books,id",
+           'rent_user_id'             => "required|integer|exists:users,id",
         ]);
 
         //利用本数を記録、本は3冊まで。3冊以上借りようとしたら、リダイレクトエラー
-        $check = User::where('id',$data['rent_user_id'])->first();
+        $check = User::where('id', $data['rent_user_id'])->first();
         $number_book_rent = $check->checkRentBookNumber();
         //貸出冊数上限越えなら、リダイレクト
         if ($number_book_rent === false) {
@@ -116,7 +114,7 @@ class UnitTestController extends Controller
         //statusを取得
         $status = $book->status;
         //貸出、statusを貸出不可に変更,利用者登録
-        $result = $book->checkOut($status,$data['rent_user_id']);
+        $result = $book->checkOut($status, $data['rent_user_id']);
         //貸出不可なら、リダイレクト
         if ($result === false) {
             return back()->with('message', '貸出不可');
@@ -129,20 +127,19 @@ class UnitTestController extends Controller
             //http通信を行う
             $client = new Client();
             $url = \Config::get('services.book_api_url.restapi');
-            $response = $client->request("GET", $url );
+            $response = $client->request("GET", $url);
             //getBody()でAPIの結果を取得
             $datalist = $response->getBody();
             //json_decodeで配列型に変換
             $datalist = json_decode($datalist, true);
             //$datalist["response"]だけ取り出す
             $datalist = $datalist["response"];
-
         } catch (\GuzzleHttp\Exception\ConnectException $e) {
             //アクセス失敗したらエラーを返す
             return $e->getHandlerContext()['error'];
         }
 
-        return view('bookManage',compact('datalist','msg'));
+        return view('bookManage', compact('datalist', 'msg'));
     }
 
     /**
@@ -150,10 +147,10 @@ class UnitTestController extends Controller
      * @param Request $request
      * @return view
      */
-    public function book_return(Request $request)
+    public function bookReturn(Request $request)
     {
         $data = $request->validate([
-           'return_book_id'             =>'required|integer|exists:books,id',
+           'return_book_id'      => 'required|integer|exists:books,id',
         ]);
 
         $book = Book::find($data['return_book_id']);
@@ -171,7 +168,7 @@ class UnitTestController extends Controller
             $msg = \Lang::get('unit_test.return_ok');
         }
         //利用本数を-1
-        $check = User::where('id',$user)->first();
+        $check = User::where('id', $user)->first();
         $return = $check->checkReturnBookNumber();
         //返却の際、貸出冊数が0~3以外の本数だった場合
         if ($return === false) {
@@ -182,18 +179,17 @@ class UnitTestController extends Controller
             //http通信を行う
             $client = new Client();
             $url = \Config::get('services.book_api_url.restapi');
-            $response = $client->request("GET", $url );
+            $response = $client->request("GET", $url);
             //getBody()でAPIの結果を取得
             $datalist = $response->getBody();
             //json_decodeで配列型に変換
             $datalist = json_decode($datalist, true);
             //$datalist["response"]だけ取り出す
             $datalist = $datalist["response"];
-
         } catch (\GuzzleHttp\Exception\ConnectException $e) {
             //アクセス失敗したらエラーを返す
             return $e->getHandlerContext()['error'];
         }
-        return view('bookManage',compact('datalist','msg'));
+        return view('bookManage', compact('datalist', 'msg'));
     }
 }

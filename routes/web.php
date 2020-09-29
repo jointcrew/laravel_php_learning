@@ -25,57 +25,57 @@ Route::get('/hello', 'HelloController@index')->name('hello');
 
 //ログイン状態の一般ユーザ（全ユーザー）がアクセス可能
 Route::group(['middleware' => ['auth', 'can:user']], function () {
-  //サンプルページ 追加
-  Route::get('/sample', 'SampleController@index')->name('sample');
-  Route::post('/sample', 'SampleController@index')->name('sample');
+    //サンプルページ 追加
+    Route::get('/sample', 'SampleController@index')->name('sample');
+    Route::post('/sample', 'SampleController@index')->name('sample');
 
-  //サンプルページ 一覧
-  Route::get('/sampleList', 'SampleController@sampleList')->name('sampleList');
-  Route::post('/sampleList', 'SampleController@sampleList')->name('sampleList');
+    //サンプルページ 一覧
+    Route::get('/sampleList', 'SampleController@sampleList')->name('sampleList');
+    Route::post('/sampleList', 'SampleController@sampleList')->name('sampleList');
 
-  //サンプルAPIアクセス
-  Route::get('/sampleApi', 'SampleController@sampleApi')->name('sampleApi');
+    //サンプルAPIアクセス
+    Route::get('/sampleApi', 'SampleController@sampleApi')->name('sampleApi');
 
-  //itemページ 追加
-  Route::get('/items', 'ItemController@index')->name('items');
-  Route::post('/items', 'ItemController@index')->name('items');
+    //itemページ 追加
+    Route::get('/items', 'ItemController@index')->name('items');
+    Route::post('/items', 'ItemController@index')->name('items');
 
-  //itemページ一覧
-  Route::get('/itemList', 'ItemController@itemList')->name('itemList');
-  Route::post('/itemList', 'ItemController@itemList')->name('itemList');
+    //itemページ一覧
+    Route::get('/itemList', 'ItemController@itemList')->name('itemList');
+    Route::post('/itemList', 'ItemController@itemList')->name('itemList');
 
-  //検索ページ
-  Route::get('/itemsearch', 'ItemController@itemsearch')->name('itemsearch');
-  Route::post('/itemsearch', 'ItemController@itemsearch')->name('itemsearch');
+    //検索ページ
+    Route::get('/itemsearch', 'ItemController@itemsearch')->name('itemsearch');
+    Route::post('/itemsearch', 'ItemController@itemsearch')->name('itemsearch');
 
-  //商品削除
-  Route::get('/itemDelete', 'ItemController@itemDelete')->name('itemDelete');
-  //商品編集
-  Route::get('/itemEdit', 'ItemController@itemEdit')->name('itemEdit');
-  Route::post('/itemEdit', 'ItemController@itemEdit')->name('itemEdit');
+    //商品削除
+    Route::get('/itemDelete', 'ItemController@itemDelete')->name('itemDelete');
+    //商品編集
+    Route::get('/itemEdit', 'ItemController@itemEdit')->name('itemEdit');
+    Route::post('/itemEdit', 'ItemController@itemEdit')->name('itemEdit');
 
-  //API一覧画面
-  Route::get('/apiList', 'ApiListController@index')->name('apiList');
+    //API一覧画面
+    Route::get('/apiList', 'ApiListController@index')->name('apiList');
 });
 
 // ログイン状態の管理者がアクセス可能
 Route::group(['middleware' => ['auth', 'can:admin']], function () {
-  //User一覧
-  Route::get('/userList', 'ItemController@userList')->name('userList');
-  Route::post('/userList', 'ItemController@userList')->name('userList');
-  //登録者削除
-  Route::get('/userDelete', 'ItemController@userDelete')->name('userDelete');
-  //登録者編集
-  Route::get('/userEdit', 'ItemController@userEdit')->name('userEdit');
-  Route::post('/userEdit', 'ItemController@userEdit')->name('userEdit');
+    //User一覧
+    Route::get('/userList', 'ItemController@userList')->name('userList');
+    Route::post('/userList', 'ItemController@userList')->name('userList');
+    //登録者削除
+    Route::get('/userDelete', 'ItemController@userDelete')->name('userDelete');
+    //登録者編集
+    Route::get('/userEdit', 'ItemController@userEdit')->name('userEdit');
+    Route::post('/userEdit', 'ItemController@userEdit')->name('userEdit');
 
-  //API一覧画面
-  Route::get('/apiList', 'ApiListController@index')->name('apiList');
-  //APIユーザー検索
-  Route::get('/userApiSearch', 'ItemController@userApiSearch')->name('userApiSearch');
-  //APIユーザー登録
-  Route::get('/userApiRegister', 'ItemController@userApiRegister')->name('userApiRegister');
-  Route::post('/userApiRegister', 'ItemController@userApiRegister')->name('userApiRegister');
+    //API一覧画面
+    Route::get('/apiList', 'ApiListController@index')->name('apiList');
+    //APIユーザー検索
+    Route::get('/userApiSearch', 'ItemController@userApiSearch')->name('userApiSearch');
+    //APIユーザー登録
+    Route::get('/userApiRegister', 'ItemController@userApiRegister')->name('userApiRegister');
+    Route::post('/userApiRegister', 'ItemController@userApiRegister')->name('userApiRegister');
 });
 //自力で作ろう
 //検索画面
@@ -103,12 +103,12 @@ Route::get('/excel', 'ExcelController@excel')->name('excel');
 //excelデータ作成
 Route::get('/export', 'ExcelController@export')->name('export');
 //unitテスト画面
-Route::get('/book_manage', 'UnitTestController@book_manage')->name('book_manage');
+Route::get('/bookManage', 'UnitTestController@bookManage')->name('bookManage');
 //unitテスト,本登録画面
-Route::post('/book_register', 'UnitTestController@book_register')->name('book_register');
+Route::post('/bookRegister', 'UnitTestController@bookRegister')->name('bookRegister');
 //unitテスト,本貸出画面
-Route::get('/book_rent', 'UnitTestController@book_rent')->name('book_rent');
+Route::get('/bookRent', 'UnitTestController@bookRent')->name('bookRent');
 //unitテスト,本返却画面
-Route::get('/book_return', 'UnitTestController@book_return')->name('book_return');
+Route::get('/bookReturn', 'UnitTestController@bookReturn')->name('bookReturn');
 
-Route::post('user/{id}', ['as'=>'user.update', 'uses'=>'UserController@updateUserProfile']);
+Route::post('user/{id}', ['as' => 'user.update', 'uses' => 'UserController@updateUserProfile']);

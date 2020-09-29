@@ -36,7 +36,8 @@ class Purchase extends Model
      * @param array  $data
      * @return $data
      */
-    public static function inserts($data) {
+    public static function inserts($data)
+    {
         //トランザクション処理
         $insert = DB::transaction(function () use ($data) {
             $input_date = [
@@ -68,13 +69,14 @@ class Purchase extends Model
      * @param array  $data
      * @return array $insert_datas
      */
-    public static function insert_all($data,$multi_goods_stock) {
+    public static function insertAll($data, $multi_goods_stock)
+    {
 
         //トランザクション処理
-        $insert = DB::transaction(function () use ($data,$multi_goods_stock) {
+        $insert = DB::transaction(function () use ($data, $multi_goods_stock) {
             foreach ($data['goods_id'] as $value) {
                 //同じgoods_idを配列にして返す
-                $datalist[] = array_column( $data, $value );
+                $datalist[] = array_column($data, $value);
                 $insert_datas = array();
                 $keys = [
                     'goods_id',
@@ -85,13 +87,13 @@ class Purchase extends Model
                     'purchase_price',
                     'user_id'
                 ];
-                    foreach ($datalist as $val) {
-                        //キー名と値をマッピングして連想配列を返却
-                        $insert_data = array_combine($keys, $val);
-                        $insert_data['created_at'] = now();
-                        array_push($insert_datas,$insert_data);
-                    }
+                foreach ($datalist as $val) {
+                    //キー名と値をマッピングして連想配列を返却
+                    $insert_data = array_combine($keys, $val);
+                    $insert_data['created_at'] = now();
+                    array_push($insert_datas, $insert_data);
                 }
+            }
             self::insert($insert_datas);
 
             //指定goods_id($data[item_id])のstockが更新される
@@ -105,5 +107,4 @@ class Purchase extends Model
         });
         return $insert;
     }
-
 }

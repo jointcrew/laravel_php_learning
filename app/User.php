@@ -43,7 +43,8 @@ class User extends Authenticatable
      *@return false
      *
      */
-    public function checkRentBookNumber() {
+    public function checkRentBookNumber()
+    {
         //rent_booksを取得
         $rent_books = $this->rent_books;
         //貸出冊数が0~2冊までだったら、現冊数に+1
@@ -53,7 +54,6 @@ class User extends Authenticatable
             return false;
         }
         $this->save();
-
     }
 
     /**
@@ -61,7 +61,8 @@ class User extends Authenticatable
      *@param int  $data
      *
      */
-    public function checkReturnBookNumber() {
+    public function checkReturnBookNumber()
+    {
         //rent_booksを取得
         $rent_books = $this->rent_books;
         //貸出冊数が1~３冊までだったら、現冊数に-1
@@ -71,6 +72,5 @@ class User extends Authenticatable
             return false;
         }
         $this->save();
-
     }
 }
