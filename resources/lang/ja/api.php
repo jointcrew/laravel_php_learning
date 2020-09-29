@@ -1,4 +1,5 @@
 <?php
+
 return [
     //API画面内で使用
     'list' => [
@@ -22,7 +23,7 @@ return [
     'get' => [],
     'post' => [],
     'put' => [],
-    'delete' =>[],
+    'delete' => [],
 
     //APIエラータイトル文言
     'api_e_title' => [

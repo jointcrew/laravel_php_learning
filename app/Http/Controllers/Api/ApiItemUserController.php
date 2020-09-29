@@ -56,16 +56,16 @@ class ApiItemUserController extends Controller
     public function store(Request $request)
     {
       //配列に入力値を追加
-      $data = [
-          'name'               => $request->input('name'),
-          'email'              => $request->input('email'),
-          'password'           => $request->input('password'),
-          'role'               => $request->input('role'),
-          'created_at'         => now(),
-      ];
-      //Userモデルのinsertメソッドにアクセスし、データを保存
-      $insert_data = User::insert($data);
-      return response()->success($insert_data, self::RESPONSE_CODE_200);
+        $data = [
+            'name'               => $request->input('name'),
+            'email'              => $request->input('email'),
+            'password'           => $request->input('password'),
+            'role'               => $request->input('role'),
+            'created_at'         => now(),
+        ];
+        //Userモデルのinsertメソッドにアクセスし、データを保存
+        $insert_data = User::insert($data);
+        return response()->success($insert_data, self::RESPONSE_CODE_200);
     }
 
     /**

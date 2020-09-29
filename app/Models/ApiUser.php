@@ -24,7 +24,8 @@ class ApiUser extends Model
      * @param array  $data
      * @return string|null
      */
-    public static function insert($data) {
+    public static function insert($data)
+    {
         $input_date = [
             'user_name'         => $data['user_name'],
             'age'               => $data['age'],
@@ -42,7 +43,8 @@ class ApiUser extends Model
      * @param array  $data
      * @return string|null
      */
-    public static function apiUserEdit ($data) {
+    public static function apiUserEdit($data)
+    {
         //トランザクション処理
         DB::transaction(function () use ($data) {
             //$edit_dataにDBから$data[id]と同じ値を取得する。
@@ -67,11 +69,12 @@ class ApiUser extends Model
      * @param array  $data
      * @return string|null
      */
-    public static function apiUserDelete ($data) {
+    public static function apiUserDelete($data)
+    {
         //トランザクション処理
         DB::transaction(function () use ($data) {
             //同じIDのレコードを削除
-            $data = self::where('user_id',$data['id'])->delete();
+            $data = self::where('user_id', $data['id'])->delete();
             return $data;
         });
     }

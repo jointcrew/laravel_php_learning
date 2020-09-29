@@ -117,7 +117,7 @@ return [
     'uploaded'             => ':attributeのアップロードに失敗しました。',
     'url'                  => ':attributeに正しい形式を指定してください。',
     'uuid'                 => ':attributeに有効なUUIDを指定してください。',
-    'price'                =>'値段',
+    'price'                => '値段',
 
     /*
     |--------------------------------------------------------------------------
@@ -135,6 +135,9 @@ return [
             'regex' => '',
         ],
     ],
+    'category'         => 'カテゴリは必ず指定してください。',
+    'type'             => '種別は必ず指定してください。',
+    'hankaku'          => ':attribute は半角英数字で入力してください',
 
     /*
     |--------------------------------------------------------------------------
@@ -154,11 +157,20 @@ return [
         'apply'                 => '申請先',
         'selector'              => '種別',
         'password'              => 'パスワード',
-        'password_confirmation' => '確認用パスワード',
+        'pass'                  => 'パスワード',
+        'pass_confirmation'     => '確認用パスワード',
         'age'                   => '年齢',
         'user_name'             => '名前',
         'name'                  => '名前' ,
-        'email'                 => 'Email'
+        'email'                 => 'Email',
+        'goods_name'            => '商品名前',
+        'unit_price'            => '単価' ,
+        'stock'                 => '在庫',
+        'purchase_number'       => '購入数',
+        'title'                 => 'タイトル' ,
+        'author'                => '著者',
+        'description'           => '説明',
+        'id'                    => 'ID',
     ],
 
 ];

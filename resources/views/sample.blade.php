@@ -6,7 +6,6 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">サンプルデータ登録</div>
-
                 <div class="card-body">
                     {!! Form::open(['url' => 'sample']) !!}
                         <div class="form-group row">
@@ -18,7 +17,6 @@
                                 @endforeach
                             @endif
                         </div>
-
                         <div class="form-group row">
                             {{Form::label('type', __('sample.type'), ['class' => 'col-md-3 col-form-label'])}}
                             <div class="col-md-9 form-inline">
@@ -35,7 +33,6 @@
                                 @endforeach
                             @endif
                         </div>
-
                         <div class="form-group row">
                             {{Form::label('price', __('sample.price'), ['class' => 'col-md-3 col-form-label'])}}
                             {{Form::number('price', old('price'), ['class' => 'col-md-9 form-control'])}}
@@ -45,13 +42,11 @@
                                 @endforeach
                             @endif
                         </div>
-
                         <div>
                             {{Form::submit(__('sample.update_btn'), ['class' => 'btn btn-primary'])}}
                         </div>
                     {!! Form::close() !!}
                 </div>
-
                 <div class="mx-auto">
                     <a href="/sampleList">サンプル表示リンク</a>
                 </div>

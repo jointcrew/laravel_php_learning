@@ -38,7 +38,7 @@ class ApiUserController extends Controller
         //intにしたときに値が同じなら検索、違ったらエラー
         if ("$int_id" == $id) {
             $user = ApiUser::find($id);
-        }else{
+        } else {
             //エラーを返す
             return response()->error(\Lang::get('api.api_e_title.t0001'), array(\Lang::get('api.api_mes.m0001')), self::RESPONSE_CODE_400);
         }

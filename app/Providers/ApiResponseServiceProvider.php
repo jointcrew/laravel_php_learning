@@ -20,14 +20,16 @@ class ApiResponseServiceProvider extends ServiceProvider
             if (empty($status)) {
                 $status = http_response_code();
             }
-            return response()->json([
-                'success'  => 'OK',
-                'status'   => $status,
-                'response' => $data
-            ],
-            $status,
-            [],
-            JSON_UNESCAPED_UNICODE);
+            return response()->json(
+                [
+                    'success'  => 'OK',
+                    'status'   => $status,
+                    'response' => $data
+                ],
+                $status,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
         });
 
         // delete_success
@@ -35,12 +37,14 @@ class ApiResponseServiceProvider extends ServiceProvider
             if (empty($status)) {
                 $status = http_response_code();
             }
-            return response()->json([
-                'status'   => $status,
-            ],
-            $status,
-            [],
-            JSON_UNESCAPED_UNICODE);
+            return response()->json(
+                [
+                    'status'   => $status,
+                ],
+                $status,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
         });
 
         // error（画面側でエラー処理させる）
@@ -49,21 +53,25 @@ class ApiResponseServiceProvider extends ServiceProvider
             if (empty($status)) {
                 $status = http_response_code();
             }
-            $res = response()->json([
-                'success' => 'error',
-                'status'  => $status,
-                'errMsg'  => $errMsg,
-                'errors'  => $errors
-            ],
-            $status,
-            [],
-            JSON_UNESCAPED_UNICODE);
+            $res = response()->json(
+                [
+                    'success' => 'error',
+                    'status'  => $status,
+                    'errMsg'  => $errMsg,
+                    'errors'  => $errors
+                ],
+                $status,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
             //return と同じように返す役割を持つ
             throw new HttpResponseException($res);
         });
 
         // error
-        // Response::macro('fatalError', function ($errMsg, array $errors = [], $status = ResponseStatus::HTTP_INTERNAL_SERVER_ERROR) {
+        // Response::macro(
+        //'fatalError', function ($errMsg, array $errors = [], $status = ResponseStatus::HTTP_INTERNAL_SERVER_ERROR
+        //) {
         //     return response()->json([
         //         'success'       => 'error',
         //         'response_code' => $status,
