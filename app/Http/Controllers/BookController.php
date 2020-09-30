@@ -9,7 +9,7 @@ use App\Book;
 use App\User;
 use Session;
 
-class UnitTestController extends Controller
+class BookController extends Controller
 {
     /**
      * Create a new controller instance.

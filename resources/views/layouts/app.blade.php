@@ -95,6 +95,8 @@
                         </a>
                         <ul class="dropdown-menu bg-light">
                             <li><a href="/bookManage">・@lang('unit_test.book_manege')</a></li>
+                            <li><a href="/changeYear">・@lang('change_year.title')</a></li>
+                            <li><a href="/step1">・step1</a></li>
                         </ul>
                     </li>
 

@@ -103,12 +103,17 @@ Route::get('/excel', 'ExcelController@excel')->name('excel');
 //excelデータ作成
 Route::get('/export', 'ExcelController@export')->name('export');
 //unitテスト画面
-Route::get('/bookManage', 'UnitTestController@bookManage')->name('bookManage');
+Route::get('/bookManage', 'BookController@bookManage')->name('bookManage');
 //unitテスト,本登録画面
-Route::post('/bookRegister', 'UnitTestController@bookRegister')->name('bookRegister');
+Route::post('/bookRegister', 'BookController@bookRegister')->name('bookRegister');
 //unitテスト,本貸出画面
-Route::get('/bookRent', 'UnitTestController@bookRent')->name('bookRent');
+Route::get('/bookRent', 'BookController@bookRent')->name('bookRent');
 //unitテスト,本返却画面
-Route::get('/bookReturn', 'UnitTestController@bookReturn')->name('bookReturn');
+Route::get('/bookReturn', 'BookController@bookReturn')->name('bookReturn');
+//unitテスト,和暦から西暦に変換
+Route::get('/changeYear', 'ChangeYearController@changeYear')->name('changeYear');
+Route::post('/changeYear', 'ChangeYearController@changeYear')->name('changeYear');
+//step移動練習
+Route::get('/step1', 'StepController@step1')->name('step1');
 
 Route::post('user/{id}', ['as' => 'user.update', 'uses' => 'UserController@updateUserProfile']);
