@@ -2,6 +2,7 @@
 
 return [
     'back'               => '戻る',
+    'next'               => '次へ',
     'search'             => '検索',
     'search_list'        => '検索結果',
     'item_list'          => '＜ 全商品表示',

@@ -1,13 +1,91 @@
 span.red{
-  color: red;
+    color: red;
 }
 
 p.red{
-  color: red;
+    color: red;
 }
 
 #text1:focus {
     border: 2px solid SteelBlue;
     z-index: 10;
     outline: 0;
+}
+
+.box-step > ul.list-step > li > div {
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 45px;
+    height: 45px;
+    margin: auto;
+}
+
+ul.list-step > li {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 10px;
+    font-size: 1rem;
+    padding: 0 5px;
+    box-sizing: border-box;
+    text-align: center;
+    width: 16.666%;
+}
+
+.box-step > ul.list-step .step-1 {
+  background-image: url("../img/step_01.png");
+}
+
+.box-step > ul.list-step .step-2 {
+  background-image: url("../img/step_02.png");
+}
+
+.box-step > ul.list-step .step-3 {
+  background-image: url("../img/step_03.png");
+}
+
+.box-step > ul.list-step .step-4 {
+  background-image: url("../img/step_04.png");
+}
+
+.box-step > ul.list-step .step-5 {
+  background-image: url("../img/step_05.png");
+}
+
+.box-step > ul.list-step .step-6 {
+  background-image: url("../img/step_06.png");
+}
+
+.step-1 .box-step > ul.list-step .step-1 {
+  background-image: url("../img/active_step_01.png");
+}
+
+.step-2 .box-step > ul.list-step .step-2 {
+  background-image: url("../img/active_step_02.png");
+}
+
+.step-3 .box-step > ul.list-step .step-3 {
+  background-image: url("../img/active_step_03.png");
+}
+
+.step-4 .box-step > ul.list-step .step-4 {
+  background-image: url("../img/active_step_04.png");
+}
+
+.step-5 .box-step > ul.list-step .step-5 {
+  background-image: url("../img/active_step_05.png");
+}
+
+.step-6 .box-step > ul.list-step .step-6 {
+  background-image: url("../img/active_step_06.png");
+}
+
+ul {
+    list-style: none;
+}
+
+#estimate_block {
+    background: #f1f1f1;
+    position: relative;
+    text-align: center;
+    padding: 30px 0;
 }
