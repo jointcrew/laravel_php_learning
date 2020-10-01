@@ -39,12 +39,25 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="row">
+                        <div class="col-md-3 m-4">
+                            名前：
+                            @if (isset($name))
+                                @foreach ($name as $name_)
+                                    {{$name_}}
+                                @endforeach
+                            @endif
+                        </div>
+                        <div class="col-md-5 m-4">
+                            PDF表示時間：
+                            @if (isset($disply_date))
+                            {{$disply_date}}
+                            @endif
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <div class="col-md-3">
                             <a class="btn btn-outline-primary" href="/step3">@lang('common.back')</a>
-                        </div>
-                        <div class="col-md-3">
-                            <a class="btn btn-primary" href="/step4">@lang('common.next')</a>
                         </div>
                     </div>
                     </div>

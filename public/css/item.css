@@ -83,6 +83,20 @@ ul {
     list-style: none;
 }
 
+ul.list-step > li.active > p {
+    color: #15227d;
+}
+
+ul.list-step > li > p {
+    font-weight: bold;
+    line-height: 1.5em;
+}
+
+.box-step {
+    background: url("../img/bg_grayline.png") no-repeat center top 50%;
+    background-size: 80%;
+}
+
 #estimate_block {
     background: #f1f1f1;
     position: relative;

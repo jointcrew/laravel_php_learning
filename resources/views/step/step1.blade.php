@@ -39,14 +39,44 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-md-3">
-                            <a class="btn btn-outline-primary" href="/step1">@lang('common.back')</a>
+                    <form class="" action="/step2" method="post">
+                        <!-- CSRF保護 -->
+                        @csrf
+                        <div class="form-group row">
+                            <div class="col-xs-2 mt-3 ml-3">
+                                名前：
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                @if (!($name == null))
+                                    @foreach ($name as $name_)
+                                        <input type="text" name="name" class="form-control" value="{{$name_}}">
+                                    @endforeach
+                                    @if ($errors->has('name'))
+                                        <br><span class="red">{{ $errors->first('name')}}</span>
+                                    @endif
+                                @else
+                                    <input type="text" name="name" class="form-control" value=''>
+                                    @if ($errors->has('name'))
+                                        <br><span class="red">{{ $errors->first('name')}}</span>
+                                    @endif
+                                @endif
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <a class="btn btn-primary" href="/step2">@lang('common.next')</a>
+                        <div class="form-group row">
+                            <div class="col-xs-2 mt-3 ml-3">
+                                プラン選択：
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <select name='type' class="form-control" id="select_type">
+                                    <option>1</option>
+                                    <option>2</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
+                        <div class="col-xs-3 mt-3">
+                            <input type="submit" name="" value="@lang('common.next')" class="btn btn-primary">
+                        </div>
+                    </form>
                     </div>
                 </div>
             </div>

@@ -40,10 +40,10 @@
                         </ul>
                     </div>
                     <div class="form-group row">
-                        <div class="col-md-3">
+                        <div class="col-md-3 mt-3">
                             <a class="btn btn-outline-primary" href="/step2">@lang('common.back')</a>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 mt-3">
                             <a class="btn btn-primary" href="/step4">@lang('common.next')</a>
                         </div>
                     </div>

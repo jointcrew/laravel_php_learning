@@ -116,6 +116,7 @@ Route::post('/changeYear', 'ChangeYearController@changeYear')->name('changeYear'
 //step移動練習
 Route::get('/step1', 'StepController@step1')->name('step1');
 Route::get('/step2', 'StepController@step2')->name('step2');
+Route::post('/step2', 'StepController@step2')->name('step2');
 Route::get('/step3', 'StepController@step3')->name('step3');
 Route::get('/step4', 'StepController@step4')->name('step4');
 

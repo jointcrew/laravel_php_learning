@@ -1,5 +1,9 @@
 @extends('layouts.app')
-
+<script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script>
+<script src=" js/step.js?<?= strtotime('now') ?> " defer></script>
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -38,6 +42,9 @@
                                 <p>@lang('step.0000015')</p><!--お申込み内容・意向確認 -->
                             </li>
                         </ul>
+                    </div>
+                    <div class="form-group mt-3">
+                        <a id='pdf_display' href="#" class="btn btn-outline-success">PDF表示</a>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-3">

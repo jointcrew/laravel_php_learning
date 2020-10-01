@@ -23,4 +23,6 @@ Route::apiResource('api_itemuser', 'Api\ApiItemUserController');
 
 Route::apiResource('api_goodsuser', 'Api\ApiGoodsUserController');
 
-Route::resource('books', 'Api\BookController');
+Route::apiresource('books', 'Api\BookController');
+
+Route::apiresource('step', 'StepController');
