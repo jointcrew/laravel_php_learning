@@ -16,6 +16,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ApiUsersTableSeeder::class,
             CategoryTableSeeder::class,
+            TypeTableSeeder::class,
+            BookTableSeeder::class,
+            PlanTypeTableSeeder::class,
         ]);
     }
 }

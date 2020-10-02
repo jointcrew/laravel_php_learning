@@ -43,9 +43,7 @@
                         <div class="col-md-3 m-4">
                             名前：
                             @if (isset($name))
-                                @foreach ($name as $name_)
-                                    {{$name_}}
-                                @endforeach
+                                {{$name}}
                             @endif
                         </div>
                         <div class="col-md-5 m-4">
@@ -53,6 +51,27 @@
                             @if (isset($disply_date))
                             {{$disply_date}}
                             @endif
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="col-md-3 m-2">
+                            選択保険プラン
+                        </div>
+                        <div class="col-md-5 m-3">
+                            @foreach($insurance as $key => $value)
+                                @if ($key == $plan_name)
+                                    {{$value}}
+                                @endif
+                            @endforeach
+                        </div>
+                        <div class="col-md-5 m-3">
+                            料金：{{$plan_fee}}円
+                        </div>
+                        <div class="col-md-5 ml-3 mb-1">
+                            説明
+                        </div>
+                        <div class="col-md-5 ml-3 mt-1">
+                            {{$description}}
                         </div>
                     </div>
                     <div class="form-group row">

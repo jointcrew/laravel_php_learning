@@ -52,17 +52,17 @@
                                     @lang('goods.category_tittle')：<span class="red">@lang('common.required')</span>
                                     <select name='category' class="form-control" id="select_category">
                                         @foreach($category as $key => $value)
-                                        <option name="category" value={{$key}}
-                                        <?php
-                                        if (old('category')){
-                                            if (old('category')==$key) {
-                                                echo 'selected';
-                                            }
-                                        }  elseif (isset($data["category"]) && $key==$data["category"]){
-                                            echo 'selected';
-                                        }?>
-                                        >{{$value}}
-                                        </option>
+                                            <option name="category" value={{$key}}
+                                                <?php
+                                                if (old('category')){
+                                                    if (old('category')==$key) {
+                                                        echo 'selected';
+                                                    }
+                                                }  elseif (isset($data["category"]) && $key==$data["category"]){
+                                                    echo 'selected';
+                                                }?>
+                                                >{{$value}}
+                                            </option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('category'))

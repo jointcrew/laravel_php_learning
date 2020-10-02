@@ -15,8 +15,9 @@ class CreatePlanTypeTable extends Migration
     {
         Schema::create('plan_type', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('author', 100);
-            $table->integer('rent_count')->length(10);
+            $table->integer('plan_name')->length(10)->comment('1,がん保険、2,医療保険');
+            $table->integer('plan_fee')->length(10);
+            $table->string('description', 500);
             $table->timestamps();
         });
     }
