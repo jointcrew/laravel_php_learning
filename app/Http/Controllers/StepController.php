@@ -25,7 +25,7 @@ class StepController extends Controller
     }
 
     /**
-     * 和暦を西暦に変換
+     *
      * @param Request $request
      * @return view
      */
@@ -41,7 +41,7 @@ class StepController extends Controller
     }
 
     /**
-     * 和暦を西暦に変換
+     *
      * @param Request $request
      * @return view
      */
@@ -60,18 +60,23 @@ class StepController extends Controller
     }
 
     /**
-     * 和暦を西暦に変換
+     *
      * @param Request $request
      * @return view
      */
     public function step3(Request $request)
     {
         $step = 3;
+        $disply_date = $request->session()->get('disply_date');
+        if ($disply_date == null) {
+            $request->session()->flash('flash_message', 'PDFを表示してください');
+            return redirect()->back();
+        }
         return view('step/step3', compact('step'));
     }
 
     /**
-     * 和暦を西暦に変換
+     *
      * @param Request $request
      * @return view
      */
@@ -84,6 +89,23 @@ class StepController extends Controller
         $plan_fee = $request->session()->get('plan_fee');
         $description = $request->session()->get('description');
         return view('step/step4', compact('step', 'name', 'disply_date', 'plan_name', 'plan_fee', 'description'));
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @return view
+     */
+    public function step5(Request $request)
+    {
+        //$request->session()->flush();
+        $request->session()->forget('name');
+        $request->session()->forget('disply_date');
+        $request->session()->forget('plan_name');
+        $request->session()->forget('plan_fee');
+        $request->session()->forget('description');
+        $step = 1;
+        return view('step/step1', compact('step'));
     }
 
     /**

@@ -34,4 +34,8 @@ $(function(){
             alert("error"); //通信失敗時
         });
     });
+
+    $(window).on('load',function(){
+       $('#myModal').modal('show');
+   });
 });
