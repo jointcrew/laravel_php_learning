@@ -13,7 +13,7 @@ class PlanTypeTableSeeder extends Seeder
     {
         DB::table('plan_type')->insert([
             [
-                'plan_name'   => 1,
+                'plan_name'   => 'がん保険',
                 'plan_fee'  => 1000,
                 'description'  => 'がん診断確定時に一時金をお支払い
                                 入院1日目から入院保険金をお支払い（支払対象期間無制限）
@@ -23,7 +23,7 @@ class PlanTypeTableSeeder extends Seeder
                 'created_at'    => now(),
             ],
             [
-                'plan_name'   => 2,
+                'plan_name'   => '医療保険',
                 'plan_fee'  => 2000,
                 'description'  => 'ケガや病気での入院を1日目から補償
                                 入院中の手術は入院保険金日額の「10倍」、

@@ -16,5 +16,5 @@ class PlanType extends Model
     protected $table = 'plan_type';
 
     //DB項目
-    protected $fillable = ['insurance_name', 'insurance_fee', 'created_at', 'updated_at'];
+    protected $fillable = ['plan_name', 'plan_fee', 'description', 'created_at', 'updated_at'];
 }

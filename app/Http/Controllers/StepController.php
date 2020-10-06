@@ -32,12 +32,8 @@ class StepController extends Controller
     public function step1(Request $request)
     {
         //$request->session()->forget('name');
-        $name = $request->session()->get('name');
-        $plan_name = $request->session()->get('plan_name');
-        $plan_fee = $request->session()->get('plan_fee');
-        $description = $request->session()->get('description');
         $step = 1;
-        return view('step/step1', compact('step', 'name', 'plan_name', 'plan_fee', 'description'));
+        return view('step/step1', compact('step'));
     }
 
     /**
@@ -83,12 +79,7 @@ class StepController extends Controller
     public function step4(Request $request)
     {
         $step = 4;
-        $name = $request->session()->get('name');
-        $disply_date = $request->session()->get('disply_date');
-        $plan_name = $request->session()->get('plan_name');
-        $plan_fee = $request->session()->get('plan_fee');
-        $description = $request->session()->get('description');
-        return view('step/step4', compact('step', 'name', 'disply_date', 'plan_name', 'plan_fee', 'description'));
+        return view('step/step4', compact('step'));
     }
 
     /**
@@ -101,6 +92,7 @@ class StepController extends Controller
         //$request->session()->flush();
         $request->session()->forget('name');
         $request->session()->forget('disply_date');
+        $request->session()->forget('id');
         $request->session()->forget('plan_name');
         $request->session()->forget('plan_fee');
         $request->session()->forget('description');
@@ -130,6 +122,7 @@ class StepController extends Controller
         $data = PlanType::where('id', $_POST['plan_id'])->get();
 
         foreach ($data as $session_data) {
+            $request->session()->put('id', $session_data['id']);
             $request->session()->put('plan_fee', $session_data['plan_fee']);
             $request->session()->put('plan_name', $session_data['plan_name']);
             $request->session()->put('description', $session_data['description']);

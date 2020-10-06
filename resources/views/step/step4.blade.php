@@ -11,15 +11,11 @@
                     <div class="row">
                         <div class="col-md-3 m-4">
                             名前：
-                            @if (isset($name))
-                                {{$name}}
-                            @endif
+                            {{ session('name') }}
                         </div>
                         <div class="col-md-5 m-4">
                             PDF表示時間：
-                            @if (isset($disply_date))
-                            {{$disply_date}}
-                            @endif
+                            {{ session('disply_date') }}
                         </div>
                     </div>
                     <div class="">
@@ -27,20 +23,16 @@
                             選択保険プラン
                         </div>
                         <div class="col-md-5 m-3">
-                            @foreach($insurance as $key => $value)
-                                @if ($key == $plan_name)
-                                    {{$value}}
-                                @endif
-                            @endforeach
+                            {{ session('plan_name') }}
                         </div>
                         <div class="col-md-5 m-3">
-                            料金：{{$plan_fee}}円
+                            料金：{{ session('plan_fee') }}円
                         </div>
                         <div class="col-md-5 ml-3 mb-1">
                             説明
                         </div>
                         <div class="col-md-5 ml-3 mt-1">
-                            {{$description}}
+                            {{ session('description') }}
                         </div>
                     </div>
                     <div class="form-group row">

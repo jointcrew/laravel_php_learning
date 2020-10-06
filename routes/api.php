@@ -26,3 +26,5 @@ Route::apiResource('api_goodsuser', 'Api\ApiGoodsUserController');
 Route::apiresource('books', 'Api\BookController');
 
 Route::apiresource('step', 'StepController');
+
+Route::apiresource('plan', 'PlanController');

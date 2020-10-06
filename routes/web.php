@@ -120,6 +120,6 @@ Route::post('/step2', 'StepController@step2')->name('step2');
 Route::get('/step3', 'StepController@step3')->name('step3');
 Route::get('/step4', 'StepController@step4')->name('step4');
 Route::get('/step5', 'StepController@step5')->name('step5');
-Route::get('/plan', 'StepController@plan')->name('plan');
+Route::get('/plan', 'PlanController@plan')->name('plan');
 
 Route::post('user/{id}', ['as' => 'user.update', 'uses' => 'UserController@updateUserProfile']);

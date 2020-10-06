@@ -20,8 +20,8 @@
                                 名前：
                             </div>
                             <div class="col-md-3 mt-3 ml-5">
-                                @if (isset($name) && !($name == null))
-                                    <input type="text" name="name" class="form-control" value="{{$name}}">
+                                @if (session('name'))
+                                    <input type="text" name="name" class="form-control" value="{{ session('name') }}">
                                     @if ($errors->has('name'))
                                         <br><span class="red">{{ $errors->first('name')}}</span>
                                     @endif
@@ -40,8 +40,8 @@
                             <div class="col-md-3 mt-3">
                                 <select name='plan_type' class="form-control" id="plan_type">
                                     @foreach($insurance as $key => $value)
-                                        @if (isset($plan_name) && !($plan_name == null))
-                                            @if ($plan_name == $key)
+                                        @if (session('id'))
+                                            @if (session('id') == $key)
                                             <option selected name="category" value={{$key}}>{{$value}}</option>
                                             @else
                                             <option  name="category" value={{$key}}>{{$value}}</option>
@@ -61,9 +61,10 @@
                                 プラン料金：
                             </div>
                             <div class="col-md-3 mt-3" id="plan_fee">
-                                @if (isset($plan_fee) && !($plan_fee == null))
-                                    {{$plan_fee}}
+                                @if (session('plan_fee'))
+                                    {{ session('plan_fee') }}
                                 @endif
+
                             </div>
                         </div>
                         <div class="form-group row">
@@ -71,8 +72,8 @@
                                 プラン説明：
                             </div>
                             <div class="col-md-6 mt-3" id="plan_discription">
-                                @if (isset($description) && !($description == null))
-                                    {{$description}}
+                                @if (session('description'))
+                                    {{ session('description') }}
                                 @endif
                             </div>
                         </div>
@@ -81,7 +82,7 @@
                         </div>
                     </form>
                     <div class="col-xs-3 mt-3">
-                        <a href="/plan"></a>
+                        <a class="btn btn-outline-primary" href="/plan">プラン一覧</a>
                     </div>
                     </div>
                 </div>
